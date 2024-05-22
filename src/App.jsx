@@ -27,6 +27,11 @@ import Transfer from './components/CwsTransactions/Transfer';
 import BatchReport from './components/Reports/BatchReport';
 import NewDashboard from './components/Dashboard/Dashboard';
 import Cookies from 'js-cookie'; 
+import DailyPurchaseValidation from './components/Transactions/DailyPurchaseValidation';
+import DailyPurchaseValidationReport from './components/Reports/DailyPurchaseValidation';
+import Loans from './components/Loans/Loans';
+import RequestLoanForm from './components/Loans/RequestLoanForm';
+import LoanRequests from './components/Loans/LoanRequests';
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -100,6 +105,20 @@ function App() {
                       />
                       <SidebarItem
                         icon={<FileSpreadsheet size={20} />}
+                        text="Daily Purchase"
+                        alert
+                        component={Link}
+                        to="/daily-purchase"
+                      />
+                      <SidebarItem
+                        icon={<FileSpreadsheet size={20} />}
+                        text="Daily Purchase Validation"
+                        alert
+                        component={Link}
+                        to="/daily-purchase-validation"
+                      />
+                      <SidebarItem
+                        icon={<FileSpreadsheet size={20} />}
                         text="Daily Report"
                         alert
                         component={Link}
@@ -141,6 +160,13 @@ function App() {
                         component={Link}
                         to="/batchreport"
                       />
+                      <SidebarItem
+                        icon={<CombineIcon size={20} />}
+                        text="Loans"
+                        alert
+                        component={Link}
+                        to="/loans"
+                      />
                     </>
                   ) : (
                     <>
@@ -166,11 +192,25 @@ function App() {
                         to="/daily-report"
                       />
                       <SidebarItem
+                        icon={<FileSpreadsheet size={20} />}
+                        text="Daily Purchase Validation"
+                        alert
+                        component={Link}
+                        to="/daily-purchase-validation"
+                      />
+                      <SidebarItem
                         icon={<FileArchive size={20} />}
                         text="DPR"
                         alert
                         component={Link}
                         to="/dpr"
+                      />
+                      <SidebarItem
+                        icon={<FileArchive size={20} />}
+                        text="Loans"
+                        alert
+                        component={Link}
+                        to="/loan-requests"
                       />
                       <SidebarItem
                         icon={<BookUser className='' size={20} />}
@@ -214,6 +254,7 @@ function App() {
                 <Route path="/" element={<NewDashboard />} />
                 <Route path="/upload-farmer" element={<UploadFarmers />} />
                 <Route path="/add-transaction" element={<AddTransaction token={token} setToken={setToken} refreshtoken={refreshtoken} role={role} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} />} />
+                <Route path="/daily-purchase" element={<DailyPurchaseValidation token={token}/>} />
                 <Route path="/daily-report" element={<FinancialReportContainer token={token}/>} />
                 <Route path="/dpr" element={<DprContainer />} />
                 <Route path='/register-user' element={<RegisterUsers token={token} />} />
@@ -227,8 +268,12 @@ function App() {
                 <Route path="/logout" element={<Logout token={token} setToken={setToken} refreshtoken={refreshtoken} role={role} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} />} />
                 <Route path='/processing' element={<ReceivedHarvest token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
                 <Route path='/bag-off' element={<BagOff token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
+                <Route path='/daily-purchase-validation' element={<DailyPurchaseValidationReport token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
                 <Route path='/transfer' element={<Transfer token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
                 <Route path='/batchreport' element={<BatchReport token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
+                <Route path='/loans' element={<Loans token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
+                <Route path='/loan-requests' element={<LoanRequests token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
+                <Route path='/request-loan-form' element={<RequestLoanForm/>} />
               </Routes>
             </div>
           </div>

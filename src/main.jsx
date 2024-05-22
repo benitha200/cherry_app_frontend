@@ -11,7 +11,7 @@ import 'primereact/resources/primereact.css';
 import 'primereact/resources/themes/lara-light-indigo/theme.css';
 import './index.css';
 import './flags.css';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+// import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
@@ -23,4 +23,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </PrimeReactProvider>
   </React.StrictMode>,
 )
-serviceWorkerRegistration.register();
+// serviceWorkerRegistration.register();

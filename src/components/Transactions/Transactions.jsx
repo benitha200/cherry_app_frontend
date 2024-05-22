@@ -10,6 +10,8 @@ import { Dropdown } from 'primereact/dropdown';
 import { CheckBadgeIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
+import { InputSwitch } from 'primereact/inputswitch';
+import "./Formpage.css"
 
 export default function Transactions({ customers, dailytotal }) {
   const [filters, setFilters] = useState(null);
@@ -19,6 +21,9 @@ export default function Transactions({ customers, dailytotal }) {
   const [exportData, setExportData] = useState(null);
   const [grades] = useState(['CA', 'CB', 'NA', 'NB']);
   const [visible, setVisible] = useState(false);
+  const [selectedData, setSelectedData] = useState(customers);
+  const [rowClick, setRowClick] = useState(true);
+
   const toast = useRef(null);
 
 
@@ -201,6 +206,12 @@ export default function Transactions({ customers, dailytotal }) {
           outlined
           onClick={clearFilter}
         />
+        <Button>
+          Approve
+        </Button>
+        <Button>
+          Reject
+        </Button>
         <span className="p-input-icon-left">
           <InputText
             value={globalFilterValue}
@@ -238,6 +249,11 @@ export default function Transactions({ customers, dailytotal }) {
           </CSVLink>
           
         )}
+
+            {/* <div className="flex justify-content-center align-items-center mb-4 gap-2">
+                <InputSwitch inputId="input-rowclick" checked={rowClick} onChange={(e) => setRowClick(e.value)} />
+                <label htmlFor="input-rowclick">Row Click</label>
+            </div> */}
         
       </div>
       <DataTable
@@ -262,7 +278,9 @@ export default function Transactions({ customers, dailytotal }) {
         header={header}
         tableStyle={{ minWidth: '30rem',maxWidth:'30rem' }}
         emptyMessage="No Transactions found."
+        selectionMode={rowClick ? null : 'checkbox'} selection={selectedData} onSelectionChange={(e) => setSelectedData(e.value)}
       >
+        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
         <Column
           field="id"
           sortable

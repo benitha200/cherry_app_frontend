@@ -246,7 +246,7 @@ const handleInputChange = (e) => {
           "cherry_kg": parseFloat(formData.pricePerKg),
           "plot_name": formData.farmName,
           "has_card":selectedFarmer?.is_certified || "",
-          "cherry_grade": formData.cherryGrade,
+          "cherry_grade": formData.cherryGrade.name,
           "transport": parseFloat(formData.transportPerKg),
           "cws_code":cwscode,
           "is_paid":parseInt(paid)
