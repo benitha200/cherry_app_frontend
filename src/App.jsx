@@ -103,6 +103,14 @@ function App() {
                         component={Link}
                         to="/add-transaction"
                       />
+                      
+                      <SidebarItem
+                        icon={<FileSpreadsheet size={20} />}
+                        text="Daily Report"
+                        alert
+                        component={Link}
+                        to="/daily-report"
+                      />
                       <SidebarItem
                         icon={<FileSpreadsheet size={20} />}
                         text="Daily Purchase"
@@ -116,13 +124,6 @@ function App() {
                         alert
                         component={Link}
                         to="/daily-purchase-validation"
-                      />
-                      <SidebarItem
-                        icon={<FileSpreadsheet size={20} />}
-                        text="Daily Report"
-                        alert
-                        component={Link}
-                        to="/daily-report"
                       />
                       <SidebarItem
                         icon={<BoxIcon size={20} />}
@@ -247,7 +248,7 @@ function App() {
             </div>
             {/* )} */}
   
-            <div className="container-2 p-4 w-full mx-auto">
+            <div className="container-2 p-4 mx-auto">
               <Outlet />
               <Routes>
                 

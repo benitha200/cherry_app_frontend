@@ -20,7 +20,12 @@ const DailyPurchaseValidation = () => {
   const handleStockValidation = async (e) => {
     e.preventDefault();
 
-    let newdate=date.toISOString().split('T')[0];
+    var date__ = new Date(date);
+        date__.setDate(date__.getDate() + 1); // Incrementing by one day
+
+    var newdate = date__.toISOString().split('T')[0];
+
+    // let newdate=date.toISOString().split('T')[0];
 
     const formData = {
       newdate,
@@ -63,19 +68,19 @@ const DailyPurchaseValidation = () => {
         <p className="text-teal-600 text-pretty font-bold text-2xl">DAILY PURCHASE VALIDATION</p>
       </div>
       <br />
-      <div className="input_container3">
-        <label className="input_label" htmlFor="date_field">
+      <div className="input_container3 flex justify-between">
+        <label className="input_label w-25" htmlFor="date_field">
           Date
         </label>
         <Calendar
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          className='w-100'
+          className=''
           required
         />
       </div>
-      <div className="input_container3">
-    <label className="input_label" htmlFor="cherry_grade_field">
+      <div className="input_container3 flex justify-between">
+    <label className="input_label w-25" htmlFor="cherry_grade_field">
         Cherry Grade
     </label>
 
@@ -91,8 +96,8 @@ const DailyPurchaseValidation = () => {
 
 
 
-      <div className="input_container3">
-        <label className="input_label" htmlFor="cherry_kg_field">
+      <div className="input_container3 flex justify-between">
+        <label className="input_label w-25" htmlFor="cherry_kg_field">
           Cherry Kg
         </label>
         <input
@@ -104,8 +109,8 @@ const DailyPurchaseValidation = () => {
           required
         />
       </div>
-      <div className="input_container3">
-        <label className="input_label" htmlFor="amount_field">
+      <div className="input_container3 flex justify-between">
+        <label className="input_label w-25" htmlFor="amount_field">
           Amount
         </label>
         <input

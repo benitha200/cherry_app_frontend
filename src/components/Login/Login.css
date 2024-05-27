@@ -1,6 +1,6 @@
 .form_container2 {
-    margin-top: 10rem !important;
-    width: 40%;
+    /* margin-top: 10rem !important; */
+    /* width: 40%; */
     height: fit-content;
     display: flex;
     flex-direction: column;
@@ -14,7 +14,7 @@
         0px 7px 15px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
     border-radius: 11px;
     font-family: "Inter", sans-serif;
-    margin-left:42rem !important;
+    /* margin-left:42rem !important; */
 }
 
 /* LoginPage.css */

@@ -35,6 +35,7 @@ const AddTransaction = ({token,setToken,role,cwsname,cwscode,cws}) => {
     // const defaultGrade=grades[0]
     const defaultOccupation = occupations[0];
     const [paid, setPaid] = useState('');
+    const [loanPayment, setLoanPayment] = useState('');
     const [loading,setLoading]=useState(false)
     const [responsemessage,setResponsemessage]=useState()
     const [selectedFarmer, setSelectedFarmer] = useState(null);
@@ -67,6 +68,10 @@ const AddTransaction = ({token,setToken,role,cwsname,cwscode,cws}) => {
         ]);
       }
     };
+
+    function handleLoanCHange(e){
+      setLoanPayment(e.target.value)
+    }
     
     console.log(cws)
 
@@ -86,11 +91,11 @@ const AddTransaction = ({token,setToken,role,cwsname,cwscode,cws}) => {
         .catch(error => console.log('error', error));
     }
     const farmerOptionTemplate = (option) => {
-        return (
-            <div className="flex align-items-center">
-                <div>{option.farmer_code} - {option.farmer_name}</div>
-            </div>
-        );
+      return (
+        <div className="flex align-items-center">
+          <div>{`${option.farmer_code} - ${option.farmer_name}`}</div>
+        </div>
+      );
     };
     const [formData, setFormData] = useState({
       date: new Date().toISOString().split('T')[0],
@@ -108,11 +113,12 @@ const AddTransaction = ({token,setToken,role,cwsname,cwscode,cws}) => {
         farmName:'',
       });
 
-// const handleFarmerChange = (e) => {
-//       const selectedFarmer = e.value;
-//         setSelectedFarmer(selectedFarmer);
-//         updateGrades(selectedFarmer.is_certified);
-//       };
+      const filterOption = (option, value) => {
+        return (
+            option.farmer_code.toLowerCase().includes(value.toLowerCase()) ||
+            option.farmer_name.toLowerCase().includes(value.toLowerCase())
+        );
+    };
 
 const handleFarmerChange = (e) => {
   const selectedFarmer = e.value;
@@ -515,14 +521,15 @@ const handleInputChange = (e) => {
       
     
       return (
-        <div className="d-flex">
+        <div className="d-flex w-1/2 mx-auto">
         
         <form className="flex flex-col items-center justify-center gap-15 p-4 md:p-10 gap-4 bg-white shadow-xl rounded-lg font-inter" onSubmit={handleSubmit}>
         <div className='text-teal-600 text-pretty font-bold text-2xl'>ADD TRANSACTION</div>
         <hr className='border-teal-600 h-2'></hr>
         <div className='divider'></div>
-          <div className="input_container">
-            <label className="input_label w-25 " htmlFor="date">
+        <div className='flex w-full gap-10'>
+          <div className="input_container w-full flex flex-col">
+            <label className="input_label" htmlFor="date">
             Purchase Date
             </label>
  
@@ -532,11 +539,11 @@ const handleInputChange = (e) => {
                     name="date"
                     value={formData.date}
                     onChange={handleInputChange}
-                    className='w-5'
+                    className=''
                     isPopoverVisible={isPopoverVisible} 
                 />
           </div>
-          <div className="input_container">
+          <div className="input_container flex flex-col">
               <label className="input_label" htmlFor="customFarmerName">
                 Farmer Name
               </label>
@@ -548,13 +555,17 @@ const handleInputChange = (e) => {
                         optionLabel="farmer_name"
                         placeholder="Select a Farmer"
                         itemTemplate={farmerOptionTemplate}
-                        className="border-1 w-9"
+                        className="border-1"
                         filter
+                        filterFunction={filterOption}
                         required
                     />
                 </div>
+        </div>
+        <div className='flex w-full gap-10'>
           {formData.farmerName === 'other' && (
-            <div className="input_container">
+            
+            <div className="input_container flex flex-col">
               <label className="input_label" htmlFor="customFarmerName">
                 Farmer Name
               </label>
@@ -569,7 +580,7 @@ const handleInputChange = (e) => {
               />
             </div>
           )}
-        <div className="input_container">
+        <div className="input_container w-full  flex flex-col">
         <label className="input_label" htmlFor="farmName">
           Plot Name
         </label>
@@ -584,19 +595,20 @@ const handleInputChange = (e) => {
           disabled
         />
       </div>
-
-        <div className="input_container">
+      
+      
+        <div className="input_container flex flex-col">
             <label className="input_label" htmlFor="customFarmerName">
                 Occupation
             </label>
             <Dropdown value={selectedOccupation} onChange={(e) => setSelectedOccupation(e.value)} options={occupations} optionLabel="name" 
-                placeholder="Select Occupation" className="border-1 w-9"/>
+                placeholder="Select Occupation" className="border-1"/>
         </div>
+        </div>
+        <div className='flex w-full gap-10'>
 
-      
 
-
-          <div className="input_container">
+          <div className="input_container flex flex-col">
             <label className="input_label" htmlFor="pricePerKg">
               Cherry Kg
             </label>
@@ -610,21 +622,23 @@ const handleInputChange = (e) => {
               autoComplete='off'
             />
           </div>
-          <div className="input_container">
-            <label className="input_label" htmlFor="transportPerKg">
-              Transport Per Kg
-            </label>
-            <input
-              type="text"
-              name="transportPerKg"
-              value={formData.transportPerKg}
-              onChange={handleInputChange}
-              className="input_field"
-              id="transportPerKg"
-              autoComplete='off'
-            />
+            <div className="input_container flex flex-col">
+              <label className="input_label" htmlFor="transportPerKg">
+                Transport Per Kg
+              </label>
+              <input
+                type="text"
+                name="transportPerKg"
+                value={formData.transportPerKg}
+                onChange={handleInputChange}
+                className="input_field"
+                id="transportPerKg"
+                autoComplete='off'
+              />
+            </div>
           </div>
-          <div className="input_container">
+          <div className='flex w-full'>
+          <div className="input_container flex flex-col">
             <label className="input_label" htmlFor="customFarmerName">
                 Cherry Grade
             </label>
@@ -632,9 +646,9 @@ const handleInputChange = (e) => {
                 placeholder="Select Grade" className="border-1 w-9" id="cherryGrade"/>
        
             </div>
-            <div className="input_container flex flex-row">
+            <div className="input_container flex flex-col">
               <label className="input_label" htmlFor="customFarmerName">Paid</label>
-              <div className="card flex">
+              <div className="flex">
                   <div className="flex flex-wrap gap-3">
                       <div className="flex align-items-center">
                           <input type="radio" id="paid1" name="paid" value="1" onChange={(e) => setPaid(e.target.value)} checked={paid === '1'} />
@@ -647,6 +661,30 @@ const handleInputChange = (e) => {
                   </div>
               </div>
           </div>
+          </div>
+            <div className="input_container flex flex-row">
+              <label className="input_label" htmlFor="customFarmerName">Add Loan Payment</label>
+              <div className="flex">
+                  <div className="flex flex-wrap gap-3">
+                      <div className="flex align-items-center">
+                          <input type="radio" id="paid1" name="paid" value="1" onChange={()=>handleLoanCHange()} checked={loanPayment === '1'} />
+                          <label htmlFor="paid1" className="ml-2">Yes</label>
+                      </div>
+                      <div className="flex align-items-center">
+                          <input type="radio" id="paid0" name="paid" value="0" onChange={(e) => setLoanPayment(e.target.value)} checked={loanPayment === '0'} />
+                          <label htmlFor="paid0" className="ml-2">No</label>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          {loanPayment === '1' && (
+            <div className="additional-fields">
+              {/* Additional fields go here */}
+              <input type="text" placeholder="Loan Paid" />
+              {/* <input type="text" placeholder="Additional Field 2" /> */}
+              {/* Add more additional fields as needed */}
+            </div>
+          )}
 
            
           <button className='sign-in_btn mb-12'>Submit</button>

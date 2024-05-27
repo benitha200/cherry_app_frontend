@@ -27,8 +27,27 @@ export default function Transactions({ customers, dailytotal }) {
   const toast = useRef(null);
 
 
-  const accept = () => {
+  const accept = (id) => {
       toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
+      function handlePaid(id){
+        const requestOptions = {
+          method: "POST",
+          redirect: "follow"
+        };
+        
+        fetch(`http://127.0.0.1:8000/api/updatepaidstatus/${id}/`, requestOptions)
+          .then((response) => response.json())
+          .then((result) => {
+            
+            console.log(result)
+            if(result.id){
+              generateReport();
+            }
+          })
+          .catch((error) => console.error(error));
+      }
+      handlePaid(id);
+    
   }
 
   const reject = () => {
@@ -400,7 +419,7 @@ export default function Transactions({ customers, dailytotal }) {
           <>
             <Toast ref={toast} />
             <ConfirmDialog group="declarative"  visible={visible} onHide={() => setVisible(false)} message="Are you sure you want to Confirm Payment?" 
-                header="Confirmation" icon="pi pi-exclamation-triangle" accept={accept} reject={reject} />
+                header="Confirmation" icon="pi pi-exclamation-triangle" accept={()=>accept(rowData.id)} reject={reject} />
             <div className="">
                 <Button className='bg-blue-400 p-3 text-slate-50'  onClick={() => setVisible(true)} icon="pi pi-check" label="Confirm" />
             </div>

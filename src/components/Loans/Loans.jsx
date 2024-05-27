@@ -12,31 +12,13 @@ import { Link } from 'react-router-dom';
 const Loans = ({token,cwsname,cwscode,cws}) => {
 
 
-    const getFirstDayOfMonth = () => {
-        const now = new Date();
-        const startdateofmonth= new Date(now.getFullYear(), now.getMonth(), 1);
-        return startdateofmonth.toISOString().split('T')[0];
-        // return new Date(now.getFullYear(), now.getMonth(), 1);
-      };
-    
-      // Function to get the last day of the current month
-      const getLastDayOfMonth = () => {
-        const now = new Date();
-        const enddateofmonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-        return enddateofmonth.toISOString().split('T')[0];
-      };
-
-
-  const [startdate,setStartdate]=useState(getFirstDayOfMonth());
-  const [enddate,setEnddate]=useState(getLastDayOfMonth());
   const [customers, setCustomers] = useState([]);
   const [batch,setBatch]=useState([]);
   const [loading, setLoading] = useState(false); 
   const [filters, setFilters] = useState(null);
   const [exportData, setExportData] = useState(null);
-  const [dailytotal,setDailytotal]=useState();
-  const [totalcherrya,setTotalcherrya]=useState();
-  const [totalcherryb,setTotalcherryb]=useState();
+
+
 
   const exportCSV = () => {
       setExportData(customers);
@@ -189,6 +171,7 @@ function generateReport(){
   return (
     <div>
       <div className='text-teal-600 text-pretty font-bold text-2xl'>LOAN INFO</div>
+
       
       <div className="card">
       <div className="flex justify-content-end m-3">

@@ -154,10 +154,14 @@ function get_data(){
                     globalFilterFields={['batch_no', 'cws_name', 'total_kgs','status']}
                     header={header}
                     emptyMessage="No Transactions found ."
-                    rowClassName={(data) => ({
-                        'bg-red-50 text-red-950': data.total_kgs < data.dpv_cherry_kgs || data.total_kgs > data.dpv_cherry_kgs,
-                        'bg-green-50 text-green-950': data.total_kgs === data.dpv_cherry_kgs,
-                    })}
+                    rowClassName={(data) => {
+                        if (data.total_kgs < data.dpv_amount || data.total_kgs > data.dpv_amount) {
+                            return 'bg-red-50 text-red-950';
+                        } else if (data.total_kgs === data.dpv_amount) {
+                            return 'bg-green-50 text-green-950';
+                        }
+                    }}
+                    
                 >
 
                 <Column

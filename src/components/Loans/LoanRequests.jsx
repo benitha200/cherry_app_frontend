@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import './reports.css';
 import { FilterMatchMode, FilterOperator } from 'primereact/api';
 import { DataTable } from 'primereact/datatable';
@@ -7,33 +7,24 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { CSVLink } from 'react-csv';
 import { Link } from 'react-router-dom';
-
+import { Dropdown } from 'primereact/dropdown';
 
 const LoanRequests = ({token,cwsname,cwscode,cws}) => {
-
-
-    const getFirstDayOfMonth = () => {
-        const now = new Date();
-        const startdateofmonth= new Date(now.getFullYear(), now.getMonth(), 1);
-        return startdateofmonth.toISOString().split('T')[0];
-        // return new Date(now.getFullYear(), now.getMonth(), 1);
-      };
-    
-      // Function to get the last day of the current month
-      const getLastDayOfMonth = () => {
-        const now = new Date();
-        const enddateofmonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-        return enddateofmonth.toISOString().split('T')[0];
-      };
-
-
 
   const [customers, setCustomers] = useState([]);
   const [batch,setBatch]=useState([]);
   const [loading, setLoading] = useState(false); 
   const [filters, setFilters] = useState(null);
   const [exportData, setExportData] = useState(null);
+  const [status, setStatus] = useState("all");
 
+  const [selectedOption,setSelectedOption]=useState("all")
+  const options=[
+    {name:"All",code:"all"},
+    {name:"Pending",code:"pending"},
+    {name:"Approved",code:"approved"}
+    
+  ]
   const exportCSV = () => {
       setExportData(customers);
   };
@@ -103,10 +94,12 @@ const LoanRequests = ({token,cwsname,cwscode,cws}) => {
     console.log(data);
     const mappedData = data.map((item) => {
         return {
+            id:item.id,
             farmer_code: item.farmer_code,
             farmer_name: item.farmer_name,
             loan_limit:item.loan_limit,
             loan_amount:item.loan_amount,
+            is_approved:item.is_approved
 
         };
     });
@@ -114,26 +107,13 @@ const LoanRequests = ({token,cwsname,cwscode,cws}) => {
     return mappedData;
 };
 
-function generateReport(){
-    // const requestOptions = {
-    //     method: "GET",
-    //     redirect: "follow"
-    //   };
-      
-    //   fetch("http://127.0.0.1:8000/api/getloandata/", requestOptions)
-    //     .then((response) => response.json())
-    //     .then((result) => {
-    //         const mappedData=mapApiResponseToCustomers(result)
-    //         setBatch(mappedData)
-    //         setLoading(false)
-    //         console.log(result)})
-    //     .catch((error) => console.error(error));
+function generateReport(status){
     const requestOptions = {
-        method: "GET",
+        method: "POST",
         redirect: "follow"
       };
       
-      fetch("http://127.0.0.1:8000/api/getloanrequests/", requestOptions)
+      fetch(`http://127.0.0.1:8000/api/getloanrequests/${status}/`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
                     const mappedData=mapApiResponseToCustomers(result)
@@ -143,63 +123,62 @@ function generateReport(){
         .catch((error) => console.error(error));
 }
 
-  React.useEffect(() => {
+    useEffect(() => {
     generateReport();
   },[]);
 
-  function handleApprove(){
-    console.log("han")
+  function handleOptionChange(e){
+    setSelectedOption(e.target.value.code)
+    console.log(e.target.value.code)
+    generateReport(e.target.value.code)
+  }
+
+  function handleApprove(id){
+    const requestOptions = {
+      method: "POST",
+      redirect: "follow"
+    };
+    
+    fetch(`http://127.0.0.1:8000/api/approveloan/${id}/`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        
+        console.log(result)
+        if(result.id){
+          generateReport();
+        }
+      })
+      .catch((error) => console.error(error));
   }
 
 
   const renderReceiveButton = (rowData) => {
-    // Log the state values before passing them to the Link
-    console.log("State values before Link:", {
-      batch_no: rowData.batch_no,
-      purchase_date: rowData.purchase_date,
-      cherry_grade: rowData.cherry_grade,
-      cws,
-      cwsname,
-      cwscode,
-      token,
-    });
-  
-    return (
+    console.log(rowData.id)
+    
+    if(!rowData.is_approved){
+          return (
+      
       <div>
-        {(rowData.loan_limit >100000)?(
-        // <Link
-        //     to={{
-        //         pathname: "/request-loan-form",
-        //         search: `?farmer_code=${encodeURIComponent(rowData.farmer_code)}&token=${encodeURIComponent(token)}&farmer_name=${encodeURIComponent(rowData.farmer_name)}
-        //                             &loan_limit=${encodeURIComponent(rowData.loan_limit)}`,
-               
-        //     }}
-        //     >
-          <button className='bg-cyan-500 text-white p-2 rounded-md' onClick={handleApprove}>
+      
+          <button className='bg-cyan-500 text-white p-2 rounded-md' onClick={()=>handleApprove(rowData.id)}>
             Approve
           </button>
-        // </Link>
-    ):
-        (
-            <p className='bg-slate-200 p-2 text-slate-600'>Not Allowed</p> 
-        )}
-  
-        {/* <button
-          className='bg-gray-500 text-white p-2 rounded-md ml-2'
-          // onClick={() => handleReceive(rowData.batch_no,rowData.purchase_date,rowData.cherry_grade)}
-        >
-          Contributors
-        </button> */}
+        
       </div>
     );
   };
+    }
+
   
 
 
   return (
     <div>
       <div className='text-teal-600 text-pretty font-bold text-2xl'>LOAN INFO</div>
-      
+      <div className=' flex justify-left mt-4 mb-4'>
+        <Dropdown value={selectedOption} onChange={handleOptionChange} options={options} optionLabel='name'
+        placeholder='All' className='w-full md:w-14rem justify-center'/>
+      </div>
       <div className="card">
       <div className="flex justify-content-end m-3">
                 
@@ -249,6 +228,15 @@ function generateReport(){
                     header="Payment status"
                     body={(rowData) => rowData.loan_limit <100000 ? 
                     <p className='bg-green-400 p-2 text-slate-50'>Paid</p> 
+                    : 
+                    <p className='bg-slate-100 p-2 text-slate-900'>Pending</p> 
+                    
+                }
+                    />
+                    <Column
+                    header="Approval status"
+                    body={(rowData) => rowData.is_approved? 
+                    <p className='bg-green-200 p-2 text-slate-900'>Approved</p> 
                     : 
                     <p className='bg-slate-100 p-2 text-slate-900'>Pending</p> 
                     

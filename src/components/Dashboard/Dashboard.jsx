@@ -15,12 +15,12 @@ const NewDashboard = () => {
   const [date, setDate] = useState(['All', '8', '9', '10', '12', '13', '14', '15']);
 
   const metricData = {
-    'Traceable Cherry (KG)': 1897982,
-    'Finance Cherry (KG)': 2099969,
-    'Traceable Rwf': 1165398582,
-    'Finance Rwf': 1300281784,
-    'Non-Traceable (KG)': 201987,
-    'Non-Traceable (Rwf)': 134883202
+    'Traceable Cherry (KG)': "189,798",
+    'Finance Cherry (KG)': "209,999",
+    'Traceable Rwf': "11,653,982",
+    'Finance Rwf': "130,281,784",
+    'Non-Traceable (KG)': "20,1987",
+    'Non-Traceable (Rwf)': "13,488,202"
   };
 
   const traceableFinanceData = [

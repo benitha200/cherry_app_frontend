@@ -8,20 +8,44 @@ const Login = ({setToken,token,setRefreshtoken,refreshtoken,role,setRole,cwsname
 
     const handleSignIn = async (e) => {
         e.preventDefault();
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        // const raw = JSON.stringify({
+        //   "username": "macuba",
+        //   "password": "pass"
+        // });
+
+        // const requestOptions = {
+        //   method: "POST",
+        //   headers: myHeaders,
+        //   body: raw,
+        //   redirect: "follow"
+        // };
+
+        // fetch("http://127.0.0.1:8000/api/login/", requestOptions)
+        //   .then((response) => response.text())
+        //   .then((result) => console.log(result))
+        //   .catch((error) => console.error(error));
     
         // Get values from the input fields
         const emailOrPhone = document.getElementById('email_field').value;
         const password = document.getElementById('password_field').value;
     
-        const formData = new FormData();
-        formData.append('username', emailOrPhone);
-        formData.append('password', password);
+        // const formData = new FormData();
+        // formData.append('username', emailOrPhone);
+        // formData.append('password', password);
+        const raw = JSON.stringify({
+          "username": emailOrPhone,
+          "password": password
+        });
     
         try {
           const response = await fetch('http://127.0.0.1:8000/api/login/', {
             method: 'POST',
-            body: formData,
+            body: raw,
             redirect: 'follow',
+            headers:myHeaders
           });
     
           if (response.ok) {
@@ -69,7 +93,7 @@ const Login = ({setToken,token,setRefreshtoken,refreshtoken,role,setRole,cwsname
     
 
   return (
-    <form className="form_container2 justify-center" onSubmit={handleSignIn}>
+    <form className="form_container2 w-1/4 mx-auto mt-10" onSubmit={handleSignIn}>
        <div className="title_container">
         <p className="title text-teal-800 font-bold text-6xl">Cherry App</p>
       </div>
