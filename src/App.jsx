@@ -1,37 +1,64 @@
-import React, { useState, useEffect } from 'react';
+// import React, { useState, useEffect } from 'react';
+// import { BrowserRouter as Router, Route, Routes, Link, Outlet } from 'react-router-dom';
+// import { Bars3Icon, HomeModernIcon, XCircleIcon } from '@heroicons/react/24/outline';
+// import { FileInput, NotebookPen, FileSpreadsheet, FileArchive,  BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home,  BoxIcon, CombineIcon } from 'lucide-react';
+// import AddTransaction from './components/Transactions/AddTransaction';
+// import UploadFarmers from './components/Farmers/UploadFarmers';
+// import Sidebar, { SidebarItem } from './components/Header/Sidebar';
+// import Login from './components/Login/Login';
+// import FinancialReportContainer from './components/Reports/FinancialReportContainer';
+// import DprContainer from './components/Reports/DprContainer';
+// import Logout from './components/Login/Logout';
+// import RegisterUsers from './components/Login/RegisterUsers';
+// import Price from './components/Price/Price';
+// import "./App.css";
+// import PricingInfo from './components/Price/PricingInfo';
+// import ReceiveHarvest from './components/CwsTransactions/ReceiveHarvest';
+// import ReceiveHarvestForm from './components/CwsTransactions/RerceiveHarvestForm';
+// import ReceivedHarvest from './components/CwsTransactions/ReceivedHarvest';
+// import StartProcessingForm from './components/CwsTransactions/StartProcessingForm';
+// import BagOff from './components/CwsTransactions/BagOff';
+// import BagOffForm from './components/CwsTransactions/BagOffForm';
+// import Transfer from './components/CwsTransactions/Transfer';
+// import BatchReport from './components/Reports/BatchReport';
+// import NewDashboard from './components/Dashboard/Dashboard';
+// import DailyPurchaseValidation from './components/Transactions/DailyPurchaseValidation';
+// import DailyPurchaseValidationReport from './components/Reports/DailyPurchaseValidation';
+// import Loans from './components/Loans/Loans';
+// import RequestLoanForm from './components/Loans/RequestLoanForm';
+// import LoanRequests from './components/Loans/LoanRequests';
+
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, Outlet } from 'react-router-dom';
 import { Bars3Icon, HomeModernIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { FileInput, NotebookPen, FileSpreadsheet, FileArchive,  BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home,  BoxIcon, CombineIcon } from 'lucide-react';
-import AddTransaction from './components/Transactions/AddTransaction';
-import FinancialReport from './components/Reports/FinancialReport';
-import UploadFarmers from './components/Farmers/UploadFarmers';
-import Dashboard from './components/Dashboard/Dashboard';
-import DPR from './components/Reports/DPR';
-import Sidebar, { SidebarItem } from './components/Header/Sidebar';
-import Transactions from './components/Transactions/Transactions';
-import Login from './components/Login/Login';
-import FinancialReportContainer from './components/Reports/FinancialReportContainer';
-import DprContainer from './components/Reports/DprContainer';
-import Logout from './components/Login/Logout';
-import RegisterUsers from './components/Login/RegisterUsers';
-import Price from './components/Price/Price';
 import "./App.css";
-import PricingInfo from './components/Price/PricingInfo';
-import ReceiveHarvest from './components/CwsTransactions/ReceiveHarvest';
-import ReceiveHarvestForm from './components/CwsTransactions/RerceiveHarvestForm';
-import ReceivedHarvest from './components/CwsTransactions/ReceivedHarvest';
-import StartProcessingForm from './components/CwsTransactions/StartProcessingForm';
-import BagOff from './components/CwsTransactions/BagOff';
-import BagOffForm from './components/CwsTransactions/BagOffForm';
-import Transfer from './components/CwsTransactions/Transfer';
-import BatchReport from './components/Reports/BatchReport';
-import NewDashboard from './components/Dashboard/Dashboard';
-import Cookies from 'js-cookie'; 
-import DailyPurchaseValidation from './components/Transactions/DailyPurchaseValidation';
-import DailyPurchaseValidationReport from './components/Reports/DailyPurchaseValidation';
-import Loans from './components/Loans/Loans';
-import RequestLoanForm from './components/Loans/RequestLoanForm';
-import LoanRequests from './components/Loans/LoanRequests';
+
+// Lazy loaded components
+const AddTransaction = lazy(() => import('./components/Transactions/AddTransaction'));
+const UploadFarmers = lazy(() => import('./components/Farmers/UploadFarmers'));
+const Sidebar = lazy(() => import('./components/Header/Sidebar'));
+const Login = lazy(() => import('./components/Login/Login'));
+const FinancialReportContainer = lazy(() => import('./components/Reports/FinancialReportContainer'));
+const DprContainer = lazy(() => import('./components/Reports/DprContainer'));
+const Logout = lazy(() => import('./components/Login/Logout'));
+const RegisterUsers = lazy(() => import('./components/Login/RegisterUsers'));
+const Price = lazy(() => import('./components/Price/Price'));
+const PricingInfo = lazy(() => import('./components/Price/PricingInfo'));
+const ReceiveHarvest = lazy(() => import('./components/CwsTransactions/ReceiveHarvest'));
+const ReceiveHarvestForm = lazy(() => import('./components/CwsTransactions/RerceiveHarvestForm'));
+const ReceivedHarvest = lazy(() => import('./components/CwsTransactions/ReceivedHarvest'));
+const StartProcessingForm = lazy(() => import('./components/CwsTransactions/StartProcessingForm'));
+const BagOff = lazy(() => import('./components/CwsTransactions/BagOff'));
+const BagOffForm = lazy(() => import('./components/CwsTransactions/BagOffForm'));
+const Transfer = lazy(() => import('./components/CwsTransactions/Transfer'));
+const BatchReport = lazy(() => import('./components/Reports/BatchReport'));
+const NewDashboard = lazy(() => import('./components/Dashboard/Dashboard'));
+const DailyPurchaseValidation = lazy(() => import('./components/Transactions/DailyPurchaseValidation'));
+const DailyPurchaseValidationReport = lazy(() => import('./components/Reports/DailyPurchaseValidation'));
+const Loans = lazy(() => import('./components/Loans/Loans'));
+const RequestLoanForm = lazy(() => import('./components/Loans/RequestLoanForm'));
+const LoanRequests = lazy(() => import('./components/Loans/LoanRequests'));
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -65,6 +92,7 @@ function App() {
     return (
       <div>
         <Router>
+        <Suspense fallback={<div>Loading...</div>}>
           <div className='flex flex-row w-100'>
             <button
               className="lg:hidden text-gray-500"
@@ -243,7 +271,9 @@ function App() {
                       to="/logout"
                     />
                   </div>
+                  
                 </div>
+                
               </Sidebar>
             </div>
             {/* )} */}
@@ -278,6 +308,7 @@ function App() {
               </Routes>
             </div>
           </div>
+          </Suspense>
         </Router>
       </div>
     );
