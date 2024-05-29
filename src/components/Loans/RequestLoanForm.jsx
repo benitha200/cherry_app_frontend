@@ -158,7 +158,7 @@ const handleInputChange = (e) => {
           try {
             setLoading(true);
           
-            const response = await fetch("http://127.0.0.1:8000/api/requetloan/", requestOptions);
+            const response = await fetch("http://10.100.10.43:8000/api/requetloan/", requestOptions);
             const result = await response.json();
             console.log(result);
             console.log(result.farmer_code);
@@ -194,7 +194,7 @@ const handleInputChange = (e) => {
         // redirect: "follow"
         // };
 
-        // fetch("http://127.0.0.1:8000/api/requetloan/", requestOptions)
+        // fetch("http://10.100.10.43:8000/api/requetloan/", requestOptions)
         // .then((response) => response.text())
         // .then((result) => console.log(result))
         // .catch((error) => console.error(error));

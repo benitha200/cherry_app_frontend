@@ -113,7 +113,7 @@ function generateReport(status){
         redirect: "follow"
       };
       
-      fetch(`http://127.0.0.1:8000/api/getloanrequests/${status}/`, requestOptions)
+      fetch(`http://10.100.10.43:8000/api/getloanrequests/${status}/`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
                     const mappedData=mapApiResponseToCustomers(result)
@@ -139,7 +139,7 @@ function generateReport(status){
       redirect: "follow"
     };
     
-    fetch(`http://127.0.0.1:8000/api/approveloan/${id}/`, requestOptions)
+    fetch(`http://10.100.10.43:8000/api/approveloan/${id}/`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         

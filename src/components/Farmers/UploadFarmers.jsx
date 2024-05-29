@@ -21,7 +21,7 @@
 //         redirect: 'follow'
 //       };
 
-//       fetch("http://127.0.0.1:8000/api/uploadfarmers/", requestOptions)
+//       fetch("http://10.100.10.43:8000/api/uploadfarmers/", requestOptions)
 //         .then(response => response.json())
 //         .then(result => console.log(result))
 //         .catch(error => console.log('error', error));
@@ -112,7 +112,7 @@ const UploadFarmers = () => {
         redirect: 'follow'
       };
 
-      fetch("http://127.0.0.1:8000/api/uploadfarmers/", requestOptions)
+      fetch("http://10.100.10.43:8000/api/uploadfarmers/", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);

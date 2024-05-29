@@ -23,7 +23,7 @@ const Login = ({setToken,token,setRefreshtoken,refreshtoken,role,setRole,cwsname
         //   redirect: "follow"
         // };
 
-        // fetch("http://127.0.0.1:8000/api/login/", requestOptions)
+        // fetch("http://10.100.10.43:8000/api/login/", requestOptions)
         //   .then((response) => response.text())
         //   .then((result) => console.log(result))
         //   .catch((error) => console.error(error));
@@ -41,7 +41,7 @@ const Login = ({setToken,token,setRefreshtoken,refreshtoken,role,setRole,cwsname
         });
     
         try {
-          const response = await fetch('http://127.0.0.1:8000/api/login/', {
+          const response = await fetch('http://10.100.10.43:8000/api/login/', {
             method: 'POST',
             body: raw,
             redirect: 'follow',

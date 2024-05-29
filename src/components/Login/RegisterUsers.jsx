@@ -27,7 +27,7 @@ const RegisterUsers = ({ token }) => {
       redirect: 'follow',
     };
 
-    fetch("http://127.0.0.1:8000/api/cws/", requestOptions)
+    fetch("http://10.100.10.43:8000/api/cws/", requestOptions)
       .then(response => response.json())
       .then(result => {
         setCws(result);
@@ -65,7 +65,7 @@ const RegisterUsers = ({ token }) => {
     };
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/api/registeruser/", requestOptions);
+      const response = await fetch("http://10.100.10.43:8000/api/registeruser/", requestOptions);
       const result = await response.json();
       toast.current.show({ severity: 'success', summary: 'Success', detail: 'User Added successfully' });
 
@@ -269,7 +269,7 @@ export default RegisterUsers;
 //     redirect: 'follow',
 //     };
 
-//     fetch("http://127.0.0.1:8000/api/cws/", requestOptions)
+//     fetch("http://10.100.10.43:8000/api/cws/", requestOptions)
 //     .then(response => response.json())
 //     .then(result =>{
 //         setCws(result);
@@ -309,7 +309,7 @@ export default RegisterUsers;
 //     };
 
 //     try {
-//       const response = await fetch("http://127.0.0.1:8000/api/registeruser/", requestOptions);
+//       const response = await fetch("http://10.100.10.43:8000/api/registeruser/", requestOptions);
 //       const result = await response.json();
 //       console.log(result);
 //     } catch (error) {
