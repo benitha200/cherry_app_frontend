@@ -52,3 +52,13 @@
 .p-inputtext{
     width: 100%;
 }
+.sidebar-item.top-position {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: #333; /* Change as needed */
+    color: #fff; /* Change as needed */
+    padding: 1rem;
+    text-align: center;
+    z-index: 10; /* Ensure it's above other elements if necessary */
+  }

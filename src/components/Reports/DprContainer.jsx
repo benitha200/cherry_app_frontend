@@ -201,25 +201,34 @@ const DprContainer = () => {
   return (
     <div>
       <div className='text-teal-600 text-pretty font-bold text-2xl'>DIRECT PURCHASE REPORT</div>
-      <div className='d-flex flex-1 flex-row'>
+      {/* <div className='d-flex flex-1 flex-row'> */}
+      <div className='flex flex-row space-x-2 md:space-x-8 justify-between'>
           <form action="" className='flex flex-row flex-wrap mt-4 mb-4'>
               <div className='flex flex-row flex-wrap items-center ml-4'>
-                <label className='text-dark p-2 text-sm'>Start Date</label>
+                <label className='text-dark p-2 text-sm w-25'>Start Date</label>
                 <input placeholder="First" className="input" name="startDate" type="date" value={startdate} onChange={(e)=>setStartdate(e.target.value)}/>
               </div>
-              <div className='flex flex-row flex-wrap items-center ml-4'>
+              <div className='flex flex-row justify-between ml-4'>
                 <label className='text-dark p-2 text-sm'>End Date</label>
                 <input placeholder="First name" className="input" name="endDate" type="date" value={enddate} onChange={(e)=>setEnddate(e.target.value)}/>
               </div>
-                {/* <button class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded ml-4">
-                    Generate
-                </button> */}
           </form>
-          <div className="flex flex-row space-x-4 mt-4">
-              <span className='text-black-600 text-xl font-bold'>Total Purchase:<span className='text-sl text-teal-600 font-bold p-2'>{dailytotal} RWF</span></span>
-              <span className='text-black-600 text-xl font-bold'>Total Cherry A :<span className='text-sl text-teal-600 font-bold p-2'>{totalcherrya} Kg</span></span>
-              <span className='text-black-600 text-xl font-bold'>Total Cherry B :<span className='text-sl text-teal-600 font-bold p-2'>{totalcherryb} Kg</span></span>
-          </div> 
+          <div className='card flex flex-column space-y-4'>
+          <div className="flex flex-row w-full gap-4">
+              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-100'>
+                Purchase
+                <span className='text-sl text-cyan-600 font-bold p-2'>{dailytotal} RWF</span>
+              </span>
+              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-100'>
+                Cherry A
+                <span className='text-sl text-cyan-600 font-bold p-2'>{totalcherrya} Kg</span>
+              </span>
+              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-100'>
+                Cherry B
+                <span className='text-sl text-cyan-600 font-bold p-2'>{totalcherryb} Kg</span>
+              </span>
+            </div>
+          </div>
 
       </div>
       

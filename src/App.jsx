@@ -33,6 +33,7 @@ import { BrowserRouter as Router, Route, Routes, Link, Outlet } from 'react-rout
 import { Bars3Icon, HomeModernIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { FileInput, NotebookPen, FileSpreadsheet, FileArchive,  BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home,  BoxIcon, CombineIcon } from 'lucide-react';
 import "./App.css";
+import { SidebarItem } from './components/Header/Sidebar';
 
 // Lazy loaded components
 const AddTransaction = lazy(() => import('./components/Transactions/AddTransaction'));
@@ -95,21 +96,22 @@ function App() {
         <Suspense fallback={<div>Loading...</div>}>
           <div className='flex flex-row w-100'>
             <button
-              className="lg:hidden text-gray-500"
+              className="lg:hidden text-gray-500 w-5 h-5"
               onClick={() => setIsOpen(true)}
             >
-              <Bars3Icon className="h-6 w-6 top-0" />
+              <Bars3Icon className="w-5 h-5top-0" />
             </button>
             {/* {location.pathname !== '/login' && ( */}
             <div
               className={`container-1 bg-white p-2 flex flex-col absolute lg:relative w-100 min-h-screen transition-all duration-300 transform lg:transform-none ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
             >
               <button
-                className="lg:hidden text-gray-500 mb-4"
+                className="absolute top-0 right-0 lg:hidden text-gray-500 mb-4 mt-4 mr-4  w-8 h-8"
                 onClick={() => setIsOpen(false)}
               >
-                <XCircleIcon className="h-6 w-6" />
+                <XCircleIcon className="h-8 w-8" />
               </button>
+
 
               <Sidebar>
                 <div className='d-flex flex-column justify-content-between'>
@@ -117,6 +119,8 @@ function App() {
             
   
                     <>
+                    
+                    
                       <SidebarItem
                         icon={<Home size={20} />}
                         text="Dashboard"

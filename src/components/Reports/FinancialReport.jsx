@@ -140,18 +140,18 @@ const mapApiResponseToCustomers = (data) => {
       <div className='text-teal-600 text-pretty font-bold text-2xl'>DAILY REPORT</div>
       <div className='flex flex-row space-x-2 md:space-x-8 justify-between'>
         <form action="" className='flex flex-row flex-wrap mt-2 w-10'>
-        <div className='flex flex-row flex-wrap items-center ml-4'>
-          <label className='text-dark p-2 text-sm'>Select Date</label>
-          <input
-            placeholder="First"
-            className="input m-2"
-            name="date"
-            type="date"
-            value={date}
-            onChange={(e) => onDateChange(e.target.value)}
-          />
-        </div>
-      </form>
+            <div className='flex flex-row flex-wrap items-center ml-4'>
+              <label className='text-dark p-2 text-sm'>Select Date</label>
+              <input
+                placeholder="First"
+                className="input m-2"
+                name="date"
+                type="date"
+                value={date}
+                onChange={(e) => onDateChange(e.target.value)}
+              />
+            </div>
+          </form>
           <div className='card flex flex-column space-y-4'>
           <div className="flex flex-row w-full gap-4">
               <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-100'>
