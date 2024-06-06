@@ -47,10 +47,10 @@ const Price = ({ token }) => {
   
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-  
+    console.log(grade.value);
     var raw = JSON.stringify({
       "cws": selectedcws?.id || "",
-      "grade": grade,
+      "grade": grade.value,
       "price_per_kg": price,
       "transport_limit": transport
     });
