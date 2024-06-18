@@ -27,7 +27,7 @@ const Login = ({setToken, token, setRefreshtoken, refreshtoken, setRole, role, s
     });
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/login/', {
+      const response = await fetch('/api/login/', {
         method: 'POST',
         body: raw,
         redirect: 'follow',
