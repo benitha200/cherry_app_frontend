@@ -178,7 +178,7 @@ const DprContainer = () => {
       try {
         setLoading(true);
 
-        const response = await fetch("http://10.100.10.43:8000/api/getdpr/", requestOptions);
+        const response = await fetch("http://127.0.0.1:8000/api/getdpr/", requestOptions);
         const data = await response.json();
 
         console.log(data);
@@ -215,15 +215,15 @@ const DprContainer = () => {
           </form>
           <div className='card flex flex-column space-y-4'>
           <div className="flex flex-row w-full gap-4">
-              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-100'>
+              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-200'>
                 Purchase
                 <span className='text-sl text-cyan-600 font-bold p-2'>{dailytotal} RWF</span>
               </span>
-              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-100'>
+              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-200'>
                 Cherry A
                 <span className='text-sl text-cyan-600 font-bold p-2'>{totalcherrya} Kg</span>
               </span>
-              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-100'>
+              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-200'>
                 Cherry B
                 <span className='text-sl text-cyan-600 font-bold p-2'>{totalcherryb} Kg</span>
               </span>

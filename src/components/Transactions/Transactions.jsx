@@ -35,7 +35,7 @@ export default function Transactions({ customers, dailytotal }) {
           redirect: "follow"
         };
         
-        fetch(`http://10.100.10.43:8000/api/updatepaidstatus/${id}/`, requestOptions)
+        fetch(`http://127.0.0.1:8000/api/updatepaidstatus/${id}/`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
             
@@ -130,7 +130,7 @@ export default function Transactions({ customers, dailytotal }) {
         redirect: 'follow'
     };
 
-    fetch(`http://10.100.10.43:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
+    fetch(`http://127.0.0.1:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
         .then(response => response.text())
         .then(result => {
           console.log(result);

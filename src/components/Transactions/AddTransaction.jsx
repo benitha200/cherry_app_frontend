@@ -85,7 +85,7 @@ const AddTransaction = ({token,setToken,role,cwsname,cwscode,cws}) => {
         redirect: 'follow',
         };
 
-        fetch("http://10.100.10.43:8000/api/farmers/", requestOptions)
+        fetch("http://127.0.0.1:8000/api/farmers/", requestOptions)
         .then(response => response.json())
         .then(result => setFarmers(result))
         .catch(error => console.log('error', error));
@@ -271,7 +271,7 @@ const handleInputChange = (e) => {
         try {
           setLoading(true);
     
-          const response = await fetch("http://10.100.10.43:8000/api/processtransaction/", requestOptions);
+          const response = await fetch("http://127.0.0.1:8000/api/processtransaction/", requestOptions);
           const result = await response.json();
 
           
@@ -499,7 +499,7 @@ const handleInputChange = (e) => {
               };
           
               try {
-                const response = await fetch("http://10.100.10.43:8000/api/processtransaction/", requestOptions);
+                const response = await fetch("http://127.0.0.1:8000/api/processtransaction/", requestOptions);
                 const result = await response.json();
           
                 // Handle the result as needed
@@ -539,11 +539,11 @@ const handleInputChange = (e) => {
                     name="date"
                     value={formData.date}
                     onChange={handleInputChange}
-                    className=''
+                    className='border-1 w-full'
                     isPopoverVisible={isPopoverVisible} 
                 />
           </div>
-          <div className="input_container flex flex-col">
+          <div className="input_container w-full flex flex-col">
               <label className="input_label" htmlFor="customFarmerName">
                 Farmer Name
               </label>
@@ -555,14 +555,14 @@ const handleInputChange = (e) => {
                         optionLabel="farmer_name"
                         placeholder="Select a Farmer"
                         itemTemplate={farmerOptionTemplate}
-                        className="border-1"
+                        className="border-1 w-full"
                         filter
                         filterFunction={filterOption}
                         required
                     />
                 </div>
         </div>
-        <div className='flex w-full gap-10'>
+        <div className='flex w-full flex-row'>
           {formData.farmerName === 'other' && (
             
             <div className="input_container flex flex-col">
@@ -574,7 +574,7 @@ const handleInputChange = (e) => {
                 name="customFarmerName"
                 value={formData.customFarmerName}
                 onChange={handleInputChange}
-                className="input_field"
+                className="input_field w-full"
                 id="customFarmerName"
                 autoComplete='off'
               />
@@ -597,7 +597,7 @@ const handleInputChange = (e) => {
       </div>
       
       
-        <div className="input_container flex flex-col">
+        <div className="input_container flex flex-col ml-5">
             <label className="input_label" htmlFor="customFarmerName">
                 Occupation
             </label>
@@ -609,7 +609,7 @@ const handleInputChange = (e) => {
 
 
           <div className="input_container flex flex-col">
-            <label className="input_label" htmlFor="pricePerKg">
+            <label className="input_label w-full" htmlFor="pricePerKg">
               Cherry Kg
             </label>
             <input
@@ -617,7 +617,7 @@ const handleInputChange = (e) => {
               name="pricePerKg"
               value={formData.pricePerKg}
               onChange={handleInputChange}
-              className="input_field"
+              className="input_field w-full"
               id="pricePerKg"
               autoComplete='off'
             />

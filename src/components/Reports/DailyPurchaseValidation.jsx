@@ -121,7 +121,7 @@ function get_data(){
         redirect: "follow"
       };
       
-      fetch("http://10.100.10.43:8000/api/gettotalpurchasebydateandgrade/", requestOptions)
+      fetch("http://127.0.0.1:8000/api/gettotalpurchasebydateandgrade/", requestOptions)
         .then((response) => response.json())
         .then((result) =>{ 
             console.log(result)

@@ -8,7 +8,7 @@ const Logout = () => {
         localStorage.removeItem('cwsname');
         localStorage.removeItem('role');
     try {
-      const response = await fetch('http://10.100.10.43:8000/api/logout/', {
+      const response = await fetch('http://127.0.0.1:8000/api/logout/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

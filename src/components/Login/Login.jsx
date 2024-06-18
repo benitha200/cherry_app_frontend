@@ -1,13 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import './Login.css';
 import Cookies from 'js-cookie'; 
 import VerifyOTP from './verifyOTP';
+import { useNavigate } from 'react-router-dom';
 
 const Login = ({setToken, token, setRefreshtoken, refreshtoken, setRole, role, setCwsname, setCwscode, cwsname, cwscode, setCws, cws}) => {
   const [responseMessage, setResponseMessage] = useState(null);
   const [username,setUsername]=useState()
   const [password,setPassword]=useState()
+  const [profile, setProfile] = useState(null);
+  const navigate = useNavigate();
 
+
+
+  useEffect(() => {
+    const urlString = window.location.href;
+    const url = new URL(urlString);
+    const profileParam = url.searchParams.get('profile');
+    console.log(profileParam)
+
+    if (profileParam) {
+      try {
+        const decodedProfileParam = decodeURIComponent(profileParam);
+        const profileData = JSON.parse(profileParam);
+        console.log(profileData)
+        setProfile(profileData);
+        setToken(profileData.mail)
+      } catch (error) {
+        console.error('Error parsing profile data:', error);
+      }
+    }
+   
+  }, []);
 
   const handleSignIn = async (e) => {
     e.preventDefault();

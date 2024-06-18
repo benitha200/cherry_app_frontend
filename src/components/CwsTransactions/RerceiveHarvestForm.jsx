@@ -90,7 +90,7 @@ const ReceiveHarvestForm = () => {
         redirect: 'follow',
         };
 
-        fetch("http://10.100.10.43:8000/api/farmers/", requestOptions)
+        fetch("http://127.0.0.1:8000/api/farmers/", requestOptions)
         .then(response => response.json())
         .then(result => setFarmers(result))
         .catch(error => console.log('error', error));
@@ -204,7 +204,7 @@ const handleInputChange = (e) => {
           try {
             setLoading(true);
           
-            const response = await fetch("http://10.100.10.43:8000/api/receiveharvest/create", requestOptions);
+            const response = await fetch("http://127.0.0.1:8000/api/receiveharvest/create", requestOptions);
             const result = await response.json();
             console.log(result);
             console.log(result.message);

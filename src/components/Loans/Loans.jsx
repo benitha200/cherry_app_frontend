@@ -110,7 +110,7 @@ function generateReport(){
         redirect: "follow"
       };
       
-      fetch("http://10.100.10.43:8000/api/getloandata/", requestOptions)
+      fetch("http://127.0.0.1:8000/api/getloandata/", requestOptions)
         .then((response) => response.json())
         .then((result) => {
             const mappedData=mapApiResponseToCustomers(result)

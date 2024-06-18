@@ -21,7 +21,7 @@ const Price = ({ token }) => {
       redirect: 'follow',
     };
 
-    fetch("http://10.100.10.43:8000/api/cws/", requestOptions)
+    fetch("http://127.0.0.1:8000/api/cws/", requestOptions)
       .then(response => response.json())
       .then(result => {
         setCws(result);
@@ -63,7 +63,7 @@ const Price = ({ token }) => {
     };
   
     try {
-      const response = await fetch(`http://10.100.10.43:8000/api/station-settings/${selectedcws?.cws_code || ''}/`, requestOptions);
+      const response = await fetch(`http://127.0.0.1:8000/api/station-settings/${selectedcws?.cws_code || ''}/`, requestOptions);
       const result = await response.json();
       console.log(result);
   
@@ -99,7 +99,7 @@ const Price = ({ token }) => {
 //     redirect: 'follow'
 //     };
 
-//     fetch(`http://10.100.10.43:8000/api/station-settings/${selectedcws?.cws_code || ''}/`, requestOptions)
+//     fetch(`http://127.0.0.1:8000/api/station-settings/${selectedcws?.cws_code || ''}/`, requestOptions)
 //     .then(response => response.json())
 //     .then(result =>{
 //         console.log(result);

@@ -104,13 +104,13 @@ const mapApiResponseToCustomers = (data) => {
       try {
         setLoading(true);
       
-        const response = await fetch("http://10.100.10.43:8000/api/getfinancialreport/", requestOptions);
+        const response = await fetch("http://127.0.0.1:8000/api/getfinancialreport/", requestOptions);
       
-        if(response.status === 401) {
-          localStorage.setItem('token','')
-          window.location.href = "/";
-          return;
-        }
+        // if(response.status === 401) {
+        //   localStorage.setItem('token','')
+        //   window.location.href = "/";
+        //   return;
+        // }
       
         const data = await response.json();
       
@@ -154,21 +154,21 @@ const mapApiResponseToCustomers = (data) => {
           </form>
           <div className='card flex flex-column space-y-4'>
           <div className="flex flex-row w-full gap-4">
-              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-100'>
+              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-200'>
                 Purchase
                 <span className='text-sl text-cyan-600 font-bold p-2'>{dailytotal} RWF</span>
               </span>
-              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-100'>
+              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-200'>
                 Cherry A
                 <span className='text-sl text-cyan-600 font-bold p-2'>{totalcherrya} Kg</span>
               </span>
-              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-100'>
+              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-200'>
                 Cherry B
                 <span className='text-sl text-cyan-600 font-bold p-2'>{totalcherryb} Kg</span>
               </span>
             </div>
 
-            <div className='flex flex-row bg-slate-100 p-4 rounded-sm justify-left gap-5'>
+            <div className='flex flex-row bg-slate-200 p-4 rounded-sm justify-left gap-5'>
               
               <span className='text-black-600 text-xl font-bold'>Paid:<span className='text-sl text-teal-600 font-bold p-2'>{totalPaid} RWF</span></span>|
               <span className='text-black-600 text-xl font-bold'>UnPaid:<span className='text-sl text-red-600 font-bold p-2'>{totalUnpaid} RWF</span></span>  
