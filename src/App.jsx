@@ -34,6 +34,7 @@ import { Bars3Icon, HomeModernIcon, XCircleIcon } from '@heroicons/react/24/outl
 import { FileInput, NotebookPen, FileSpreadsheet, FileArchive,  BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home,  BoxIcon, CombineIcon } from 'lucide-react';
 import "./App.css";
 import { SidebarItem } from './components/Header/Sidebar';
+import Cookies from 'js-cookie';
 
 // Lazy loaded components
 const AddTransaction = lazy(() => import('./components/Transactions/AddTransaction'));
@@ -69,27 +70,45 @@ function App() {
   const [cwsname, setCwsname] = useState(null);
   const [cwscode, setCwscode] = useState(null);
   const [cws, setCws] = useState(null);
-  // const [cwscode, setCwscode] = useState(null);
+  const [profile, setProfile] = useState(null);
+
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
-    const storedRefreshToken = localStorage.getItem('refreshtoken');
-    const storedRole = localStorage.getItem('role');
-    const storedCwsname = localStorage.getItem('cwsname');
-    const storedCwscode = localStorage.getItem('cwscode');
-    const storedCws=localStorage.getItem('cws')
+    // const profile = Cookies.get('profile');
+    // if (profile) {
+    //   const profileData = JSON.parse(profile);
+    //   console.log('Profile Data:', profileData);
+    //   // Update the state with the profile data here
+    // } else {
+    //   fetchProfileData();
+    // }
 
-    if (storedToken) {
-      setToken(storedToken);
-      setRefreshtoken(storedRefreshToken);
-      setRole(storedRole);
-      setCwsname(storedCwsname);
-      setCwscode(storedCwscode);
-      setCws(cws);
+    const urlString = window.location.href;
+    const url = new URL(urlString);
+    const profileParam = url.searchParams.get('profile');
+    console.log(profileParam)
+
+    if (profileParam) {
+      try {
+        const decodedProfileParam = decodeURIComponent(profileParam);
+        const profileData = JSON.parse(profileParam);
+        console.log(profileData)
+        setProfile(profileData);
+        setToken(profileData.mail)
+      } catch (error) {
+        console.error('Error parsing profile data:', error);
+      }
     }
+    else {
+      // fetchProfileData();
+      window.location.href="http://127.0.0.1:8000/login"
+    }
+     
   }, []);
 
-  if (token) {
+
+
+  if (profile) {
     return (
       <div>
         <Router>
@@ -294,6 +313,7 @@ function App() {
                 <Route path="/dpr" element={<DprContainer />} />
                 <Route path='/register-user' element={<RegisterUsers token={token} />} />
                 <Route path='/price' element={<Price token={token} />} />
+                <Route path="/login" element={<NewDashboard />} />
                 {/* <Route path='/login' element={<Login token={token} setToken={setToken} refreshtoken={refreshtoken} setRefreshtoken={setRefreshtoken} role={role} setRole={setRole} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} setCws={setCws}/>}/> */}
                 <Route path='/price-info' element={<PricingInfo token={token} />} />
                 <Route path='/receive-harvest' element={<ReceiveHarvest token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
@@ -321,13 +341,7 @@ function App() {
   else{
       return (
     <div>
-      <Router>
-       <Routes>
-
-                <Route path='/' element={<Login token={token} setToken={setToken} refreshtoken={refreshtoken} setRefreshtoken={setRefreshtoken} role={role} setRole={setRole} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} setCws={setCws}/>}/>
-               
-              </Routes>
-              </Router>
+      <h4>Loading...</h4>
       {/* <Login token={token} setToken={setToken} refreshtoken={refreshtoken} setRefreshtoken={setRefreshtoken} role={role} setRole={setRole} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} setCws={setCws}/> */}
     </div>
   );
