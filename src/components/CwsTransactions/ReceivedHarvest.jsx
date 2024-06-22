@@ -84,11 +84,11 @@ const statusBodyTemplate = (status) => {
 
   const renderHeader = () => {
     return (
-        <div className="flex justify-content-around">
+        <div className="flex justify-content-between">
             <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
             <span className="p-input-icon-left">
                 {/* <i className="pi pi-search" /> */}
-                <InputText style={{width:'5rem'}} value={globalFilterValue} onChange={onGlobalFilterChange} className='w-5' placeholder="Search" />
+                <InputText style={{width:'5rem'}} value={globalFilterValue} onChange={onGlobalFilterChange} className='w-full' placeholder="Search" />
             </span>
         </div>
     );
@@ -168,7 +168,7 @@ const statusBodyTemplate = (status) => {
       purchase_date: rowData.purchase_date,
       cherry_grade: rowData.cherry_grade,
       cws,
-      cwsname,
+      cwsname:rowData.location_to,
       cwscode,
       token,
     });
@@ -211,16 +211,16 @@ const statusBodyTemplate = (status) => {
         <Link
           to={{
             pathname: "/start-processing-form",
-            search: `?cwsname=${cwsname}&token=${token}&batch_no=${rowData.batch_no}
+            search: `?cwsname=${rowData.location_to}&token=${token}&batch_no=${rowData.batch_no}
                         &purchase_date=${rowData.purchase_date}&cherry_grade=${rowData.cherry_grade}
-                        &cwsname=${cwsname}&cwscode=${cwscode}&harvest_kgs=${rowData.total_kgs}`,
+                        &cwscode=${cwscode}&harvest_kgs=${rowData.total_kgs}`,
             state: {
               batch_no: rowData.batch_no,
               purchase_date: rowData.purchase_date,
               cherry_grade: rowData.cherry_grade,
               harvest_kgs: rowData.total_kgs,
               cws,
-              cwsname,
+              cwsname:rowData.location_to,
               cwscode,
               token,
             },

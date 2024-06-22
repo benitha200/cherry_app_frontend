@@ -9,7 +9,8 @@ import { CSVLink } from 'react-csv';
 import { Link } from 'react-router-dom';
 
 
-const ReceiveHarvest = ({token,cwsname,cwscode,cws}) => {
+
+const ReceiveHarvest = ({token,cwscode,cws,profile}) => {
 
 
     const getFirstDayOfMonth = () => {
@@ -37,6 +38,7 @@ const ReceiveHarvest = ({token,cwsname,cwscode,cws}) => {
   const [dailytotal,setDailytotal]=useState();
   const [totalcherrya,setTotalcherrya]=useState();
   const [totalcherryb,setTotalcherryb]=useState();
+  const [cwsname,setCwsname]=useState();
 
   const exportCSV = () => {
       setExportData(customers);
@@ -126,17 +128,34 @@ const ReceiveHarvest = ({token,cwsname,cwscode,cws}) => {
   const generateReport = async () => {
     console.log('Generate report for date:', startdate);
 
+
     if (startdate && enddate) {
       const formattedDate = startdate;
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
+      const jobTitleString = profile.jobTitle || "CWS Manager - Mashesha";
+  
+      // Split the jobTitleString by " - "
+      const parts = jobTitleString.split(" - ");
+      
+      console.log(parts);
+      const jsonObject = {
+        "jobtitle": parts[0],
+        "cws_name": parts[1]
+      };
+      const jsonString = JSON.stringify(jsonObject);
+      const data1 = JSON.parse(jsonString);
+      setCwsname("Mashesha")
+      console.log(data1.cws)
+
       const requestOptions = {
-        method: 'GET',
+        method: 'POST',
         headers: {
-            "Authorization": `Bearer ${token}`
-          },
-        redirect: 'follow'
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ cws_name: "Mashesha" })
       };
 
       try {
@@ -220,13 +239,6 @@ const ReceiveHarvest = ({token,cwsname,cwscode,cws}) => {
             Receive
           </button>
         </Link>
-  
-        {/* <button
-          className='bg-gray-500 text-white p-2 rounded-md ml-2'
-          // onClick={() => handleReceive(rowData.batch_no,rowData.purchase_date,rowData.cherry_grade)}
-        >
-          Contributors
-        </button> */}
       </div>
     );
   };

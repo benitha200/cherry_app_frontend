@@ -17,7 +17,7 @@ const initializeIndexedDB=async()=>{
 }
         
 
-const AddTransaction = ({token,setToken,role,cwsname,cwscode,cws}) => {
+const AddTransaction = ({token,setToken,role,cwscode,cws,profile}) => {
     const occupations = [
         {name: 'Select Occupation'},
         { name: 'Site Collector', code: 'Site Collector' },
@@ -43,6 +43,7 @@ const AddTransaction = ({token,setToken,role,cwsname,cwscode,cws}) => {
     const [farmers, setFarmers] = useState([]);
     const [season,setSeason]=useState(new Date().getFullYear())
     const [price,setPrice]=useState(410)
+    const [cwsname,setCwsname]=useState("")
     const toast = useRef(null);
     const [selectedOccupation, setSelectedOccupation] = useState(defaultOccupation);
     // const [grade, setGrade] = useState(defaultGrade);
@@ -72,24 +73,42 @@ const AddTransaction = ({token,setToken,role,cwsname,cwscode,cws}) => {
     function handleLoanCHange(e){
       setLoanPayment(e.target.value)
     }
-    
-    console.log(cws)
 
-   
-    function get_farmers(){
-        var requestOptions = {
-        method: 'GET',
-        headers: {
-            "Authorization":`Bearer ${token}`
-        },
-        redirect: 'follow',
+
+
+
+
+    function get_farmers() {
+
+      const jobTitleString = profile.jobTitle || "CWS Manager - Mashesha";
+  
+        // Split the jobTitleString by " - "
+        const parts = jobTitleString.split(" - ");
+        
+        console.log(parts);
+        const jsonObject = {
+          "jobtitle": parts[0],
+          "cws_name": parts[1]
         };
+        const jsonString = JSON.stringify(jsonObject);
+        const data = JSON.parse(jsonString);
+        setCwsname(data.cws)
 
-        fetch("http://127.0.0.1:8000/api/farmers/", requestOptions)
-        .then(response => response.json())
-        .then(result => setFarmers(result))
-        .catch(error => console.log('error', error));
-    }
+      var requestOptions = {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ "cws_name": data.cws_name }),
+          redirect: 'follow'
+      };
+  
+      fetch("http://127.0.0.1:8000/api/farmers/", requestOptions)
+          .then(response => response.json())
+          .then(result => setFarmers(result))
+          .catch(error => console.log('error', error));
+  }
     const farmerOptionTemplate = (option) => {
       return (
         <div className="flex align-items-center">
@@ -157,14 +176,14 @@ const handleInputChange = (e) => {
       const formattedDay = String(selected.getDate()).padStart(2, '0');
 
       // Check if the date is valid
-      if (!isDateValid(selected)) {
-          setFormData({
-              ...formData,
-              date: '',
-          });
-          alert('Please select today or yesterday');
-          return;
-      }
+      // if (!isDateValid(selected)) {
+      //     setFormData({
+      //         ...formData,
+      //         date: '',
+      //     });
+      //     alert('Please select today or yesterday');
+      //     return;
+      // }
 
       // Update the form data
       setFormData({
@@ -209,6 +228,20 @@ const handleInputChange = (e) => {
         // print()
         e.preventDefault();
 
+        const jobTitleString = profile.jobTitle || "CWS Manager - Mashesha";
+  
+        // Split the jobTitleString by " - "
+        const parts = jobTitleString.split(" - ");
+        
+        console.log(parts);
+        const jsonObject = {
+          "jobtitle": parts[0],
+          "cws_name": parts[1]
+        };
+        const jsonString = JSON.stringify(jsonObject);
+        const data1 = JSON.parse(jsonString);
+        setCwsname(data1.cws)
+
         const isOnline=navigator.onLine;
         if(!isOnline){
             const db = await initializeIndexedDB();
@@ -242,7 +275,7 @@ const handleInputChange = (e) => {
 
         var newPurchaseDate = purchaseDate.toISOString().split('T')[0];
         const rawPayload = {
-          "cws_name": cwsname,
+          "cws_name": cwsname || "Mashesha",
           // "purchase_date": formData.date.toISOString().split('T')[0],
           // "purchase_date":"2024-04-19",
           "purchase_date": newPurchaseDate,
@@ -602,7 +635,7 @@ const handleInputChange = (e) => {
                 Occupation
             </label>
             <Dropdown value={selectedOccupation} onChange={(e) => setSelectedOccupation(e.value)} options={occupations} optionLabel="name" 
-                placeholder="Select Occupation" className="border-1"/>
+                placeholder="Select Occupation" className="border-1 w-full"/>
         </div>
         </div>
         <div className='flex w-full gap-10'>
@@ -613,7 +646,7 @@ const handleInputChange = (e) => {
               Cherry Kg
             </label>
             <input
-              type="text"
+              type="number"
               name="pricePerKg"
               value={formData.pricePerKg}
               onChange={handleInputChange}
@@ -627,7 +660,7 @@ const handleInputChange = (e) => {
                 Transport Per Kg
               </label>
               <input
-                type="text"
+                type="number"
                 name="transportPerKg"
                 value={formData.transportPerKg}
                 onChange={handleInputChange}
@@ -643,12 +676,12 @@ const handleInputChange = (e) => {
                 Cherry Grade
             </label>
             <Dropdown name='cherryGrade' value={formData.cherryGrade} onChange={handleInputChange} options={grades} optionLabel="name" 
-                placeholder="Select Grade" className="border-1 w-9" id="cherryGrade"/>
+                placeholder="Select Grade" className="border-1 w-full" id="cherryGrade"/>
        
             </div>
-            <div className="input_container flex flex-col">
+            <div className="input_container flex flex-col ml-5">
               <label className="input_label" htmlFor="customFarmerName">Paid</label>
-              <div className="flex">
+              <div className="flex w-full">
                   <div className="flex flex-wrap gap-3">
                       <div className="flex align-items-center">
                           <input type="radio" id="paid1" name="paid" value="1" onChange={(e) => setPaid(e.target.value)} checked={paid === '1'} />
@@ -662,7 +695,7 @@ const handleInputChange = (e) => {
               </div>
           </div>
           </div>
-            <div className="input_container flex flex-row">
+            {/* <div className="input_container flex flex-row">
               <label className="input_label" htmlFor="customFarmerName">Add Loan Payment</label>
               <div className="flex">
                   <div className="flex flex-wrap gap-3">
@@ -676,7 +709,7 @@ const handleInputChange = (e) => {
                       </div>
                   </div>
               </div>
-          </div>
+          </div> */}
           {loanPayment === '1' && (
             <div className="additional-fields">
               {/* Additional fields go here */}

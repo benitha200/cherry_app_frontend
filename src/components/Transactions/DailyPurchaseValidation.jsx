@@ -63,59 +63,59 @@ const DailyPurchaseValidation = () => {
   };
 
   return (
-    <form className="form_container3 medium_card" onSubmit={handleStockValidation}>
+    <form className="card w-50 mx-auto justify-content-center" style={{width:"75%"}} onSubmit={handleStockValidation}>
       <div className="title_container">
         <p className="text-teal-600 text-pretty font-bold text-2xl">DAILY PURCHASE VALIDATION</p>
       </div>
       <br />
-      <div className="input_container3 flex justify-between">
-        <label className="input_label w-25" htmlFor="date_field">
+      <div className="input_container3 flex justify-between m-3">
+        <label className="input_label w-full" htmlFor="date_field">
           Date
         </label>
         <Calendar
           value={date}
           onChange={(e) => setDate(e.target.value)}
-          className=''
+          className='border-1 w-full'
           required
         />
       </div>
-      <div className="input_container3 flex justify-between">
-    <label className="input_label w-25" htmlFor="cherry_grade_field">
-        Cherry Grade
-    </label>
+      <div className="input_container3 flex justify-between m-3">
+          <label className="input_label w-full" htmlFor="cherry_grade_field">
+              Cherry Grade
+          </label>
 
-    <Dropdown 
-        value={cherryGrade} 
-        onChange={(e) => setCherryGrade(e.value.name)} 
-        options={grades} 
-        optionLabel="name" 
-        placeholder="Select a Grade" 
-        className="w-full md:w-30rem" 
-    />
-</div>
+          <Dropdown 
+              value={cherryGrade} 
+              onChange={(e) => setCherryGrade(e.value.name)} 
+              options={grades} 
+              optionLabel="name" 
+              placeholder="Select a Grade" 
+              className="w-full md:w-full border-1" 
+          />
+      </div>
 
 
 
-      <div className="input_container3 flex justify-between">
-        <label className="input_label w-25" htmlFor="cherry_kg_field">
+      <div className="input_container3 flex justify-between m-3">
+        <label className="input_label w-full" htmlFor="cherry_kg_field">
           Cherry Kg
         </label>
         <input
           type="number"
-          className="input_field3"
+          className="input_field3 w-full border-1 p-2 rounded"
           id="cherry_kg_field"
           value={cherryKg}
           onChange={(e) => setCherryKg(e.target.value)}
           required
         />
       </div>
-      <div className="input_container3 flex justify-between">
-        <label className="input_label w-25" htmlFor="amount_field">
+      <div className="input_container3 flex justify-between m-3">
+        <label className="input_label w-full" htmlFor="amount_field">
           Amount
         </label>
         <input
           type="number"
-          className="input_field3"
+          className="input_field3 border-1 w-full p-2"
           id="amount_field"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}

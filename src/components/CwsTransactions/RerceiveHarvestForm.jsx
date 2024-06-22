@@ -12,7 +12,7 @@ const initializeIndexedDB=async()=>{
     });
     return db;
 }
-const ReceiveHarvestForm = () => {        
+const ReceiveHarvestForm = ({profile}) => {        
     const [searchParams] = useSearchParams();
   
     // Access query parameters using get method
@@ -233,7 +233,7 @@ const handleInputChange = (e) => {
         <div className="flex justify-center w-100">
         
 
-        <form className="form_container w-100" onSubmit={handleSubmit}>
+        <form className="form_container card p-15" style={{width:"50%"}} onSubmit={handleSubmit}>
           <div className='text-teal-600 text-pretty font-bold text-2xl gap-2 mb-3'>RECEIVE HARVEST</div>
           <hr className='border-teal-600 h-2 mb-3'></hr>
           <div className='divider'></div>

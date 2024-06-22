@@ -275,6 +275,46 @@ function get_output_items(batch_no){
     setEditedRows({ ...editedRows, [props.rowIndex]: editedRow });
   };
   
+  // const typeTextEditor = (options) => {
+  //   return (
+  //     <InputText
+  //       type="text"
+  //       value={options.value}
+  //       onChange={(e) => options.editorCallback(e.target.value)}
+  //     />
+  //   );
+  // };
+
+  const onRowEditSave = (e) => {
+    const updatedData = { ...e.data, ...e.newData };
+    const id = updatedData.id;
+  
+    console.log(updatedData);
+    console.log(id);
+  
+    // Make an API call to send the updated data to the endpoint
+    fetch(`http://127.0.0.1:8000/api/stockinventoryoutputedit/${id}/`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log('Data updated successfully');
+          // Update the local state
+          const updatedBatch = batch.map(item => item.id === id ? updatedData : item);
+          setBatch(updatedBatch);
+        } else {
+          console.error('Failed to update data');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  };
+
   const typeTextEditor = (options) => {
     return (
       <InputText
@@ -284,6 +324,7 @@ function get_output_items(batch_no){
       />
     );
   };
+
   const quantityTextEditor = (options) => {
     return (
       <InputText
@@ -293,64 +334,24 @@ function get_output_items(batch_no){
       />
     );
   };
-
-  const onSubmit = (id) => {
-    // const editedRow = editedRows.find((row) => row._id === id);
-    const editedRow=editedRows
-    console.log(id)
-  
-    if (!editedRow) {
-      console.error('Edited row not found for id:', id);
-      return;
-    }
-  
-    // Assuming you have an API endpoint to submit the edited data.
-    // Replace 'your-api-endpoint' with your actual endpoint.
-    fetch(`your-api-endpoint/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(editedRow),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Data submitted successfully:', data);
-        // Additional logic after successful submission
-        setEditedRows([]); // Clear the edited rows after successful submission
-      })
-      .catch((error) => {
-        console.error('Error submitting data:', error);
-        // Handle error
-      });
-  };
-  
-
-
-  // const editorInputText = (props, field) => {
-  //   return (
-  //     <InputText
-  //       type="text"
-  //       value={editedRows[props.rowIndex] ? editedRows[props.rowIndex][field] : props.rowData[field]}
-  //       onChange={(e) => onEditorValueChange(props, e.target.value)}
-  //     />
-  //   );
-  // };
       
        
       return (
         <div className="d-flex flex-row">
           <form onSubmit={handleCompleteClick} className='flex'>
-            <div className="input_container">
-              <label className="input_label" htmlFor="pricePerKg">
+            <div className='flex flex-row w-full'>
+              <div className="input_container w-full flex flex-row">
+              <label className="input_label w-1/8" htmlFor="pricePerKg">
                 Completed Date
               </label>
-              <Calendar className='w-75' value={completeddate} onChange={(e) => setCompleteddate(e.target.value)} dateFormat="dd/mm/yy" required />
+              <Calendar className='w-1/4 mb-4 border-1 rounded-xl' value={completeddate} onChange={(e) => setCompleteddate(e.target.value)} dateFormat="dd/mm/yy" required />
             </div>
-            <Button className='bg-teal-700 text-gray-50 p-3 mb-2 w-2 text-center'>Complete</Button>
+            </div>
+            
+            <Button className='bg-teal-700 text-gray-50 p-3 mb-2 w-ful text-center'>Complete</Button>
           </form>
           
-        <Card title="Process Information" className=' d-flex flex-row'>
+        <Card title="Process Information" className=' flex flex-row w-full justify-between bg-white'>
             <p className="m-0 d-flex">
                 <span>Batch No</span>
                <p className='font-bold'>
@@ -421,64 +422,22 @@ function get_output_items(batch_no){
             </p>
         </Panel>
         <div className="card">
-          {/* <DataTable
-            value={batch}
-            tableStyle={{ minWidth: '50rem' }}
-            editMode="row"
-            onRowEditSave={(e) => {
-              const id = e.data._id;
-              onSubmit(id);
-            }}
-          >
-          <Column field="process_name" header="Process Name" ></Column>
-          <Column field="process_type_output" header="Process Type" editor={(props) => typeTextEditor(props, 'process_type_output')}></Column>
-          <Column field="output_quantity" header="Quantity" editor={(props) => quantityTextEditor(props, 'process_type_output')}></Column>
-          <Column rowEditor headerStyle={{ width: '10%', minWidth: '5rem', maxWidth: '7rem' }} bodyStyle={{ textAlign: 'center' }}></Column>
-        </DataTable> */}
         <DataTable
           value={batch}
           tableStyle={{ minWidth: '50rem' }}
           editMode="row"
-          onRowEditSave={(e) => {
-            const updatedData = e.data;
-            const id = updatedData.id;
-
-            console.log(updatedData);
-            console.log(id);
-
-            // Make an API call to send the updated data to the endpoint
-            fetch(`http://127.0.0.1:8000/api/stockinventoryoutputedit/${id}/`, {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify(updatedData),
-            })
-              .then((response) => {
-                if (response.ok) {
-                  console.log('Data updated successfully');
-                  // You can perform any additional actions here, like updating the local state or showing a success message
-                } else {
-                  console.error('Failed to update data');
-                  // Handle the error case
-                }
-              })
-              .catch((error) => {
-                console.error('Error:', error);
-                // Handle the error case
-              });
-          }}
+          onRowEditComplete={onRowEditSave}
         >
           <Column field="process_name" header="Process Name"></Column>
           <Column
             field="process_type_output"
             header="Process Type"
-            editor={(props) => typeTextEditor(props, 'process_type_output')}
+            editor={(options) => typeTextEditor(options)}
           ></Column>
           <Column
             field="output_quantity"
             header="Quantity"
-            editor={(props) => quantityTextEditor(props, 'process_type_output')}
+            editor={(options) => quantityTextEditor(options)}
           ></Column>
           <Column
             rowEditor

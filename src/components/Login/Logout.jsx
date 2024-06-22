@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const Logout = () => {
+const Logout = ({profile,setProfile}) => {
   const logout = async () => {
     localStorage.removeItem('token');
         localStorage.removeItem('refreshtoken');
@@ -29,6 +29,7 @@ const Logout = () => {
         localStorage.removeItem('cwscode');
         localStorage.removeItem('cwsname');
         localStorage.removeItem('role');
+        setProfile("")
         
       } else {
         console.log('Logout failed');

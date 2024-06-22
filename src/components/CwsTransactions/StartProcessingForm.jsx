@@ -190,7 +190,8 @@ useEffect(() => {
         var raw = JSON.stringify({
         "process_name": batch_no,
         "schedule_date": scheduledate.toISOString().split('T')[0],
-        "process_type": parseInt(processtype, 10)
+        "process_type": parseInt(processtype, 10),
+        "location_to":cwsname
         });
 
         var requestOptionss = {
@@ -235,28 +236,28 @@ useEffect(() => {
       return (
         <div className="d-flex">
         
-        <form className="form_container" onSubmit={handleSubmit}>
+        <form className="form_container card mx-auto gap-2" style={{width:"50%"}} onSubmit={handleSubmit}>
 
-        <div className='text-teal-600 text-pretty font-bold text-2xl'>START PROCESSING</div>
-        <hr className='border-teal-600 h-2'></hr>
+        <div className='text-teal-600 text-pretty font-bold text-2xl mb-2'>START PROCESSING</div>
+        <hr className='border-teal-600 h-2 mb-4'></hr>
         <div className='divider'></div>
 
-          <div className="input_container">
-            <label className="input_label" htmlFor="pricePerKg">
+          <div className="input_container w-full flex mb-2">
+            <label className="input_label w-full m-3" htmlFor="pricePerKg">
               Process Name
             </label>
             <input
               type="text"
               name="pricePerKg"
               value={batch_no}
-              className="input_field"
+              className="input_field w-full border-1 rounded"
               id="pricePerKg"
               autoComplete='off'
               readOnly
             />
           </div>
-          <div className="input_container">
-            <label className="input_label" htmlFor="processType">
+          <div className="input_container w-full flex mb-2">
+            <label className="input_label w-full m-3" htmlFor="processType">
               Process Type
             </label>
             
@@ -264,6 +265,7 @@ useEffect(() => {
               value={processtype || (options && options.length > 0 ? options[0].id : '')}
               onChange={(e) => setProcesstype(e.target.value)}
               id="processType"
+              className='w-full border-1 rounded'
             >
               <option>Select process type</option>
               {options && options.map((option) => (
@@ -274,28 +276,28 @@ useEffect(() => {
             </select>
           </div>
         {/* <input type="text" value={processtype} onChange={(e)=>setProcesstype(e.target.value)}/> */}
-          <div className="input_container">
-            <label className="input_label" htmlFor="pricePerKg">
+          <div className="input_container w-full flex">
+            <label className="input_label w-full m-3" htmlFor="pricePerKg">
               Schedule Date
             </label>
-            <Calendar className='w-75' value={scheduledate} onChange={(e) => setScheduledate(e.target.value)} dateFormat="dd/mm/yy" required />
+            <Calendar className='w-full' value={scheduledate} onChange={(e) => setScheduledate(e.target.value)} dateFormat="dd/mm/yy" required />
           </div>
-          <div className="input_container">
-            <label className="input_label" htmlFor="transportPerKg">
+          <div className="input_container w-full flex m-3">
+            <label className="input_label w-full" htmlFor="transportPerKg">
               Location To
             </label>
             <input
               type="text"
               name="transportPerKg"
               value={cwsname}
-              className="input_field"
+              className="input_field w-full p-3 border-1 rounded"
               id="transportPerKg"
               autoComplete='off'
               readOnly
             />
           </div>
 
-          <button className='sign-in_btn mb-12'>Submit</button>
+          <center><button className='sign-in_btn mt-5 mb-5 bg-teal-600 p-3 w-1/2 rounded text-white'>Submit</button></center>
         </form>
         <Toast ref={toast} />
         </div>

@@ -32,6 +32,17 @@ const Loans = lazy(() => import('./components/Loans/Loans'));
 const RequestLoanForm = lazy(() => import('./components/Loans/RequestLoanForm'));
 const LoanRequests = lazy(() => import('./components/Loans/LoanRequests'));
 
+
+const manager_profile={
+  "givenName": "Uzamukunda",
+  "mail": "stephanie.uzamukunda@sucafina.com",
+  "displayName": "Stephanie Uzamukunda",
+  "jobTitle": "CWS Manager - Mashesha",
+  "officeLocation": "RWACOF",
+  "surname": "Stephanie",
+  "userPrincipalName": "stephanie.uzamukunda@sucafina.com"
+}
+
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const [token, setToken] = useState(null);
@@ -40,18 +51,11 @@ function App() {
   const [cwsname, setCwsname] = useState(null);
   const [cwscode, setCwscode] = useState(null);
   const [cws, setCws] = useState(null);
-  const [profile, setProfile] = useState(null);
+  // const [profile, setProfile] = useState(manager_profile);
+  const [profile, setProfile] = useState();
 
 
   useEffect(() => {
-    // const profile = Cookies.get('profile');
-    // if (profile) {
-    //   const profileData = JSON.parse(profile);
-    //   console.log('Profile Data:', profileData);
-    //   // Update the state with the profile data here
-    // } else {
-    //   fetchProfileData();
-    // }
 
     const urlString = window.location.href;
     const url = new URL(urlString);
@@ -68,6 +72,10 @@ function App() {
       } catch (error) {
         console.error('Error parsing profile data:', error);
       }
+    }
+    else if(profile){
+      console.log("profile")
+      console.log(profile)
     }
     else {
       // fetchProfileData();
@@ -104,12 +112,11 @@ function App() {
 
               <Sidebar>
                 <div className='d-flex flex-column justify-content-between'>
-                 {role === 'cws_manager' || role==='CWS Manager' ? ( 
+                 {role === 'cws_manager' ||profile.jobTitle.includes('CWS') && profile.jobTitle.includes('Manager')? ( 
             
   
                     <>
-                    
-                    
+                  
                       <SidebarItem
                         icon={<Home size={20} />}
                         text="Dashboard"
@@ -168,13 +175,13 @@ function App() {
                         component={Link}
                         to="/bag-off"
                       />
-                      <SidebarItem
+                      {/* <SidebarItem
                         icon={<Truck size={20} />}
                         text="ReadyTo Transfer"
                         alert
                         component={Link}
                         to="/transfer"
-                      />
+                      /> */}
                       <SidebarItem
                         icon={<CombineIcon size={20} />}
                         text="Batch Report"
@@ -182,13 +189,13 @@ function App() {
                         component={Link}
                         to="/batchreport"
                       />
-                      <SidebarItem
+                      {/* <SidebarItem
                         icon={<CombineIcon size={20} />}
                         text="Loans"
                         alert
                         component={Link}
                         to="/loans"
-                      />
+                      /> */}
                     </>
                   ) : (
                     <>
@@ -227,7 +234,7 @@ function App() {
                         component={Link}
                         to="/dpr"
                       />
-                      <SidebarItem
+                      {/* <SidebarItem
                         icon={<FileArchive size={20} />}
                         text="Loans"
                         alert
@@ -239,7 +246,7 @@ function App() {
                         text="Register User"
                         component={Link}
                         to="/register-user"
-                      />
+                      /> */}
                     
                     <SidebarItem
                     icon={<CoinsIcon className='' size={20} />}
@@ -277,7 +284,7 @@ function App() {
                 
                 <Route path="/" element={<NewDashboard />} />
                 <Route path="/upload-farmer" element={<UploadFarmers />} />
-                <Route path="/add-transaction" element={<AddTransaction token={token} setToken={setToken} refreshtoken={refreshtoken} role={role} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} />} />
+                <Route path="/add-transaction" element={<AddTransaction profile={profile} token={token} setToken={setToken} refreshtoken={refreshtoken} role={role} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} />} />
                 <Route path="/daily-purchase" element={<DailyPurchaseValidation token={token}/>} />
                 <Route path="/daily-report" element={<FinancialReportContainer token={token}/>} />
                 <Route path="/dpr" element={<DprContainer />} />
@@ -286,11 +293,11 @@ function App() {
                 <Route path="/login" element={<NewDashboard />} />
                 {/* <Route path='/login' element={<Login token={token} setToken={setToken} refreshtoken={refreshtoken} setRefreshtoken={setRefreshtoken} role={role} setRole={setRole} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} setCws={setCws}/>}/> */}
                 <Route path='/price-info' element={<PricingInfo token={token} />} />
-                <Route path='/receive-harvest' element={<ReceiveHarvest token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
-                <Route path='/receive-harvest-form' element={<ReceiveHarvestForm/>} />
+                <Route path='/receive-harvest' element={<ReceiveHarvest token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} profile={profile}/>} />
+                <Route path='/receive-harvest-form' element={<ReceiveHarvestForm profile={profile}/>} />
                 <Route path='/start-processing-form' element={<StartProcessingForm/>} />
                 <Route path='/bag-off-form' element={<BagOffForm/>} />
-                <Route path="/logout" element={<Logout token={token} setToken={setToken} refreshtoken={refreshtoken} role={role} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} />} />
+                <Route path="/logout" element={<Logout token={token} setToken={setToken} refreshtoken={refreshtoken} role={role} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} profile={profile} setProfile={setProfile} />} />
                 <Route path='/processing' element={<ReceivedHarvest token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
                 <Route path='/bag-off' element={<BagOff token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
                 <Route path='/daily-purchase-validation' element={<DailyPurchaseValidationReport token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
