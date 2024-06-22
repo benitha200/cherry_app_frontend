@@ -1,33 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import { BrowserRouter as Router, Route, Routes, Link, Outlet } from 'react-router-dom';
-// import { Bars3Icon, HomeModernIcon, XCircleIcon } from '@heroicons/react/24/outline';
-// import { FileInput, NotebookPen, FileSpreadsheet, FileArchive,  BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home,  BoxIcon, CombineIcon } from 'lucide-react';
-// import AddTransaction from './components/Transactions/AddTransaction';
-// import UploadFarmers from './components/Farmers/UploadFarmers';
-// import Sidebar, { SidebarItem } from './components/Header/Sidebar';
-// import Login from './components/Login/Login';
-// import FinancialReportContainer from './components/Reports/FinancialReportContainer';
-// import DprContainer from './components/Reports/DprContainer';
-// import Logout from './components/Login/Logout';
-// import RegisterUsers from './components/Login/RegisterUsers';
-// import Price from './components/Price/Price';
-// import "./App.css";
-// import PricingInfo from './components/Price/PricingInfo';
-// import ReceiveHarvest from './components/CwsTransactions/ReceiveHarvest';
-// import ReceiveHarvestForm from './components/CwsTransactions/RerceiveHarvestForm';
-// import ReceivedHarvest from './components/CwsTransactions/ReceivedHarvest';
-// import StartProcessingForm from './components/CwsTransactions/StartProcessingForm';
-// import BagOff from './components/CwsTransactions/BagOff';
-// import BagOffForm from './components/CwsTransactions/BagOffForm';
-// import Transfer from './components/CwsTransactions/Transfer';
-// import BatchReport from './components/Reports/BatchReport';
-// import NewDashboard from './components/Dashboard/Dashboard';
-// import DailyPurchaseValidation from './components/Transactions/DailyPurchaseValidation';
-// import DailyPurchaseValidationReport from './components/Reports/DailyPurchaseValidation';
-// import Loans from './components/Loans/Loans';
-// import RequestLoanForm from './components/Loans/RequestLoanForm';
-// import LoanRequests from './components/Loans/LoanRequests';
-
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, Outlet } from 'react-router-dom';
 import { Bars3Icon, HomeModernIcon, XCircleIcon } from '@heroicons/react/24/outline';
@@ -101,7 +71,7 @@ function App() {
     }
     else {
       // fetchProfileData();
-      window.location.href="http://127.0.0.1:8000/login"
+      window.location.href="/login"
     }
      
   }, []);
