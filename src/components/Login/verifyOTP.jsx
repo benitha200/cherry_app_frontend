@@ -44,7 +44,7 @@ const VerifyOTP = ({setToken, token, setRefreshtoken, refreshtoken, setRole, rol
         });
     
         try {
-          const response = await fetch('http://192.168.1.68:8000/api/login/', {
+          const response = await fetch('http://192.168.81.68:8000/api/login/', {
             method: 'POST',
             body: raw,
             redirect: 'follow',

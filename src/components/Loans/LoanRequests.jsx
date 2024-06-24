@@ -113,7 +113,7 @@ function generateReport(status){
         redirect: "follow"
       };
       
-      fetch(`http://192.168.1.68:8000/api/getloanrequests/${status}/`, requestOptions)
+      fetch(`http://192.168.81.68:8000/api/getloanrequests/${status}/`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
                     const mappedData=mapApiResponseToCustomers(result)
@@ -139,7 +139,7 @@ function generateReport(status){
       redirect: "follow"
     };
     
-    fetch(`http://192.168.1.68:8000/api/approveloan/${id}/`, requestOptions)
+    fetch(`http://192.168.81.68:8000/api/approveloan/${id}/`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         

@@ -64,7 +64,6 @@ const mapApiResponseToCustomers = (data) => {
       grn_no: item.grn_no,
       transport: parseFloat(item.transport),
       is_paid:item.is_paid,
-      // transport:400,
       batch_no: item.batch_no,
     };
   });
@@ -104,7 +103,7 @@ const mapApiResponseToCustomers = (data) => {
       try {
         setLoading(true);
       
-        const response = await fetch("http://192.168.1.68:8000/api/getfinancialreport/", requestOptions);
+        const response = await fetch("http://192.168.81.68:8000/api/getfinancialreport/", requestOptions);
       
         // if(response.status === 401) {
         //   localStorage.setItem('token','')

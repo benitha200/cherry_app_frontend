@@ -163,7 +163,7 @@ const BatchReport = () => {
       try {
         setLoading(true);
 
-        const response = await fetch("http://192.168.1.68:8000/api/batchreport/", requestOptions);
+        const response = await fetch("http://192.168.81.68:8000/api/batchreport/", requestOptions);
         const data = await response.json();
 
         console.log(data);

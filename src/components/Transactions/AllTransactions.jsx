@@ -10,6 +10,8 @@ import { Dropdown } from 'primereact/dropdown';
 import { CheckBadgeIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
+import { toast,ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { InputSwitch } from 'primereact/inputswitch';
 import "./Formpage.css"
 import Cookies from 'js-cookie';
@@ -28,7 +30,7 @@ export default function AllTransactions({ dailytotal }) {
   const [customers,setCustomers]=useState([])
   const [status, setStatus] = useState('Pending');
 
-  const toast = useRef(null);
+//   const toast = useRef(null);
 
   const [totalOfSelected, setTotalOfSelected] = useState(0);
 
@@ -41,7 +43,7 @@ export default function AllTransactions({ dailytotal }) {
     headers: myHeaders
     };
 
-    fetch("http://192.168.1.68:8000/api/getalltransactions/", requestOptions)
+    fetch("http://192.168.81.68:8000/api/getalltransactions/", requestOptions)
     .then((response) => response.json())
     .then((result) => {
         console.log(result);
@@ -59,7 +61,7 @@ export default function AllTransactions({ dailytotal }) {
     headers: myHeaders
     };
 
-    fetch("http://192.168.1.68:8000/api/getpendingtransactions/", requestOptions)
+    fetch("http://192.168.81.68:8000/api/getpendingtransactions/", requestOptions)
     .then((response) => response.json())
     .then((result) => {
         console.log(result);
@@ -68,7 +70,7 @@ export default function AllTransactions({ dailytotal }) {
     .catch((error) => console.error(error));
   }
 
-  function get_transactions_2(){
+  function get_transactions_rejected(){
     const myHeaders = new Headers();
     myHeaders.append("Cookie", "csrftoken=m4Li2tWC0w0QKzBHV7e8tal2rnYqh6nj; sessionid=lxnwy9lh8o0o9u3lwd5ej6yjp57pp9u6");
 
@@ -77,7 +79,7 @@ export default function AllTransactions({ dailytotal }) {
     headers: myHeaders
     };
 
-    fetch("http://192.168.1.68:8000/api/getrejectedtransactions/", requestOptions)
+    fetch("http://192.168.81.68:8000/api/getrejectedtransactions/", requestOptions)
     .then((response) => response.json())
     .then((result) => {
         console.log(result);
@@ -113,14 +115,15 @@ export default function AllTransactions({ dailytotal }) {
 
 
   const accept = (id) => {
-      toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have confirmed', life: 3000 });
+    toast.success("You have confirmed")
+    //   toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have confirmed', life: 3000 });
       function handlePaid(id){
         const requestOptions = {
           method: "POST",
           redirect: "follow"
         };
         
-        fetch(`http://192.168.1.68:8000/api/updatepaidstatus/${id}/`, requestOptions)
+        fetch(`http://192.168.81.68:8000/api/updatepaidstatus/${id}/`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
             
@@ -136,7 +139,8 @@ export default function AllTransactions({ dailytotal }) {
   }
 
   const reject = () => {
-      toast.current.show({ severity: 'warn', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+    //   toast.current.show({ severity: 'warn', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+    toast.error("You have rejected")
   }
 
 
@@ -215,10 +219,11 @@ export default function AllTransactions({ dailytotal }) {
         redirect: 'follow'
     };
 
-    fetch(`http://192.168.1.68:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
+    fetch(`http://192.168.81.68:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
         .then(response => response.json())
         .then(result => {
-         toast.current.show({ severity: 'info', summary: 'Success', detail: 'You have edited Transaction successfully', life: 3000 });
+        //  toast.current.show({ severity: 'info', summary: 'Success', detail: 'You have edited Transaction successfully', life: 3000 });
+        toast.success("You have edited Transaction successfully")
           console.log(result);
           get_transactions()
           
@@ -258,7 +263,7 @@ export default function AllTransactions({ dailytotal }) {
     if (status === 'Pending') {
       get_transactions_pending();
     } else if (status === 'Rejected') {
-      get_transactions_2();
+      get_transactions_rejected();
     }
   };
 
@@ -321,7 +326,7 @@ export default function AllTransactions({ dailytotal }) {
           const selectedIds = selectedData.map(item => item.id);
           console.log('Selected IDs:', selectedIds);
     try {
-      const response = await fetch('http://192.168.1.68:8000/api/approvetransactions/', {
+      const response = await fetch('http://192.168.81.68:8000/api/approvetransactions/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -332,6 +337,9 @@ export default function AllTransactions({ dailytotal }) {
       if (response.ok) {
         const data = await response.json();
         console.log(data.message); // Handle success
+        // toast.current.show({ severity: 'info', summary: 'Approved', detail: 'You have Approved successfully', life: 3000 });
+        toast.success("You have Approved successfully");
+        get_transactions();
       } else {
         const errorData = await response.json();
         console.error('Error:', errorData.error); // Handle error
@@ -347,6 +355,7 @@ export default function AllTransactions({ dailytotal }) {
         const profileCookie = Cookies.get('profile');
 
         const profile = JSON.parse(profileCookie);
+        console.log(profile)
         
         if (profile && 
         profile.jobTitle && 
@@ -376,7 +385,8 @@ export default function AllTransactions({ dailytotal }) {
           );
     }
     else{
-        <div className="flex justify-content-between">
+        return(
+            <div className="flex justify-content-between">
               <div className='flex flex-row gap-4'>
                 <Button
                   type="button"
@@ -401,6 +411,8 @@ export default function AllTransactions({ dailytotal }) {
                 />
               </span>
             </div>
+        )
+        
     }
    
   };
@@ -494,7 +506,8 @@ export default function AllTransactions({ dailytotal }) {
         
         <Column rowEditor headerStyle={{ width: '10%', minWidth: '5rem', maxWidth: '7rem' }} bodyStyle={{ textAlign: 'center' }}></Column>
         <Column header="Payment status" body={(rowData) => rowData.is_paid === 1 ? <Button className="bg-green-400 p-3 text-slate-50">Paid</Button> : <>
-          <Toast ref={toast} />
+          {/* <Toast ref={toast} /> */}
+          <ToastContainer/>
           <ConfirmDialog group="declarative" visible={visible} onHide={() => setVisible(false)} message="Are you sure you want to Confirm Payment?" header="Confirmation" icon="pi pi-exclamation-triangle" accept={() => accept(rowData.id)} reject={reject} />
           <div className="">
             <Button className="bg-blue-400 p-3 text-slate-50" onClick={() => setVisible(true)} icon="pi pi-check" label="Confirm" />

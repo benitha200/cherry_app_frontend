@@ -63,7 +63,7 @@ export default function Transactions({ customers, dailytotal }) {
           redirect: "follow"
         };
         
-        fetch(`http://192.168.1.68:8000/api/updatepaidstatus/${id}/`, requestOptions)
+        fetch(`http://192.168.81.68:8000/api/updatepaidstatus/${id}/`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
             
@@ -158,7 +158,7 @@ export default function Transactions({ customers, dailytotal }) {
         redirect: 'follow'
     };
 
-    fetch(`http://192.168.1.68:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
+    fetch(`http://192.168.81.68:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
         .then(response => response.text())
         .then(result => {
           console.log(result);
@@ -259,7 +259,7 @@ export default function Transactions({ customers, dailytotal }) {
           const selectedIds = selectedData.map(item => item.id);
           console.log('Selected IDs:', selectedIds);
     try {
-      const response = await fetch('http://192.168.1.68:8000/api/approvetransactions/', {
+      const response = await fetch('http://192.168.81.68:8000/api/approvetransactions/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -291,12 +291,12 @@ export default function Transactions({ customers, dailytotal }) {
             outlined
             onClick={clearFilter}
           />
-          <Button className='bg-green-500 text-white p-3' onClick={handleApprove}>
+          {/* <Button className='bg-green-500 text-white p-3' onClick={handleApprove}>
             Approve
           </Button>
           <Button className='bg-slate-500 text-white p-3'>
             Reject
-          </Button>
+          </Button> */}
         </div>
         <span className="p-input-icon-left">
           <InputText
@@ -361,8 +361,9 @@ export default function Transactions({ customers, dailytotal }) {
         scrollHeight="400px"
         className="small-row"
       >
-        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-        <Column field="id" sortable header="Transaction Id" filter filterPlaceholder="Transaction Id" style={{ minWidth: '2rem', maxWidth: '10rem' }} />
+        {/* <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column> */}
+        <Column field="batch_no" header="Batch Number" style={{ minWidth: '8rem', maxWidth: '10rem' }} frozen alignFrozen='left'/>
+        <Column field="id" hidden sortable header="Transaction Id" filter filterPlaceholder="Transaction Id" style={{ minWidth: '2rem', maxWidth: '10rem' }} />
         <Column field="cws_name" sortable header="CWS Name" filter filterPlaceholder="Search by CWS Name" style={{ minWidth: '10rem', maxWidth: '12rem' }} />
         {/* <Column field="cws_code" sortable header="CWS Code" filter filterPlaceholder="Search by CWS Name" style={{ minWidth: '10rem', maxWidth: '12rem' }} /> */}
         <Column field="farmer_name" sortable header="Farmer Name" filter filterPlaceholder="Search by Farmer Name" style={{ minWidth: '14rem', maxWidth: '18rem' }} />

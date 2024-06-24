@@ -104,7 +104,7 @@ const AddTransaction = ({token,setToken,role,cwscode,cws,profile}) => {
           redirect: 'follow'
       };
   
-      fetch("http://192.168.1.68:8000/api/farmers/", requestOptions)
+      fetch("http://192.168.81.68:8000/api/farmers/", requestOptions)
           .then(response => response.json())
           .then(result => setFarmers(result))
           .catch(error => console.log('error', error));
@@ -304,7 +304,7 @@ const handleInputChange = (e) => {
         try {
           setLoading(true);
     
-          const response = await fetch("http://192.168.1.68:8000/api/processtransaction/", requestOptions);
+          const response = await fetch("http://192.168.81.68:8000/api/processtransaction/", requestOptions);
           const result = await response.json();
 
           
@@ -532,7 +532,7 @@ const handleInputChange = (e) => {
               };
           
               try {
-                const response = await fetch("http://192.168.1.68:8000/api/processtransaction/", requestOptions);
+                const response = await fetch("http://192.168.81.68:8000/api/processtransaction/", requestOptions);
                 const result = await response.json();
           
                 // Handle the result as needed

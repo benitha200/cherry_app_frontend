@@ -133,7 +133,7 @@ function get_cherry_grade_outputs(cherry_grade){
     redirect: 'follow'
     };
 
-    fetch("http://192.168.1.68:8000/api/cherrygradeoutput/", requestOptions)
+    fetch("http://192.168.81.68:8000/api/cherrygradeoutput/", requestOptions)
     .then(response => response.json())
     .then(result =>{
          console.log(result)
@@ -209,7 +209,7 @@ useEffect(() => {
         try {
             setLoading(true);
           
-            const response = await fetch("http://192.168.1.68:8000/api/createinventory/", requestOptionss);
+            const response = await fetch("http://192.168.81.68:8000/api/createinventory/", requestOptionss);
             const result = await response.json();
             console.log(result);
             console.log(result.message);

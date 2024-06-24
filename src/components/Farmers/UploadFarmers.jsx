@@ -21,7 +21,7 @@
 //         redirect: 'follow'
 //       };
 
-//       fetch("http://192.168.1.68:8000/api/uploadfarmers/", requestOptions)
+//       fetch("http://192.168.81.68:8000/api/uploadfarmers/", requestOptions)
 //         .then(response => response.json())
 //         .then(result => console.log(result))
 //         .catch(error => console.log('error', error));
@@ -92,6 +92,7 @@ import './style.css';
 import * as XLSX from 'xlsx';
 import * as FileSaver from 'file-saver';
 import { ProgressSpinner } from 'primereact/progressspinner';
+import { toast,ToastContainer } from 'react-toastify';
 
 const UploadFarmers = () => {
   const fileInputRef = useRef(null);
@@ -112,10 +113,11 @@ const UploadFarmers = () => {
         redirect: 'follow'
       };
 
-      fetch("http://192.168.1.68:8000/api/uploadfarmers/", requestOptions)
+      fetch("http://192.168.81.68:8000/api/uploadfarmers/", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);
+          toast.success(result.message.message)
           setLoading(false); // Set loading to false when the upload is complete
         })
         .catch(error => {
@@ -161,13 +163,14 @@ const UploadFarmers = () => {
       <button className='bg-teal-700 text-cyan-50 p-2 rounded mb-2' onClick={downloadTemplate}>
         Download Template
       </button><br/>
+      <ToastContainer/>
     <div className='container d-flex-column'>
       
-      <div className="flex items-center justify-center w-full">
+      <div className="flex flex-col items-center justify-center w-full">
         {loading ? (
-          <div className="card">
-            <span>Please Wait</span>
-            <ProgressSpinner style={{ width: '50px', height: '50px' }} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
+          <div className="card flex flex-col justify-center">
+            <center><span className='pb-2'>Please Wait</span></center>
+            <ProgressSpinner style={{ width: '100px', height: '100px' }} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
           </div>
         ) : (
           <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-white hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-100">

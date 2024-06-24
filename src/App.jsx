@@ -65,10 +65,10 @@ function AppContent() {
   const [cwsname, setCwsname] = useState(null);
   const [cwscode, setCwscode] = useState(null);
   const [cws, setCws] = useState(null);
-  const [profile, setProfile] = useState(manager_profile);
-  Cookies.set("profile",JSON.stringify(manager_profile));
-  // const [profile, setProfile] = useState(others_profile);
-  // Cookies.set("profile",others_profile);
+  // const [profile, setProfile] = useState(manager_profile);
+  // Cookies.set("profile",JSON.stringify(manager_profile));
+  const [profile, setProfile] = useState(others_profile);
+  Cookies.set("profile",JSON.stringify(others_profile));
   // const [profile, setProfile] = useState();
 
 
@@ -91,7 +91,7 @@ function AppContent() {
         const profileData = JSON.parse(profileParam);
         console.log(profileData)
         setProfile(profileData);
-        Cookies.set("profile", profileData);
+        Cookies.set("profile", JSON.stringify(profileData));
         setToken(profileData.mail)
       } catch (error) {
         console.error('Error parsing profile data:', error);
@@ -104,7 +104,7 @@ function AppContent() {
     else {
       // fetchProfileData();
       // window.location.href="/login"
-      window.location.href = "http://192.168.1.68:8000/login";
+      window.location.href = "http://192.168.81.68:8000/login";
     }
      
   }, []);
@@ -493,7 +493,7 @@ export default App;
 //     } else if (profile) {
 //       console.log(profile);
 //     } else {
-//       window.location.href = "http://192.168.1.68:8000/login";
+//       window.location.href = "http://192.168.81.68:8000/login";
 //     }
 //   }, [profile]);
 

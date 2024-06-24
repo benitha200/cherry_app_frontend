@@ -35,7 +35,7 @@ const DailyPurchaseValidation = () => {
     };
 
     try {
-      const response = await fetch('http://192.168.1.68:8000/api/daily-purchase-validation/', {
+      const response = await fetch('http://192.168.81.68:8000/api/daily-purchase-validation/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
