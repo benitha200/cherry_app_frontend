@@ -104,7 +104,7 @@ const AddTransaction = ({token,setToken,role,cwscode,cws,profile}) => {
           redirect: 'follow'
       };
   
-      fetch("http://127.0.0.1:8000/api/farmers/", requestOptions)
+      fetch("http://192.168.1.68:8000/api/farmers/", requestOptions)
           .then(response => response.json())
           .then(result => setFarmers(result))
           .catch(error => console.log('error', error));
@@ -304,7 +304,7 @@ const handleInputChange = (e) => {
         try {
           setLoading(true);
     
-          const response = await fetch("http://127.0.0.1:8000/api/processtransaction/", requestOptions);
+          const response = await fetch("http://192.168.1.68:8000/api/processtransaction/", requestOptions);
           const result = await response.json();
 
           
@@ -532,7 +532,7 @@ const handleInputChange = (e) => {
               };
           
               try {
-                const response = await fetch("http://127.0.0.1:8000/api/processtransaction/", requestOptions);
+                const response = await fetch("http://192.168.1.68:8000/api/processtransaction/", requestOptions);
                 const result = await response.json();
           
                 // Handle the result as needed
@@ -572,7 +572,7 @@ const handleInputChange = (e) => {
                     name="date"
                     value={formData.date}
                     onChange={handleInputChange}
-                    className='border-1 w-full'
+                    className='border border-slate-100 w-full'
                     isPopoverVisible={isPopoverVisible} 
                 />
           </div>
@@ -588,7 +588,7 @@ const handleInputChange = (e) => {
                         optionLabel="farmer_name"
                         placeholder="Select a Farmer"
                         itemTemplate={farmerOptionTemplate}
-                        className="border-1 w-full"
+                        className="border-1 w-full border-slate-400 rounded-md"
                         filter
                         filterFunction={filterOption}
                         required
@@ -607,7 +607,7 @@ const handleInputChange = (e) => {
                 name="customFarmerName"
                 value={formData.customFarmerName}
                 onChange={handleInputChange}
-                className="input_field w-full"
+                className="input_field w-full border-slate-400 rounded-md"
                 id="customFarmerName"
                 autoComplete='off'
               />
@@ -622,7 +622,7 @@ const handleInputChange = (e) => {
           name="farmName"
           value={formData.farmName}
           onChange={handleInputChange}
-          className="input_field"
+          className="input_field border-slate-400 rounded-md"
           id="farmName"
           autoComplete="off"
           disabled
@@ -650,7 +650,7 @@ const handleInputChange = (e) => {
               name="pricePerKg"
               value={formData.pricePerKg}
               onChange={handleInputChange}
-              className="input_field w-full"
+              className="input_field w-full border-slate-400 rounded-md"
               id="pricePerKg"
               autoComplete='off'
             />
@@ -664,7 +664,7 @@ const handleInputChange = (e) => {
                 name="transportPerKg"
                 value={formData.transportPerKg}
                 onChange={handleInputChange}
-                className="input_field"
+                className="input_field border-slate-400 rounded-md"
                 id="transportPerKg"
                 autoComplete='off'
               />

@@ -12,8 +12,10 @@ import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
 import { InputSwitch } from 'primereact/inputswitch';
 import "./Formpage.css"
+import Cookies from 'js-cookie';
+import { Select } from 'flowbite-react';
 
-export default function Transactions({ customers, dailytotal }) {
+export default function AllTransactions({ dailytotal }) {
   const [filters, setFilters] = useState(null);
   const [loading, setLoading] = useState(false);
   const [globalFilterValue, setGlobalFilterValue] = useState('');
@@ -21,16 +23,79 @@ export default function Transactions({ customers, dailytotal }) {
   const [exportData, setExportData] = useState(null);
   const [grades] = useState(['CA', 'CB', 'NA', 'NB']);
   const [visible, setVisible] = useState(false);
-  const [selectedData, setSelectedData] = useState(customers);
+  const [selectedData, setSelectedData] = useState('customers');
   const [rowClick, setRowClick] = useState(true);
+  const [customers,setCustomers]=useState([])
+  const [status, setStatus] = useState('Pending');
 
   const toast = useRef(null);
 
   const [totalOfSelected, setTotalOfSelected] = useState(0);
+
+  function get_transactions(){
+    const myHeaders = new Headers();
+    myHeaders.append("Cookie", "csrftoken=m4Li2tWC0w0QKzBHV7e8tal2rnYqh6nj; sessionid=lxnwy9lh8o0o9u3lwd5ej6yjp57pp9u6");
+
+    const requestOptions = {
+    method: "GET",
+    headers: myHeaders
+    };
+
+    fetch("http://192.168.1.68:8000/api/getalltransactions/", requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+        console.log(result);
+        setCustomers(result); 
+    })
+    .catch((error) => console.error(error));
+  }
+
+  function get_transactions_pending(){
+    const myHeaders = new Headers();
+    myHeaders.append("Cookie", "csrftoken=m4Li2tWC0w0QKzBHV7e8tal2rnYqh6nj; sessionid=lxnwy9lh8o0o9u3lwd5ej6yjp57pp9u6");
+
+    const requestOptions = {
+    method: "GET",
+    headers: myHeaders
+    };
+
+    fetch("http://192.168.1.68:8000/api/getpendingtransactions/", requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+        console.log(result);
+        setCustomers(result); 
+    })
+    .catch((error) => console.error(error));
+  }
+
+  function get_transactions_2(){
+    const myHeaders = new Headers();
+    myHeaders.append("Cookie", "csrftoken=m4Li2tWC0w0QKzBHV7e8tal2rnYqh6nj; sessionid=lxnwy9lh8o0o9u3lwd5ej6yjp57pp9u6");
+
+    const requestOptions = {
+    method: "GET",
+    headers: myHeaders
+    };
+
+    fetch("http://192.168.1.68:8000/api/getrejectedtransactions/", requestOptions)
+    .then((response) => response.json())
+    .then((result) => {
+        console.log(result);
+        setCustomers(result); 
+    })
+    .catch((error) => console.error(error));
+  }
+
+  useEffect(()=>{
+    get_transactions();
+  },[])
+
+
   const calculateTotalOfSelected = (selectedRows) => {
     if (selectedRows.length > 0) {
       const total = selectedRows.reduce((sum, row) => sum + row.total, 0);
       setTotalOfSelected(total.length);
+      
     } else {
       setTotalOfSelected(0);
     }
@@ -43,15 +108,7 @@ export default function Transactions({ customers, dailytotal }) {
     calculateTotalOfSelected(selectedRows);
   };
 
-  // // Example function for handling payment confirmation
-  // const accept = (id) => {
-  //   toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'Payment confirmed', life: 3000 });
-  
-  // };
 
-  // const reject = () => {
-  //   toast.current.show({ severity: 'warn', summary: 'Rejected', detail: 'Payment not confirmed', life: 3000 });
-  // };
 
 
 
@@ -69,7 +126,7 @@ export default function Transactions({ customers, dailytotal }) {
             
             console.log(result)
             if(result.id){
-              // generateReport();
+             get_transactions();
             }
           })
           .catch((error) => console.error(error));
@@ -159,9 +216,11 @@ export default function Transactions({ customers, dailytotal }) {
     };
 
     fetch(`http://192.168.1.68:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
-        .then(response => response.text())
+        .then(response => response.json())
         .then(result => {
+         toast.current.show({ severity: 'info', summary: 'Success', detail: 'You have edited Transaction successfully', life: 3000 });
           console.log(result);
+          get_transactions()
           
         })
         .catch(error => console.log('error', error));
@@ -194,10 +253,13 @@ export default function Transactions({ customers, dailytotal }) {
       />
     );
   };
-
-  const allowEdit = (rowData) => {
-    // Adjust the condition based on your requirement
-    return rowData.name !== 'Blue Band';
+  const handleStatusChange = (e) => {
+    const status = e.target.value;
+    if (status === 'Pending') {
+      get_transactions_pending();
+    } else if (status === 'Rejected') {
+      get_transactions_2();
+    }
   };
 
   useEffect(() => {
@@ -281,41 +343,80 @@ export default function Transactions({ customers, dailytotal }) {
   ;
 
   const renderHeader = () => {
-    return (
-      <div className="flex justify-content-between">
-        <div className='flex flex-row gap-4'>
-          <Button
-            type="button"
-            icon="pi pi-filter-slash"
-            label="Clear"
-            outlined
-            onClick={clearFilter}
-          />
-          <Button className='bg-green-500 text-white p-3' onClick={handleApprove}>
-            Approve
-          </Button>
-          <Button className='bg-slate-500 text-white p-3'>
-            Reject
-          </Button>
-        </div>
-        <span className="p-input-icon-left">
-          <InputText
-            value={globalFilterValue}
-            onChange={onGlobalFilterChange}
-            placeholder="Keyword Search"
-            className='w-full p-2'
-          />
-        </span>
-      </div>
-    );
+    // {role === 'cws_manager' ||profile.jobTitle.includes('CWS') && profile.jobTitle.includes('Manager')? ( 
+        const profileCookie = Cookies.get('profile');
+
+        const profile = JSON.parse(profileCookie);
+        
+        if (profile && 
+        profile.jobTitle && 
+        profile.jobTitle.includes('CWS') && 
+        profile.jobTitle.includes('Manager')) {
+            
+        return (
+            <div className="flex justify-content-between">
+              <div className='flex flex-row gap-4'>
+                <Button
+                  type="button"
+                  icon="pi pi-filter-slash"
+                  label="Clear"
+                  outlined
+                  onClick={clearFilter}
+                />
+                </div>
+              <span className="p-input-icon-left">
+                <InputText
+                  value={globalFilterValue}
+                  onChange={onGlobalFilterChange}
+                  placeholder="Keyword Search"
+                  className='w-full p-2'
+                />
+              </span>
+            </div>
+          );
+    }
+    else{
+        <div className="flex justify-content-between">
+              <div className='flex flex-row gap-4'>
+                <Button
+                  type="button"
+                  icon="pi pi-filter-slash"
+                  label="Clear"
+                  outlined
+                  onClick={clearFilter}
+                />
+                <Button className='bg-green-500 text-white p-3' onClick={handleApprove}>
+                  Approve
+                </Button>
+                <Button className='bg-slate-500 text-white p-3'>
+                  Reject
+                </Button>
+              </div>
+              <span className="p-input-icon-left">
+                <InputText
+                  value={globalFilterValue}
+                  onChange={onGlobalFilterChange}
+                  placeholder="Keyword Search"
+                  className='w-full p-2'
+                />
+              </span>
+            </div>
+    }
+   
   };
 
   const header = renderHeader();
 
   return (
     <div className="card">
-      <div className="flex justify-content-end m-2">
+      <div className="flex justify-between m-2">
+      <Select onChange={handleStatusChange}>
+            <option value="all">All</option>
+            <option value="Pending">Pending</option>
+            <option value="Rejected">Rejected</option>
+          </Select>
         {customers && (
+            
           <CSVLink
             data={customers}
             headers={csvHeaders}
@@ -361,8 +462,14 @@ export default function Transactions({ customers, dailytotal }) {
         scrollHeight="400px"
         className="small-row"
       >
-        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }}></Column>
-        <Column field="id" sortable header="Transaction Id" filter filterPlaceholder="Transaction Id" style={{ minWidth: '2rem', maxWidth: '10rem' }} />
+          <Column 
+            selectionMode="multiple" 
+            headerStyle={{ width: '3rem' }}
+            frozen 
+            alignFrozen="left"
+        />
+        <Column field="batch_no" header="Batch Number" style={{ minWidth: '8rem', maxWidth: '10rem' }} frozen alignFrozen='left'/>
+        <Column field="id" sortable header="Transaction Id" filter filterPlaceholder="Transaction Id" hidden style={{ minWidth: '2rem', maxWidth: '10rem' }} />
         <Column field="cws_name" sortable header="CWS Name" filter filterPlaceholder="Search by CWS Name" style={{ minWidth: '10rem', maxWidth: '12rem' }} />
         {/* <Column field="cws_code" sortable header="CWS Code" filter filterPlaceholder="Search by CWS Name" style={{ minWidth: '10rem', maxWidth: '12rem' }} /> */}
         <Column field="farmer_name" sortable header="Farmer Name" filter filterPlaceholder="Search by Farmer Name" style={{ minWidth: '14rem', maxWidth: '18rem' }} />
@@ -371,10 +478,17 @@ export default function Transactions({ customers, dailytotal }) {
         <Column field="has_card" header="Has Card" style={{ minWidth: '8rem', maxWidth: '8rem' }} body={(rowData) => rowData.has_card === 1 ? 'Yes' : 'No'} />
         <Column field="cherry_grade" sortable header="Cherry Grade" style={{ minWidth: '9rem', maxWidth: '10rem' }} filterPlaceholder="Search by cherry grade" filter />
         <Column field="cherry_kg" header="Cherry Kg" style={{ minWidth: '5rem', maxWidth: '8rem' }} editor={(options) => textEditor(options)} />
-        <Column field="batch_no" header="Batch Number" style={{ minWidth: '8rem', maxWidth: '10rem' }} />
         <Column field="is_paid" header="Paid" filter sortable style={{ minWidth: '8rem', maxWidth: '8rem' }} body={(rowData) => rowData.is_paid === 1 ? <CheckBadgeIcon className="h-6 w-6 text-green-500" /> : <XCircleIcon className="h-6 w-6 text-red-500" />} />
         <Column field="price" header="Price" style={{ minWidth: '5rem', maxWidth: '8rem' }} />
-        <Column field="total" header="Total (RWF)" style={{ minWidth: '5rem', maxWidth: '8rem' }} />
+        <Column 
+            field="total" 
+            header="Total (RWF)" 
+            style={{ minWidth: '5rem', maxWidth: '8rem' }}
+            body={(rowData) => {
+                const total = (parseFloat(rowData.cherry_kg) + parseFloat(rowData.transport)) * parseFloat(rowData.price);
+                return total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }}
+            />
         <Column field="grn_no" header="Transaction No" style={{ minWidth: '8rem', maxWidth: '10rem' }} />
         <Column field="transport" header="Transport" style={{ minWidth: '5rem', maxWidth: '10rem' }} editor={(options) => textEditor(options)} />
         

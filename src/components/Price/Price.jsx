@@ -21,7 +21,7 @@ const Price = ({ token }) => {
       redirect: 'follow',
     };
 
-    fetch("http://127.0.0.1:8000/api/cws/", requestOptions)
+    fetch("http://192.168.1.68:8000/api/cws/", requestOptions)
       .then(response => response.json())
       .then(result => {
         setCws(result);
@@ -63,7 +63,7 @@ const Price = ({ token }) => {
     };
   
     try {
-      const response = await fetch(`http://127.0.0.1:8000/api/station-settings/${selectedcws?.cws_code || ''}/`, requestOptions);
+      const response = await fetch(`http://192.168.1.68:8000/api/station-settings/${selectedcws?.cws_code || ''}/`, requestOptions);
       const result = await response.json();
       console.log(result);
   
@@ -99,7 +99,7 @@ const Price = ({ token }) => {
 //     redirect: 'follow'
 //     };
 
-//     fetch(`http://127.0.0.1:8000/api/station-settings/${selectedcws?.cws_code || ''}/`, requestOptions)
+//     fetch(`http://192.168.1.68:8000/api/station-settings/${selectedcws?.cws_code || ''}/`, requestOptions)
 //     .then(response => response.json())
 //     .then(result =>{
 //         console.log(result);
@@ -113,13 +113,13 @@ const Price = ({ token }) => {
   ];
 
   return (
-    <form className="form_container3" onSubmit={handleRegister}>
+    <form className="form_container3 card w-5" onSubmit={handleRegister}>
       <div className="title_container">
         <p className="text-teal-600 text-pretty font-bold text-2xl">Set Price</p>
       </div>
       <br />
-        <div className="input_container3">
-          <label className="input_label" htmlFor="cws_name_field">
+        <div className="input_container3 w-full flex m-2">
+          <label className="input_label md:w-1/4" htmlFor="cws_name_field">
             Cws Name
           </label>
           <Dropdown
@@ -129,13 +129,13 @@ const Price = ({ token }) => {
             optionLabel="cws_name"
             placeholder="Select a CWS"
             itemTemplate={cwsOptionTemplate}
-            className="border-1 w-9"
+            className="border-1 w-full"
             filter
             required
           />
         </div>
-        <div className="input_container3">
-      <label className="input_label" htmlFor="cws_name_field">
+        <div className="input_container3 flex w-full m-2">
+      <label className="input_label md:w-1/4" htmlFor="cws_name_field">
         Grade
       </label>
       <Dropdown
@@ -144,18 +144,18 @@ const Price = ({ token }) => {
         options={gradeOptions}
         optionLabel="label"
         placeholder="Select a Cherry Grade"
-        className="border-1 w-9"
+        className="border-1 w-full"
         required
       />
     </div>
-      <div className="input_container3">
-        <label className="input_label" htmlFor="username_field">
+      <div className="input_container3 flex w-full m-2">
+        <label className="input_label md:w-1/4" htmlFor="username_field">
           Price Per Kg
         </label>
         <input
           placeholder="480"
           type="number"
-          className="input_field3"
+          className="input_field3 border-1 w-full p-2 rounded-lg"
           id="price_per_kg_field"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
@@ -163,14 +163,14 @@ const Price = ({ token }) => {
         />
       </div>
 
-      <div className="input_container3">
-        <label className="input_label" htmlFor="email_field">
+      <div className="input_container3 w-full flex m-2">
+        <label className="input_label md:w-1/4" htmlFor="email_field">
           Maximum Transport
         </label>
         <input
           placeholder="50"
           type="number"
-          className="input_field3"
+          className="input_field3 w-full border-1 p-2 rounded-lg"
           id="maximum_transport_field"
           value={transport}
           onChange={(e) => setTransport(e.target.value)}
@@ -180,7 +180,7 @@ const Price = ({ token }) => {
 
 
       <Toast ref={toast} />
-      <button className='bg-teal-600 p-3 rounded text-gray-200 w-5' type="submit">Save</button>
+      <center><button className='bg-teal-600 p-3 rounded text-gray-200 w-full' type="submit">Save</button></center>
     </form>
   );
 };

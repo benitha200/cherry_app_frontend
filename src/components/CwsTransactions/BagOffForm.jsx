@@ -115,7 +115,7 @@ function get_cherry_grade_outputs(cherry_grade){
     redirect: 'follow'
     };
 
-    fetch("http://127.0.0.1:8000/api/inventoryoutput/", requestOptions)
+    fetch("http://192.168.1.68:8000/api/inventoryoutput/", requestOptions)
     .then(response => response.json())
     .then(result =>{
          console.log(result)
@@ -130,7 +130,7 @@ function get_output_items(batch_no){
     redirect: "follow"
   };
   
-  fetch(`http://127.0.0.1:8000/api/inventoryitems/${batch_no}/`, requestOptions)
+  fetch(`http://192.168.1.68:8000/api/inventoryitems/${batch_no}/`, requestOptions)
     .then((response) => response.json())
     .then((result) => {
       const mappedData = mapApiResponseToCustomers(result);
@@ -216,7 +216,7 @@ function get_output_items(batch_no){
                 redirect: "follow"
               };
       
-              const response = await fetch("http://127.0.0.1:8000/api/stockinventoryoutput/", requestOptions);
+              const response = await fetch("http://192.168.1.68:8000/api/stockinventoryoutput/", requestOptions);
               const result = await response.json();
               console.log(result);
       
@@ -254,7 +254,7 @@ function get_output_items(batch_no){
         };
         const comp_date=completeddate.toISOString().split('T')[0]
         
-        fetch(`http://127.0.0.1:8000/api/stockinventoryupdate/${batch_no}/${comp_date}/`, requestOptions)
+        fetch(`http://192.168.1.68:8000/api/stockinventoryupdate/${batch_no}/${comp_date}/`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
             console.log(result)
@@ -293,7 +293,7 @@ function get_output_items(batch_no){
     console.log(id);
   
     // Make an API call to send the updated data to the endpoint
-    fetch(`http://127.0.0.1:8000/api/stockinventoryoutputedit/${id}/`, {
+    fetch(`http://192.168.1.68:8000/api/stockinventoryoutputedit/${id}/`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

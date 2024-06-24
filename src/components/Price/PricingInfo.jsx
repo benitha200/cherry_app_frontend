@@ -97,7 +97,7 @@ const PricingInfo = ({token,cwsname,cwscode,cws}) => {
             <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
             <span className="p-input-icon-left">
                 {/* <i className="pi pi-search" /> */}
-                <InputText style={{width:'5rem'}} value={globalFilterValue} onChange={onGlobalFilterChange} className='w-5' placeholder="Search" />
+                <InputText style={{width:'5rem'}} value={globalFilterValue} onChange={onGlobalFilterChange} className='w-full' placeholder="Search" />
             </span>
         </div>
     );
@@ -144,7 +144,7 @@ const PricingInfo = ({token,cwsname,cwscode,cws}) => {
       try {
         setLoading(true);
 
-        const response =await fetch("http://127.0.0.1:8000/api/station-settings/", requestOptions)
+        const response =await fetch("http://192.168.1.68:8000/api/station-settings/", requestOptions)
         const data = await response.json();
 
         console.log(data);

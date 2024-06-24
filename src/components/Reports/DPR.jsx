@@ -54,7 +54,7 @@ const DPR = () => {
       try {
         setLoading(true);
 
-        const response = await fetch("http://127.0.0.1:8000/api/getdpr/", requestOptions);
+        const response = await fetch("http://192.168.1.68:8000/api/getdpr/", requestOptions);
         const data = await response.json();
 
         console.log(data);

@@ -155,3 +155,7 @@
     height: 15px; /* Same height for table cells */
     padding: 4px 8px; 
 }
+
+.p-checkbox-box{
+  border: 1px solid gray;
+}

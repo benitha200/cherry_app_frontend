@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card } from 'primereact/card';
 import { Dropdown } from 'primereact/dropdown';
 import { MultiSelect } from 'primereact/multiselect';
@@ -13,14 +13,13 @@ const NewDashboard = () => {
   const [year, setYear] = useState(['2024']);
   const [month, setMonth] = useState(['All', 'January', 'February', 'March', 'April']);
   const [date, setDate] = useState(['All', '8', '9', '10', '12', '13', '14', '15']);
+  const [data, setData] = useState({});
 
   const metricData = {
-    'Traceable Cherry (KG)': "189,798",
-    'Finance Cherry (KG)': "209,999",
-    'Traceable Rwf': "11,653,982",
-    'Finance Rwf': "130,281,784",
-    'Non-Traceable (KG)': "20,1987",
-    'Non-Traceable (Rwf)': "13,488,202"
+    'Total Cherry A':"45,000",
+    "Total Cherry B":"25,000",
+    "Total Processed":"10,000",
+    "Out Turn":"30%"
   };
 
   const traceableFinanceData = [
@@ -31,13 +30,13 @@ const NewDashboard = () => {
   ];
 
   const traceableFinanceCherryData = [
-    { date: '8', Traceable: 10, Finance: 20, CWSName: 'MUSASA' },
-    { date: '9', Traceable: 15, Finance: 25, CWSName: 'MUSASA' },
-    { date: '10', Traceable: 20, Finance: 30, CWSName: 'MUSASA' },
-    { date: '12', Traceable: 25, Finance: 35, CWSName: 'MUSASA' },
-    { date: '13', Traceable: 30, Finance: 40, CWSName: 'MUSASA' },
-    { date: '14', Traceable: 35, Finance: 45, CWSName: 'MUSASA' },
-    { date: '15', Traceable: 40, Finance: 50, CWSName: 'MUSASA' },
+    { date: '8', CherryA: 10, CherryB: 20, CWSName: 'MACUBA' },
+    { date: '9', CherryA: 15, CherryB: 25, CWSName: 'MUSHA' },
+    { date: '10', CherryA: 20, CherryB: 30, CWSName: 'MUSASA' },
+    { date: '12', CherryA: 25, CherryB: 35, CWSName: 'MUSASA' },
+    { date: '13', CherryA: 30, CherryB: 40, CWSName: 'MUSASA' },
+    { date: '14', CherryA: 35, CherryB: 45, CWSName: 'MUSASA' },
+    { date: '15', CherryA: 40, CherryB: 50, CWSName: 'MUSASA' },
   ];
 
   const cherryGradeData = [
@@ -48,26 +47,67 @@ const NewDashboard = () => {
     { name: 'Blank', value: 0.0191 },
   ];
 
+  useEffect(() => {
+    const myHeaders = new Headers();
+    myHeaders.append("Cookie", "csrftoken=m4Li2tWC0w0QKzBHV7e8tal2rnYqh6nj; sessionid=lxnwy9lh8o0o9u3lwd5ej6yjp57pp9u6");
+
+    const requestOptions = {
+      method: "GET",
+      headers: myHeaders
+    };
+
+    fetch("http://192.168.1.68:8000/api/total-cherry-purchased/", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        setData(result);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+  
+  const formatKeyName = (key) => {
+    return key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+  };
+  // Function to format the values
+  const formatValue = (value) => {
+    if (value === null) return 'N/A';
+    if (typeof value === 'number') {
+      return value.toLocaleString('en-US', { maximumFractionDigits: 0});
+    }
+    return value;
+  };
+
+  const nudeColors = [
+    'bg-[rgb(6,182,212)]', // Soft Peach
+    'bg-[rgb(16,185,129)]', // Dusty Rose
+    'bg-[rgb(148,163,184)]', // Taupe
+    'bg-[rgb(14,165,233)]', // Warm Sand
+    'bg-[rgb(52,211,153)]'  // Mushroom
+  ];
+
   return (
     <div>
       {/* Metric Cards */}
-      <div className="flex flex-row col-12 gap-2"> 
-        {Object.entries(metricData).map(([name, value]) => (
-          <Card key={name} className="bg-white rounded-lg shadow-md p-5 col-2/12">
-            <div className="flex flex-col  gap-2 justify-between justify-center h-100">
-                <BarChartBig style={{ width: '30%', height: '30%',alignSelf:'center' }} />
+     
 
-            <p className="text-4xl font-bold ">{value}</p>
-            <h3 className="text-lg font-bold mb-2 text-teal-600">{name}</h3>
-            
-            </div>
-            
-          </Card>
-        ))}
-      </div>
+      <div className="flex flex-row w-full gap-2">
+      {Object.entries(data).map(([key, value], index) => (
+        <Card 
+          key={key} 
+          className={`rounded-lg shadow-md p-5 w-1/4 ${nudeColors[index % nudeColors.length]}`}
+        >
+          <div className="flex flex-col gap-2 justify-center h-full">
+            <BarChartBig style={{ width: '30%', height: '30%', alignSelf: 'center' }} className="text-white" />
+            <p className="text-4xl font-bold text-white">{formatValue(value)}</p>
+            <h3 className="text-lg font-bold mb-2 text-white">{formatKeyName(key)}</h3>
+          </div>
+        </Card>
+      ))}
+    </div>
+      
 
       {/* Filters */}
-      <div className="flex flex-row gap-2 m-4">
+      {/* <div className="flex flex-row gap-2 m-4">
       <MultiSelect
         value={['All']} 
         onChange={(e) => {
@@ -139,12 +179,12 @@ const NewDashboard = () => {
     className="w-full"
     />
 
-      </div>
+      </div> */}
 
       {/* Charts */}
       <div className="flex flex-row w-100 gap-4">
-        <Card className="bg-white rounded-lg shadow-md p-4">
-          <h3 className="text-lg font-bold mb-2">Traceable and Finance Rwf by Date</h3>
+        {/* <Card className="bg-white rounded-lg shadow-md p-4">
+          <h3 className="text-lg font-bold mb-2">Cherry A Vs Cherry B</h3>
           <ResponsiveContainer width="100%" height={300}>
             <AreaChart data={traceableFinanceData}>
                 
@@ -160,9 +200,9 @@ const NewDashboard = () => {
 
 
           </ResponsiveContainer>
-        </Card>
+        </Card> */}
 
-        <Card className="bg-white rounded-lg shadow-md p-4">
+        {/* <Card className="bg-white rounded-lg shadow-md p-4">
             <div className='w-100'>
             <h3 className="text-lg font-bold mb-2">Cherry Kg by Cherry Grade</h3>
             <ResponsiveContainer width="100%" height={300}>
@@ -172,12 +212,12 @@ const NewDashboard = () => {
             </ResponsiveContainer>
             </div>
          
-        </Card>
+        </Card> */}
       </div>
       <div>
-      <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-4">
+      <div className="flex w-full">
         <Card className="bg-white rounded-lg shadow-md p-4 mt-3 w-100">
-                <h3 className="text-lg font-bold mb-2">Traceable and Finance Cherry (Kg) by Date and CWS Name</h3>
+                <h3 className="text-lg font-bold mb-2">CherryA and Cherry B (Kg) by Date and CWS Name</h3>
             <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={traceableFinanceCherryData}>
                     <XAxis dataKey="date" angle={-45} textAnchor="end" interval={0} />
@@ -185,8 +225,8 @@ const NewDashboard = () => {
                     <CartesianGrid strokeDasharray="3 3" />
                     <Tooltip />
                     <Legend />
-                    <Bar dataKey="Traceable" fill="#4bc0c0" />
-                    <Bar dataKey="Finance" fill="#36A2EB" />
+                    <Bar dataKey="CherryA" fill="#4bc0c0" />
+                    <Bar dataKey="CherryB" fill="#36A2EB" />
                 </BarChart>
             </ResponsiveContainer>
             
