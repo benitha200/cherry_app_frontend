@@ -64,6 +64,8 @@ const mapApiResponseToCustomers = (data) => {
       grn_no: item.grn_no,
       transport: parseFloat(item.transport),
       is_paid:item.is_paid,
+      is_approved:item.is_approved,
+      is_rejected:item.is_rejected,
       batch_no: item.batch_no,
     };
   });

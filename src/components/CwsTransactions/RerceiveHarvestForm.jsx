@@ -1,17 +1,9 @@
 import React, { useState,useEffect,useRef } from 'react';
-import { Toast } from 'primereact/toast';
-import {openDB} from 'idb';
+import { toast,ToastContainer } from 'react-toastify';
 import { useSearchParams } from 'react-router-dom';
 
 
-const initializeIndexedDB=async()=>{
-    const db=await openDB('offlineTransactions',1,{
-        upgrade(db){
-            db.createObjectStore('transactions',{keyPath:'id',autoIncrement:true});
-        },
-    });
-    return db;
-}
+
 const ReceiveHarvestForm = ({profile}) => {        
     const [searchParams] = useSearchParams();
   
@@ -45,14 +37,11 @@ const ReceiveHarvestForm = ({profile}) => {
         { name: 'NB', value: 'NB' },
     ];
     const defaultGrade=grades[0]
-    const defaultOccupation = occupations[0];
     const [loading,setLoading]=useState(false)
     const [responsemessage,setResponsemessage]=useState()
-    const [selectedFarmer, setSelectedFarmer] = useState(null);
     const [farmers, setFarmers] = useState([]);
-    const [season,setSeason]=useState(new Date().getFullYear())
     const [price,setPrice]=useState(410)
-    const toast = useRef(null);
+    // const toast = useRef(null);
     const [receivedqty, setReceivedqty] = useState();
     // const [grade, setGrade] = useState(defaultGrade);
     const [grade, setGrade] = useState([
@@ -64,44 +53,9 @@ const ReceiveHarvestForm = ({profile}) => {
     const [selectedGradePrice,setSelectedGradePrice ]=useState()
     const [selectedGradeLimit,setSelectedGradeLimit]=useState()
     
-    const handleHasCardChange = (value) => {
-      // Update the grades array based on the selected value of "Has Card"
-      if (value === 'Yes') {
-        setGrades([
-          { name: 'CA', value: 'CA' },
-          { name: 'CB', value: 'CB' },
-        ]);
-      } else {
-        setGrades([
-          { name: 'NA', value: 'NA' },
-          { name: 'NB', value: 'NB' },
-        ]);
-      }
-    };
-    
+
     console.log(cwsname)    
    
-    function get_farmers(){
-        var requestOptions = {
-        method: 'GET',
-        headers: {
-            "Authorization":`Bearer ${token}`
-        },
-        redirect: 'follow',
-        };
-
-        fetch("http://192.168.81.68:8000/api/farmers/", requestOptions)
-        .then(response => response.json())
-        .then(result => setFarmers(result))
-        .catch(error => console.log('error', error));
-    }
-    const farmerOptionTemplate = (option) => {
-        return (
-            <div className="flex align-items-center">
-                <div>{option.farmer_code} - {option.farmer_name}</div>
-            </div>
-        );
-    };
     const [formData, setFormData] = useState({
         date: new Date().toISOString().split('T')[0],
         // date:'',
@@ -118,53 +72,8 @@ const ReceiveHarvestForm = ({profile}) => {
       });
 
     
-const getPriceForGrade = (grade) => {
-  return grade.includes('A') ? 410 : 100;
-}
-const handleInputChange = (e) => {
 
-  const {name, value} = e.target;
-
-  // Date validation
-  if(name === 'date') {
-    const selected = new Date(value);
-    const lastTwoDigitsOfYear = selected.getFullYear().toString().slice(-2);
-    const formattedMonth = String(selected.getMonth() + 1).padStart(2, '0');
-    const formattedDay = String(selected.getDate()).padStart(2, '0');
-    setFormData({
-        ...formData,
-        [name]: value,
-        lastTwoDigitsOfYear,
-        formattedMonth,
-        formattedDay,
-     });
-    if(!isDateValid(selected)) {
-      setFormData({
-        ...formData,
-        date: ''
-      });
-      alert('Please select today or yesterday');
-      return;
-    }
-  }
-
-  // Handle cherryGrade
-  if(name === 'cherryGrade') {
-    setGrade(value)
-    const price = getPriceForGrade(value); 
-    setPrice(price);
-  }
-
-  // Update form data 
-  setFormData({
-    ...formData,
-    [name]: value 
-  });
-
-}    
-   
     useEffect(() => {
-        get_farmers();
       
         const handleOnlineStatusChange = () => {
           if (navigator.onLine) {
@@ -184,7 +93,12 @@ const handleInputChange = (e) => {
         // print()
         e.preventDefault();
         console.log("button Clicked")
-        const requestOptions = {
+
+        if(receivedqty>harvest_kgs){
+            toast.error("Received Quantity is greater than Harvest quantity")
+        }
+        else{
+           const requestOptions = {
             method: 'POST',
             headers: {
               "Content-Type": "application/json",
@@ -211,12 +125,14 @@ const handleInputChange = (e) => {
           
             if (result && result.message) {
               setResponsemessage(result.message);
-              toast.current.show({ severity: 'success', summary: 'Success', detail: result.message });
+              toast.success(result.message)
+              // toast.current.show({ severity: 'success', summary: 'Success', detail: result.message });
           
               setReceivedqty("")
               window.location.href = "/receive-harvest";
             } else {
-              toast.current.show({ severity: 'error', summary: 'Error', detail: result.error });
+              toast.error(result.error)
+              // toast.current.show({ severity: 'error', summary: 'Error', detail: result.error });
             }
           } catch (error) {
             console.error('Error submitting transaction:', error);
@@ -224,6 +140,8 @@ const handleInputChange = (e) => {
           } finally {
             setLoading(false);
           }
+        }
+       
           
      
         }
@@ -246,7 +164,7 @@ const handleInputChange = (e) => {
               type="text"
               name="pricePerKg"
               value={batch_no}
-              className="input_field"
+              className="input_field border-slate-400 rounded-lg"
               id="pricePerKg"
               autoComplete='off'
               readOnly
@@ -260,7 +178,7 @@ const handleInputChange = (e) => {
               type="text"
               name="pricePerKg"
               value={cherry_grade}
-              className="input_field"
+              className="input_field border-slate-400 rounded-lg"
               id="pricePerKg"
               autoComplete='off'
               readOnly
@@ -274,7 +192,7 @@ const handleInputChange = (e) => {
               type="text"
               name="pricePerKg"
               value={purchase_date}
-              className="input_field"
+              className="input_field border-slate-400 rounded-lg"
               id="pricePerKg"
               autoComplete='off'
               readOnly
@@ -288,7 +206,7 @@ const handleInputChange = (e) => {
               type="text"
               name="pricePerKg"
               value={harvest_kgs}
-              className="input_field"
+              className="input_field border-slate-400 rounded-lg"
               id="pricePerKg"
               autoComplete='off'
               readOnly
@@ -299,11 +217,11 @@ const handleInputChange = (e) => {
               Received Quantity
             </label>
             <input
-                type="text"
+                type="number"
                 name="transportPerKg"
                 value={receivedqty}
                 onChange={(e) => setReceivedqty(e.target.value)}
-                className="input_field"
+                className="input_field border-slate-400 rounded-lg"
                 id="transportPerKg"
                 autoComplete='off'
                 required
@@ -317,7 +235,7 @@ const handleInputChange = (e) => {
               type="text"
               name="transportPerKg"
               value={cwsname}
-              className="input_field"
+              className="input_field border-slate-400 rounded-lg"
               id="transportPerKg"
               autoComplete='off'
               readOnly
@@ -326,7 +244,7 @@ const handleInputChange = (e) => {
 
           <button className='sign-in_btn mb-12'>Submit</button>
         </form>
-        <Toast ref={toast} />
+        <ToastContainer/>
         </div>
         
       );

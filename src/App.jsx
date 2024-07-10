@@ -35,6 +35,7 @@ import RequestLoanForm from './components/Loans/RequestLoanForm';
 import LoanRequests from './components/Loans/LoanRequests';
 import { Divider } from 'primereact/divider';
 import AllTransactions from './components/Transactions/AllTransactions';
+import AllFarmers from './components/Farmers/AllFarmers';
 
 
 const manager_profile={
@@ -65,10 +66,10 @@ function AppContent() {
   const [cwsname, setCwsname] = useState(null);
   const [cwscode, setCwscode] = useState(null);
   const [cws, setCws] = useState(null);
-  // const [profile, setProfile] = useState(manager_profile);
-  // Cookies.set("profile",JSON.stringify(manager_profile));
-  const [profile, setProfile] = useState(others_profile);
-  Cookies.set("profile",JSON.stringify(others_profile));
+  const [profile, setProfile] = useState(manager_profile);
+  Cookies.set("profile",JSON.stringify(manager_profile));
+  // const [profile, setProfile] = useState(others_profile);
+  // Cookies.set("profile",JSON.stringify(others_profile));
   // const [profile, setProfile] = useState();
 
 
@@ -263,6 +264,14 @@ function AppContent() {
                         to="/alltransactions"
                         isActive={isActive('/alltransactions')}
                       />
+                       <SidebarItem
+                        icon={<FileInput size={20} />}
+                        text="Farmers"
+                        alert
+                        component={Link}
+                        to="/all-farmers"
+                        isActive={isActive('/upload-farmer')}
+                      />
                       <SidebarItem
                         icon={<FileInput size={20} />}
                         text="Upload Farmer"
@@ -354,6 +363,7 @@ function AppContent() {
                 
                 <Route path="/" element={<NewDashboard />} />
                 <Route path="/upload-farmer" element={<UploadFarmers />} />
+                <Route path="/all-farmers" element={<AllFarmers />} />
                 <Route path="/add-transaction" element={<AddTransaction profile={profile} token={token} setToken={setToken} refreshtoken={refreshtoken} role={role} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} />} />
                 <Route path="/alltransactions" element={<AllTransactions token={token}/>} />
                 <Route path="/daily-purchase" element={<DailyPurchaseValidation token={token}/>} />

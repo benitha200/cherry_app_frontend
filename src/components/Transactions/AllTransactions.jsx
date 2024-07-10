@@ -505,7 +505,7 @@ export default function AllTransactions({ dailytotal }) {
         <Column field="transport" header="Transport" style={{ minWidth: '5rem', maxWidth: '10rem' }} editor={(options) => textEditor(options)} />
         
         <Column rowEditor headerStyle={{ width: '10%', minWidth: '5rem', maxWidth: '7rem' }} bodyStyle={{ textAlign: 'center' }}></Column>
-        <Column header="Payment status" body={(rowData) => rowData.is_paid === 1 ? <Button className="bg-green-400 p-3 text-slate-50">Paid</Button> : <>
+        <Column header="Payment status" body={(rowData) => rowData.is_paid === 1 ? <span className="text-green-400 p-3">Paid</span> : <>
           {/* <Toast ref={toast} /> */}
           <ToastContainer/>
           <ConfirmDialog group="declarative" visible={visible} onHide={() => setVisible(false)} message="Are you sure you want to Confirm Payment?" header="Confirmation" icon="pi pi-exclamation-triangle" accept={() => accept(rowData.id)} reject={reject} />

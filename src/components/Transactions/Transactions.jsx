@@ -303,7 +303,7 @@ export default function Transactions({ customers, dailytotal }) {
             value={globalFilterValue}
             onChange={onGlobalFilterChange}
             placeholder="Keyword Search"
-            className='w-full p-2'
+            className='w-full p-2 border-1'
           />
         </span>
       </div>
@@ -378,9 +378,24 @@ export default function Transactions({ customers, dailytotal }) {
         <Column field="total" header="Total (RWF)" style={{ minWidth: '5rem', maxWidth: '8rem' }} />
         <Column field="grn_no" header="Transaction No" style={{ minWidth: '8rem', maxWidth: '10rem' }} />
         <Column field="transport" header="Transport" style={{ minWidth: '5rem', maxWidth: '10rem' }} editor={(options) => textEditor(options)} />
+        <Column 
+          header="Status" 
+          body={(rowData) => {
+            if (rowData.is_approved == 1) {
+              return <span className="text-green-600 p-3">Approved</span>;
+            } else if (rowData.is_rejected == 1) {
+              return <span className="text-red-600 p-3">Rejected</span>;
+            } else {
+              return <></>;
+            }
+          }} 
+        />
+
+
         
         <Column rowEditor headerStyle={{ width: '10%', minWidth: '5rem', maxWidth: '7rem' }} bodyStyle={{ textAlign: 'center' }}></Column>
-        <Column header="Payment status" body={(rowData) => rowData.is_paid === 1 ? <Button className="bg-green-400 p-3 text-slate-50">Paid</Button> : <>
+        {/* <Column header="Payment status" body={(rowData) => rowData.is_paid === 1 ? <Button className="bg-green-400 p-3 text-slate-50">Paid</Button> : <> */}
+        <Column header="Payment status" body={(rowData) => rowData.is_paid === 1 ? <span className="text-green-600 p-3">Paid</span> : <>
           <Toast ref={toast} />
           <ConfirmDialog group="declarative" visible={visible} onHide={() => setVisible(false)} message="Are you sure you want to Confirm Payment?" header="Confirmation" icon="pi pi-exclamation-triangle" accept={() => accept(rowData.id)} reject={reject} />
           <div className="">
