@@ -86,12 +86,11 @@
 // }
 
 
-import { MoreVertical, ChevronLast, ChevronFirst } from "lucide-react";
 import { useContext, createContext, useState } from "react";
 import React from "react";
 import logo from "../../assets/img/RwacofLogoCoulRVB.png";
 import { Link } from "react-router-dom";
-import { Sidebar as FlowbiteSidebar, SidebarLogo } from "flowbite-react";
+import { Sidebar as FlowbiteSidebar } from "flowbite-react";
 
 const SidebarContext = createContext();
 
@@ -101,32 +100,12 @@ export default function Sidebar({ children }) {
   return (
     <FlowbiteSidebar className="h-screen">
       <SidebarContext.Provider value={{ expanded }}>
-        {/* <div className="p-4 pb-5 flex justify-between items-center">
-          <SidebarLogo src={logo} alt="Rwacof Logo" className={`overflow-hidden transition-all ${expanded ? "w-32" : "w-0"}`} />
-          <button onClick={() => setExpanded(!expanded)} className="ml-4">
-            {expanded ? <ChevronLast /> : <ChevronFirst />}
-          </button>
-        </div> */}
         <ul className="flex-1 px-3">{children}</ul>
       </SidebarContext.Provider>
     </FlowbiteSidebar>
   );
 }
 
-// export function SidebarItem({ icon, text, to, active, alert }) {
-//   const { expanded } = useContext(SidebarContext);
-
-//   return (
-//     <li className={`relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group ${active ? "bg-gradient-to-tr from-teal-200 to-teal-100 text-teal-800" : "hover:bg-teal-500 text-slate-900"}`}>
-//       <Link to={to} className="flex items-center">
-//         {icon}
-//         <span className={`overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}`}>
-//           {text}
-//         </span>
-//       </Link>
-//     </li>
-//   );
-// }
 
 export const SidebarItem = ({ icon, text, alert, component, to, isActive }) => {
   return (
