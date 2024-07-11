@@ -554,7 +554,7 @@ const handleInputChange = (e) => {
       
     
       return (
-        <div className="d-flex w-1/2 mx-auto">
+        <div className="d-flex lg:w-1/2 md:w-3/4 mx-auto">
         
         <form className="flex flex-col items-center justify-center gap-15 p-4 md:p-10 gap-4 bg-white shadow-xl rounded-lg font-inter" onSubmit={handleSubmit}>
         <div className='text-teal-600 text-pretty font-bold text-2xl'>ADD TRANSACTION</div>

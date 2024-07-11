@@ -12,7 +12,6 @@ import logo from "./assets/img/RwacofLogoCoulRVB.png"
 import AddTransaction from './components/Transactions/AddTransaction';
 import UploadFarmers from './components/Farmers/UploadFarmers';
 import Sidebar from './components/Header/Sidebar';
-import Login from './components/Login/Login';
 import FinancialReportContainer from './components/Reports/FinancialReportContainer';
 import DprContainer from './components/Reports/DprContainer';
 import Logout from './components/Login/Logout';
@@ -117,8 +116,38 @@ function AppContent() {
       <div>
         
         {/* <Router> */}
+
+        <div className='flex flex-row w-full relative'>
+            <button
+              className="lg:hidden text-gray-500 w-5 h-5"
+              onClick={() => setIsOpen(true)}
+            >
+              <Bars3Icon className="w-full h-full top-0 bg-teal-500 rounded-md text-white font-bold" />
+            </button>
+            
+            {isOpen && (
+              <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setIsOpen(false)} />
+            )}
+            
+            <div
+              className={`fixed inset-y-0 left-0 bg-white p-2 mb-2 flex flex-col lg:relative lg:w-auto min-h-screen max-h-screen transition-all duration-300 transform lg:transform-none ${
+                isOpen ? 'translate-x-0' : '-translate-x-full'
+              } z-50 lg:z-auto`}
+            >
+              <button
+                className="absolute top-0 right-0 lg:hidden text-gray-500 mb-4 mt-4 mr-4 w-8 h-8"
+                onClick={() => setIsOpen(false)}
+              >
+                <X className='mb-4 justify-left bg-teal-500 text-white rounded-md'/>
+              </button>
+              <Sidebar profile={profile} role={role}>
+                <div>
+                  <img src={logo} className='w-full'/>
+                </div>
+
         
-          <div className='flex flex-row w-100'>
+        
+          {/* <div className='flex flex-row w-100'>
            
             <button
               className="lg:hidden text-gray-500 w-5 h-5"
@@ -126,7 +155,6 @@ function AppContent() {
             >
               <Bars3Icon className="w-5 h-5top-0 bg-teal-500 rounded-md text-white" />
             </button>
-            {/* {location.pathname !== '/login' && ( */}
             <div
               className={`container-1 fixed bg-white p-2 mb-2 flex flex-col lg:relative w-100 min-h-screen max-h-screen transition-all duration-300 transform lg:transform-none ${isOpen ? 'translate-x-0' : '-translate-x-full'}`}
             >
@@ -134,7 +162,7 @@ function AppContent() {
                 className="absolute top-0 right-0 lg:hidden text-gray-500 mb-4 mt-4 mr-4  w-8 h-8"
                 onClick={() => setIsOpen(false)}
               >
-                {/* <XCircleIcon className="h-8 w-8" /> */}
+
                 <X className='mb-4 justify-left bg-teal-500 text-white rounded-md'/>              
                 </button>
 
@@ -143,7 +171,7 @@ function AppContent() {
                 
               <div>
                   <img src={logo} className='w-full'/>
-              </div>
+              </div> */}
                 <div className='d-flex flex-column justify-content-between gap-2 mt-5'>
                  {role === 'cws_manager' ||profile.jobTitle.includes('CWS') && profile.jobTitle.includes('Manager')? ( 
             
@@ -354,7 +382,7 @@ function AppContent() {
             </div>
             {/* )} */}
   
-            <div className="container-2 p-0 mx-auto">
+            <div className="container-2 p-0 mx-auto w-100">
               <div className='card p-2 bg-slate-300 text-right font-bold'>
                   <p>Welcome <span className='text-teal-600'>{profile.displayName}</span></p>
               </div>
@@ -372,7 +400,6 @@ function AppContent() {
                 <Route path='/register-user' element={<RegisterUsers token={token} />} />
                 <Route path='/price' element={<Price token={token} />} />
                 <Route path="/login" element={<NewDashboard />} />
-                {/* <Route path='/login' element={<Login token={token} setToken={setToken} refreshtoken={refreshtoken} setRefreshtoken={setRefreshtoken} role={role} setRole={setRole} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} setCws={setCws}/>}/> */}
                 <Route path='/price-info' element={<PricingInfo token={token} />} />
                 <Route path='/receive-harvest' element={<ReceiveHarvest token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} profile={profile}/>} />
                 <Route path='/receive-harvest-form' element={<ReceiveHarvestForm profile={profile}/>} />
