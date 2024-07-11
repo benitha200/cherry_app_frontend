@@ -158,7 +158,7 @@ const handleInputChange = (e) => {
           try {
             setLoading(true);
           
-            const response = await fetch("http://192.168.81.68:8000/api/requetloan/", requestOptions);
+            const response = await fetch("https://cherryapp.sucafina.com:8000/api/requetloan/", requestOptions);
             const result = await response.json();
             console.log(result);
             console.log(result.farmer_code);
@@ -194,7 +194,7 @@ const handleInputChange = (e) => {
         // redirect: "follow"
         // };
 
-        // fetch("http://192.168.81.68:8000/api/requetloan/", requestOptions)
+        // fetch("https://cherryapp.sucafina.com:8000/api/requetloan/", requestOptions)
         // .then((response) => response.text())
         // .then((result) => console.log(result))
         // .catch((error) => console.error(error));

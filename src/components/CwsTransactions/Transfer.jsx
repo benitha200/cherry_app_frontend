@@ -137,7 +137,7 @@ const statusBodyTemplate = (status) => {
       try {
         setLoading(true);
 
-        const response =await fetch("http://192.168.81.68:8000/api/retrievebaggedoffdata/", requestOptions)
+        const response =await fetch("https://cherryapp.sucafina.com:8000/api/retrievebaggedoffdata/", requestOptions)
         const data = await response.json();
 
         console.log(data);

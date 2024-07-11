@@ -21,7 +21,7 @@
 //         redirect: 'follow'
 //       };
 
-//       fetch("http://192.168.81.68:8000/api/uploadfarmers/", requestOptions)
+//       fetch("https://cherryapp.sucafina.com:8000/api/uploadfarmers/", requestOptions)
 //         .then(response => response.json())
 //         .then(result => console.log(result))
 //         .catch(error => console.log('error', error));
@@ -113,7 +113,7 @@ const UploadFarmers = () => {
         redirect: 'follow'
       };
 
-      fetch("http://192.168.81.68:8000/api/uploadfarmers/", requestOptions)
+      fetch("https://cherryapp.sucafina.com:8000/api/uploadfarmers/", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);

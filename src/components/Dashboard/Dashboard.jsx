@@ -56,7 +56,7 @@ const NewDashboard = () => {
       headers: myHeaders
     };
 
-    fetch("http://192.168.81.68:8000/api/total-cherry-purchased/", requestOptions)
+    fetch("https://cherryapp.sucafina.com:8000/api/total-cherry-purchased/", requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result);

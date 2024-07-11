@@ -56,6 +56,27 @@ const ReceiveHarvestForm = ({profile}) => {
 
     console.log(cwsname)    
    
+    function get_farmers(){
+        var requestOptions = {
+        method: 'GET',
+        headers: {
+            "Authorization":`Bearer ${token}`
+        },
+        redirect: 'follow',
+        };
+
+        fetch("https://cherryapp.sucafina.com:8000/api/farmers/", requestOptions)
+        .then(response => response.json())
+        .then(result => setFarmers(result))
+        .catch(error => console.log('error', error));
+    }
+    const farmerOptionTemplate = (option) => {
+        return (
+            <div className="flex align-items-center">
+                <div>{option.farmer_code} - {option.farmer_name}</div>
+            </div>
+        );
+    };
     const [formData, setFormData] = useState({
         date: new Date().toISOString().split('T')[0],
         // date:'',
@@ -118,7 +139,7 @@ const ReceiveHarvestForm = ({profile}) => {
           try {
             setLoading(true);
           
-            const response = await fetch("http://192.168.81.68:8000/api/receiveharvest/create", requestOptions);
+            const response = await fetch("https://cherryapp.sucafina.com:8000/api/receiveharvest/create", requestOptions);
             const result = await response.json();
             console.log(result);
             console.log(result.message);

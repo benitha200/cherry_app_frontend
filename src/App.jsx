@@ -98,14 +98,14 @@ function AppContent() {
         console.error('Error parsing profile data:', error);
       }
     }
-    else if(profile){
-      console.log("profile")
-      console.log(profile)
-    }
+    // else if(profile){
+    //   console.log("profile")
+    //   console.log(profile)
+    // }
     else {
       // fetchProfileData();
       // window.location.href="/login"
-      window.location.href = "http://192.168.81.68:8000/login";
+      window.location.href = "https://cherryapp.sucafina.com:8000/login";
     }
      
   }, []);
@@ -503,7 +503,7 @@ export default App;
 //     } else if (profile) {
 //       console.log(profile);
 //     } else {
-//       window.location.href = "http://192.168.81.68:8000/login";
+//       window.location.href = "https://cherryapp.sucafina.com:8000/login";
 //     }
 //   }, [profile]);
 
