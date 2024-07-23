@@ -24,6 +24,18 @@ const ReceiveHarvestForm = ({profile}) => {
     console.log("cherry_grade:", cherry_grade);
     console.log("harvest_kgs:", harvest_kgs);
 
+    const occupations = [
+        {name: 'Select Occupation'},
+        { name: 'Site Collector', code: 'Site Collector' },
+        { name: 'Farmer', code: 'Farmer' },
+    ];
+    const grades = [
+        {name: 'Select Grade'},
+        { name: 'CA', value: 'CA' },
+        { name: 'CB', value: 'CB' },
+        { name: 'NA', value: 'NA' },
+        { name: 'NB', value: 'NB' },
+    ];
     const defaultGrade=grades[0]
     const [loading,setLoading]=useState(false)
     const [responsemessage,setResponsemessage]=useState()
@@ -79,7 +91,7 @@ const ReceiveHarvestForm = ({profile}) => {
         console.log("button Clicked")
 
         if(receivedqty!==harvest_kgs){
-            toast.error("Received Quantity ")
+            toast.error("Received Quantity must be the same as Harvest Quantity Please correct it")
         }
         else{
            const requestOptions = {

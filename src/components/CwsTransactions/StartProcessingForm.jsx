@@ -260,12 +260,13 @@ useEffect(() => {
                   Process Type
                 </label>
                 <select
-                  value={processtype || (options && options.length > 0 ? options[0].id : '')}
+                  value={processtype || ''}
                   onChange={(e) => setProcesstype(e.target.value)}
                   id="processType"
                   className="border border-slate-300 rounded-md p-2"
+                  required
                 >
-                  <option>Select process type</option>
+                  <option value="" disabled>Select process type</option>
                   {options && options.map((option) => (
                     <option key={option.id} value={option.id}>
                       {option.outputs}

@@ -26,7 +26,7 @@ const BagOffForm = () => {
     const [quantity,setQuantity]=useState(1);
     const [responsemessage,setResponseMessage ]=useState()
     const [batch,setBatch]=useState()
-    const [outTurn,setOutTurn]=useState()
+    const [outTurn,setOutTurn]=useState(0)
   
     const cwsname = searchParams.get('cwsname');
     const token = searchParams.get('token');
@@ -362,25 +362,28 @@ function get_output_items(batch_no){
             </div>
 
             {/* Complete Process Form */}
-            <form onSubmit={handleCompleteClick} className="bg-white rounded-lg p-4 shadow">
-              <h3 className="text-lg font-semibold text-teal-700 mb-3">Complete Process</h3>
-              <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
-                <label className="w-full md:w-auto font-medium" htmlFor="completedDate">
-                  Completed Date
-                </label>
-                <Calendar
-                  id="completedDate"
-                  value={completeddate}
-                  onChange={(e) => setCompleteddate(e.target.value)}
-                  dateFormat="dd/mm/yy"
-                  className="rounded-lg md:w-64"
-                  required
-                />
-                <Button type="submit" className="bg-teal-700 hover:bg-teal-800 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
-                  Complete
-                </Button>
-              </div>
-            </form>
+            {outTurn !== 0 && (
+              <form onSubmit={handleCompleteClick} className="bg-white rounded-lg p-4 shadow">
+                <h3 className="text-lg font-semibold text-teal-700 mb-3">Complete Process</h3>
+                <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
+                  <label className="w-full md:w-auto font-medium" htmlFor="completedDate">
+                    Completed Date
+                  </label>
+                  <Calendar
+                    id="completedDate"
+                    value={completeddate}
+                    onChange={(e) => setCompleteddate(e.value)}
+                    dateFormat="dd/mm/yy"
+                    className="rounded-lg md:w-64"
+                    required
+                  />
+                  <Button type="submit" className="bg-teal-700 hover:bg-teal-800 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
+                    Complete
+                  </Button>
+                </div>
+              </form>
+            )}
+            
 
             {/* Add Outputs Item Panel */}
             <Panel ref={ref} header="Add Outputs Item" className="text-teal-600" toggleable>
