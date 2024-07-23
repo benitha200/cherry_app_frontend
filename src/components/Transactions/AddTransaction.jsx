@@ -557,8 +557,8 @@ const handleInputChange = (e) => {
         <div className="d-flex lg:w-1/2 md:w-3/4 mx-auto">
         
         <form className="flex flex-col items-center justify-center  gap-4 bg-white border-2 shadow-xl rounded-lg font-inter" onSubmit={handleSubmit}>
-        <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white text-center py-2 w-full rounded-lg">
-          <h2 className="text-3xl font-bold">Add Transaction</h2>
+        <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white text-left pl-2 py-2 w-full rounded-lg">
+          <h2 className="text-2xl font-bold">Add Transaction</h2>
         </div>
         
         <div className='w-full p-6'>

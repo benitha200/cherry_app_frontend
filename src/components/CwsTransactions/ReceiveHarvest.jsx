@@ -251,70 +251,66 @@ const ReceiveHarvest = ({token,cwscode,cws,profile}) => {
             <h2 className="text-2xl font-bold text-white"> Receive Harvest</h2>
           </div>
 
-  <div className="card p-6">
-    <div className="mb-6">
-      {/* Add any additional controls here */}
-    </div>
-
-    <DataTable
-      value={batch}
-      paginator
-      showGridlines
-      rows={10}
-      dataKey="batch_no"
-      filters={filters}
-      globalFilterFields={['batch_no', 'cws_name', 'total_kgs']}
-      header={header}
-      emptyMessage="No Transactions found."
-      className="p-datatable-sm"
-    >
-      <Column
-        field="batch_no"
-        sortable
-        header="Batch No"
-        filter
-        filterPlaceholder="Search by Batch No"
-        style={{ minWidth: '12rem' }}
-        body={(rowData) => (
-          <span className="font-semibold text-teal-700">{rowData.batch_no}</span>
-        )}
-      />
-      <Column
-        field="cws_name"
-        sortable
-        header="Station Name"
-        filter
-        filterPlaceholder="Search by Station Name"
-        style={{ minWidth: '12rem' }}
-      />
-      <Column
-        field="total_kgs"
-        sortable
-        header="Total Kgs"
-        style={{ minWidth: '10rem' }}
-        body={(rowData) => (
-          <span className="font-medium">{rowData.total_kgs.toLocaleString()} kg</span>
-        )}
-      />
-      <Column
-        field="purchase_date"
-        sortable
-        header="Purchase Date"
-        style={{ minWidth: '10rem' }}
-        body={(rowData) => (
-          <span className="text-gray-600">
-            {new Date(rowData.purchase_date).toLocaleDateString()}
-          </span>
-        )}
-      />
-      <Column
-        header="Actions"
-        style={{ minWidth: '10rem' }}
-        body={renderReceiveButton}
-      />
-    </DataTable>
-  </div>
-</div>
+        <div className="p-0">
+          <DataTable
+            value={batch}
+            paginator
+            showGridlines
+            rows={10}
+            dataKey="batch_no"
+            filters={filters}
+            globalFilterFields={['batch_no', 'cws_name', 'total_kgs']}
+            header={header}
+            emptyMessage="No Transactions found."
+            className="p-datatable-sm"
+          >
+            <Column
+              field="batch_no"
+              sortable
+              header="Batch No"
+              filter
+              filterPlaceholder="Search by Batch No"
+              style={{ minWidth: '12rem' }}
+              body={(rowData) => (
+                <span className="font-semibold text-teal-700">{rowData.batch_no}</span>
+              )}
+            />
+            <Column
+              field="cws_name"
+              sortable
+              header="Station Name"
+              filter
+              filterPlaceholder="Search by Station Name"
+              style={{ minWidth: '12rem' }}
+            />
+            <Column
+              field="total_kgs"
+              sortable
+              header="Total Kgs"
+              style={{ minWidth: '10rem' }}
+              body={(rowData) => (
+                <span className="font-medium">{rowData.total_kgs.toLocaleString()} kg</span>
+              )}
+            />
+            <Column
+              field="purchase_date"
+              sortable
+              header="Purchase Date"
+              style={{ minWidth: '10rem' }}
+              body={(rowData) => (
+                <span className="text-gray-600">
+                  {new Date(rowData.purchase_date).toLocaleDateString()}
+                </span>
+              )}
+            />
+            <Column
+              header="Actions"
+              style={{ minWidth: '10rem' }}
+              body={renderReceiveButton}
+            />
+          </DataTable>
+        </div>
+      </div>
 
   );
 };

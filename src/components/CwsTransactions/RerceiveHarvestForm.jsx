@@ -24,26 +24,10 @@ const ReceiveHarvestForm = ({profile}) => {
     console.log("cherry_grade:", cherry_grade);
     console.log("harvest_kgs:", harvest_kgs);
 
-    const occupations = [
-        {name: 'Select Occupation'},
-        { name: 'Site Collector', code: 'Site Collector' },
-        { name: 'Farmer', code: 'Farmer' },
-    ];
-    const grades = [
-        {name: 'Select Grade'},
-        { name: 'CA', value: 'CA' },
-        { name: 'CB', value: 'CB' },
-        { name: 'NA', value: 'NA' },
-        { name: 'NB', value: 'NB' },
-    ];
     const defaultGrade=grades[0]
     const [loading,setLoading]=useState(false)
     const [responsemessage,setResponsemessage]=useState()
-    const [farmers, setFarmers] = useState([]);
-    const [price,setPrice]=useState(410)
-    // const toast = useRef(null);
     const [receivedqty, setReceivedqty] = useState();
-    // const [grade, setGrade] = useState(defaultGrade);
     const [grade, setGrade] = useState([
       { name: 'CA', value: 'CA' },
       { name: 'CB', value: 'CB' },
@@ -94,8 +78,8 @@ const ReceiveHarvestForm = ({profile}) => {
         e.preventDefault();
         console.log("button Clicked")
 
-        if(receivedqty>harvest_kgs){
-            toast.error("Received Quantity is greater than Harvest quantity")
+        if(receivedqty!==harvest_kgs){
+            toast.error("Received Quantity ")
         }
         else{
            const requestOptions = {
@@ -148,103 +132,106 @@ const ReceiveHarvestForm = ({profile}) => {
 
        
       return (
-        <div className="flex justify-center w-100">
+        <div className="d-flex lg:w-1/2 md:w-3/4 mx-auto">
         
+        <form className="flex flex-col items-center justify-center  gap-4 bg-white border-2 shadow-xl rounded-lg font-inter" onSubmit={handleSubmit}>
+        <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white text-left pl-2 py-2 w-full rounded-lg">
+          <h2 className="text-2xl font-bold">Receive Harvest</h2>
+        </div>
+      
 
-        <form className="form_container card p-15" style={{width:"50%"}} onSubmit={handleSubmit}>
-          <div className='text-teal-600 text-pretty font-bold text-2xl gap-2 mb-3'>RECEIVE HARVEST</div>
-          <hr className='border-teal-600 h-2 mb-3'></hr>
-          <div className='divider'></div>
-
-          <div className="input_container mt-2">
-            <label className="input_label" htmlFor="pricePerKg">
-              Batch No
-            </label>
-            <input
-              type="text"
-              name="pricePerKg"
-              value={batch_no}
-              className="input_field border-slate-400 rounded-lg"
-              id="pricePerKg"
-              autoComplete='off'
-              readOnly
-            />
-          </div>
-          <div className="input_container mt-2">
-            <label className="input_label" htmlFor="pricePerKg">
-              Grade
-            </label>
-            <input
-              type="text"
-              name="pricePerKg"
-              value={cherry_grade}
-              className="input_field border-slate-400 rounded-lg"
-              id="pricePerKg"
-              autoComplete='off'
-              readOnly
-            />
-          </div>
-          <div className="input_container mt-2">
-            <label className="input_label" htmlFor="pricePerKg">
-              Batch Creation Date
-            </label>
-            <input
-              type="text"
-              name="pricePerKg"
-              value={purchase_date}
-              className="input_field border-slate-400 rounded-lg"
-              id="pricePerKg"
-              autoComplete='off'
-              readOnly
-            />
-          </div>
-          <div className="input_container mt-2">
-            <label className="input_label" htmlFor="pricePerKg">
-              Harvest Quantity
-            </label>
-            <input
-              type="text"
-              name="pricePerKg"
-              value={harvest_kgs}
-              className="input_field border-slate-400 rounded-lg"
-              id="pricePerKg"
-              autoComplete='off'
-              readOnly
-            />
-          </div>
-          <div className="input_container mt-2">
-            <label className="input_label" htmlFor="transportPerKg">
-              Received Quantity
-            </label>
-            <input
-                type="number"
-                name="transportPerKg"
-                value={receivedqty}
-                onChange={(e) => setReceivedqty(e.target.value)}
-                className="input_field border-slate-400 rounded-lg"
-                id="transportPerKg"
-                autoComplete='off'
-                required
+            <div className="grid grid-cols-1 md:grid-cols-2 p-4">
+              <div className="input_container flex flex-col">
+                <label className="input_label text-gray-700 font-semibold mb-1" htmlFor="batchNo">
+                  Batch No
+                </label>
+                <input
+                  type="text"
+                  name="batchNo"
+                  value={batch_no}
+                  className="input_field border border-slate-300 rounded-md p-2 bg-gray-100"
+                  id="batchNo"
+                  readOnly
                 />
-                        </div>
-          <div className="input_container mt-2">
-            <label className="input_label" htmlFor="transportPerKg">
-              Location To
-            </label>
-            <input
-              type="text"
-              name="transportPerKg"
-              value={cwsname}
-              className="input_field border-slate-400 rounded-lg"
-              id="transportPerKg"
-              autoComplete='off'
-              readOnly
-            />
-          </div>
+              </div>
 
-          <button className='sign-in_btn mb-12'>Submit</button>
-        </form>
-        <ToastContainer/>
+              <div className="input_container flex flex-col">
+                <label className="input_label text-gray-700 font-semibold mb-1" htmlFor="grade">
+                  Grade
+                </label>
+                <input
+                  type="text"
+                  name="grade"
+                  value={cherry_grade}
+                  className="input_field border border-slate-300 rounded-md p-2 bg-gray-100"
+                  id="grade"
+                  readOnly
+                />
+              </div>
+
+              <div className="input_container flex flex-col">
+                <label className="input_label text-gray-700 font-semibold mb-1" htmlFor="batchCreationDate">
+                  Batch Creation Date
+                </label>
+                <input
+                  type="text"
+                  name="batchCreationDate"
+                  value={purchase_date}
+                  className="input_field border border-slate-300 rounded-md p-2 bg-gray-100"
+                  id="batchCreationDate"
+                  readOnly
+                />
+              </div>
+
+              <div className="input_container flex flex-col">
+                <label className="input_label text-gray-700 font-semibold mb-1" htmlFor="harvestQuantity">
+                  Harvest Quantity
+                </label>
+                <input
+                  type="text"
+                  name="harvestQuantity"
+                  value={harvest_kgs}
+                  className="input_field border border-slate-300 rounded-md p-2 bg-gray-100"
+                  id="harvestQuantity"
+                  readOnly
+                />
+              </div>
+
+              <div className="input_container flex flex-col">
+                <label className="input_label text-gray-700 font-semibold mb-1" htmlFor="receivedQuantity">
+                  Received Quantity
+                </label>
+                <input
+                  type="number"
+                  name="receivedQuantity"
+                  value={receivedqty}
+                  onChange={(e) => setReceivedqty(e.target.value)}
+                  className="input_field border border-slate-300 rounded-md p-2"
+                  id="receivedQuantity"
+                  required
+                />
+              </div>
+
+              <div className="input_container flex flex-col">
+                <label className="input_label text-gray-700 font-semibold mb-1" htmlFor="locationTo">
+                  Location To
+                </label>
+                <input
+                  type="text"
+                  name="locationTo"
+                  value={cwsname}
+                  className="input_field border border-slate-300 rounded-md p-2 bg-gray-100"
+                  id="locationTo"
+                  readOnly
+                />
+              </div>
+            </div>
+
+            <button className="bg-teal-600 hover:bg-teal-700 md:w-1/2 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out mt-2 mb-2">
+              Submit
+            </button>
+          </form>
+          <ToastContainer/>
         </div>
         
       );
