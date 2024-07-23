@@ -86,7 +86,7 @@ const statusBodyTemplate = (status) => {
             <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
             <span className="p-input-icon-left">
                 {/* <i className="pi pi-search" /> */}
-                <InputText style={{width:'5rem'}} value={globalFilterValue} onChange={onGlobalFilterChange} className='w-full' placeholder="Search" />
+                <InputText  value={globalFilterValue} onChange={onGlobalFilterChange} className='w-full p-2' placeholder="Search" />
             </span>
         </div>
     );
@@ -251,14 +251,14 @@ const statusBodyTemplate = (status) => {
         <h2 className="text-2xl font-bold text-white">IN PROCESSING</h2>
       </div>
 
-      <div className="p-4">
+      <div className="p-0">
         <DataTable
           value={batch}
           paginator
           paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-          rows={10}
-          rowsPerPageOptions={[10, 20, 50]}
+          rows={100}
+          // rowsPerPageOptions={[10, 20, 50]}
           dataKey="batch_no"
           filters={filters}
           globalFilterFields={['batch_no', 'cws_name', 'total_kgs', 'status']}

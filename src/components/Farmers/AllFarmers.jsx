@@ -93,11 +93,11 @@ const AllFarmers = ({token,cwsname,cwscode,cws}) => {
 
   const renderHeader = () => {
     return (
-        <div className="flex justify-content-around">
+        <div className="flex justify-content-between">
             <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
             <span className="p-input-icon-left">
                 {/* <i className="pi pi-search" /> */}
-                <InputText style={{width:'5rem'}} value={globalFilterValue} onChange={onGlobalFilterChange} className='w-full' placeholder="Search" />
+                <InputText  value={globalFilterValue} onChange={onGlobalFilterChange} className='w-full' placeholder="Search" />
             </span>
         </div>
     );
@@ -194,7 +194,7 @@ const AllFarmers = ({token,cwsname,cwscode,cws}) => {
 
   return (
     <div>
-      <div className='text-teal-600 text-pretty font-bold text-2xl'>PRICING INFORMATION</div>
+      <div className='text-teal-600 text-pretty font-bold text-2xl'>FARMERS INFORMATION</div>
       
       <div className="card">
       <div className="flex justify-content-end m-3">

@@ -26,7 +26,7 @@ const BagOffForm = () => {
     const [quantity,setQuantity]=useState(1);
     const [responsemessage,setResponseMessage ]=useState()
     const [batch,setBatch]=useState()
-    const [outTurn,setOutTurn]=useState()
+    const [outTurn,setOutTurn]=useState(0)
   
     const cwsname = searchParams.get('cwsname');
     const token = searchParams.get('token');
@@ -334,123 +334,104 @@ function get_output_items(batch_no){
       />
     );
   };
+  const InfoItem = ({ label, value }) => (
+    <div>
+      <span className="text-sm text-gray-600">{label}</span>
+      <p className="font-semibold text-gray-800">{value}</p>
+    </div>
+  );
       
        
       return (
-        <div className="d-flex flex-row">
-          <form onSubmit={handleCompleteClick} className='flex'>
-            <div className='flex flex-row w-full'>
-              <div className="input_container w-full flex flex-row">
-              <label className="input_label w-1/8" htmlFor="pricePerKg">
-                Completed Date
-              </label>
-              <Calendar className='w-1/4 mb-4 border-1 rounded-xl' value={completeddate} onChange={(e) => setCompleteddate(e.target.value)} dateFormat="dd/mm/yy" required />
-            </div>
-            </div>
-            
-            <Button className='bg-teal-700 text-gray-50 p-3 mb-2 w-ful text-center'>Complete</Button>
-          </form>
-          
-        <Card title="Process Information" className=' flex flex-row w-full justify-between bg-white'>
-            <p className="m-0 d-flex">
-                <span>Batch No</span>
-               <p className='font-bold'>
-                {batch_no}
-               </p>
-                
-            </p>
-            <p className="m-0 d-flex">
-                <span>Process Type</span>
-               <p className='font-bold'>
-                {process_type}
-               </p>
-                
-            </p>
-            <p className="m-0 d-flex">
-                <span>Scheduled Date</span>
-               <p className='font-bold'>
-                {schedule_date}
-               </p>
-                
-            </p>
-            
-            <p className="m-0 d-flex">
-                <span>Total Kgs</span>
-               <p className='font-bold'>
-                {received_cherry_kg}
-               </p>
-                
-            </p>
-            <p className="m-0 d-flex">
-                <span>Out Turn</span>
-               <p className='font-bold'>
-                {outTurn?Math.round(outTurn):"_"}%
-               </p>
-                
-            </p>
-            
-        </Card>
+        <div className="flex flex-col lg:w-3/4 mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+          <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white p-4">
+            <h2 className="text-2xl font-bold">Bag Off</h2>
+          </div>
 
-        {/* <Button label="Collapse" className="m-2" onClick={() => ref.current.collapse()} /> */}
-        <Panel ref={ref} header="Add Outputs Item" className='text-teal-600 mb-2' toggleable>
-            <p className="m-0">
-          <form className="form_container_2 d-flex justify-left" onSubmit={handleSubmit}>
-            <div className='text-teal-600 text-pretty font-bold text-2xl'>Add Output Items</div>
-            <hr className='border-teal-600 h-2'></hr>
-            <div className='divider'></div>
-            <br></br>
-            <div className="card flex flex-wrap gap-4">
-              {options && options.map(option => (
-                <div key={option.id} className="w-4 d-flex-row justify-between">
-                  <label>{option.output}</label>
-                  <span className="w-4">
-                    <InputText
-                      id={`output-${option.id}`}
-                      className='w-12'
-                      type='number'
-                      value={quantity[option.id] || ''}
-                      onChange={(e) => setQuantity({ ...quantity, [option.id]: e.target.value })}
-                      placeholder='Output KGS'
-                    />
-                  </span>
+          <div className="p-6 space-y-6">
+            {/* Process Information Card */}
+            <div className="bg-gray-100 rounded-lg p-4 shadow">
+              <h3 className="text-lg font-semibold text-teal-700 mb-3">Process Information</h3>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                <InfoItem label="Batch No" value={batch_no} />
+                <InfoItem label="Process Type" value={process_type} />
+                <InfoItem label="Scheduled Date" value={schedule_date} />
+                <InfoItem label="Total Kgs" value={received_cherry_kg} />
+                <InfoItem label="Out Turn" value={`${outTurn ? Math.round(outTurn) : "_"}%`} />
+              </div>
+            </div>
+
+            {/* Complete Process Form */}
+            {outTurn !== 0 && (
+              <form onSubmit={handleCompleteClick} className="bg-white rounded-lg p-4 shadow">
+                <h3 className="text-lg font-semibold text-teal-700 mb-3">Complete Process</h3>
+                <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-4">
+                  <label className="w-full md:w-auto font-medium" htmlFor="completedDate">
+                    Completed Date
+                  </label>
+                  <Calendar
+                    id="completedDate"
+                    value={completeddate}
+                    onChange={(e) => setCompleteddate(e.value)}
+                    dateFormat="dd/mm/yy"
+                    className="rounded-lg md:w-64"
+                    required
+                  />
+                  <Button type="submit" className="bg-teal-700 hover:bg-teal-800 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
+                    Complete
+                  </Button>
                 </div>
-              ))}
-            </div>
-            <button className='sign-in_btn mb-12 w-4 justify-center'>Submit</button>
-          </form>
+              </form>
+            )}
+            
 
-            </p>
-        </Panel>
-        <div className="card">
-        <DataTable
-          value={batch}
-          tableStyle={{ minWidth: '50rem' }}
-          editMode="row"
-          onRowEditComplete={onRowEditSave}
-        >
-          <Column field="process_name" header="Process Name"></Column>
-          <Column
-            field="process_type_output"
-            header="Process Type"
-            editor={(options) => typeTextEditor(options)}
-          ></Column>
-          <Column
-            field="output_quantity"
-            header="Quantity"
-            editor={(options) => quantityTextEditor(options)}
-          ></Column>
-          <Column
-            rowEditor
-            headerStyle={{ width: '10%', minWidth: '5rem', maxWidth: '7rem' }}
-            bodyStyle={{ textAlign: 'center' }}
-          ></Column>
-        </DataTable>
+            {/* Add Outputs Item Panel */}
+            <Panel ref={ref} header="Add Outputs Item" className="text-teal-600" toggleable>
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <h3 className="text-xl font-bold text-teal-700">Add Output Items</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  {options && options.map(option => (
+                    <div key={option.id} className="flex flex-col space-y-1">
+                      <label className="font-medium text-gray-700">{option.output}</label>
+                      <InputText
+                        id={`output-${option.id}`}
+                        type="number"
+                        value={quantity[option.id] || ''}
+                        onChange={(e) => setQuantity({ ...quantity, [option.id]: e.target.value })}
+                        placeholder="Output KGS"
+                        className="w-full p-2 border border-gray-300 rounded-md"
+                      />
+                    </div>
+                  ))}
                 </div>
+                <Button type="submit" className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
+                  Submit
+                </Button>
+              </form>
+            </Panel>
 
+            {/* DataTable */}
+            <div className="bg-white rounded-lg shadow overflow-hidden">
+              <DataTable
+                value={batch}
+                tableStyle={{ minWidth: '100%' }}
+                editMode="row"
+                onRowEditComplete={onRowEditSave}
+                className="text-sm"
+              >
+                <Column field="process_name" header="Process Name" />
+                <Column field="process_type_output" header="Process Type" editor={(options) => typeTextEditor(options)} />
+                <Column field="output_quantity" header="Quantity" editor={(options) => quantityTextEditor(options)} />
+                <Column
+                  rowEditor
+                  headerStyle={{ width: '10%', minWidth: '5rem', maxWidth: '7rem' }}
+                  bodyStyle={{ textAlign: 'center' }}
+                />
+              </DataTable>
+            </div>
+          </div>
 
-                
-        
-        <Toast ref={toast} />
+          <Toast ref={toast} />
         </div>
         
       );

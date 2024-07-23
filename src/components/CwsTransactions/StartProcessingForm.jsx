@@ -234,72 +234,82 @@ useEffect(() => {
 
        
       return (
-        <div className="d-flex">
-        
-        <form className="form_container card mx-auto gap-2" style={{width:"50%"}} onSubmit={handleSubmit}>
+        <div className="flex justify-center lg:w-1/2 md:w-3/4 mx-auto">
+          <form className="flex flex-col w-full gap-4 bg-white border-2 shadow-xl rounded-lg font-inter p-6" onSubmit={handleSubmit}>
+            <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white text-left pl-4 py-3 rounded-lg mb-4">
+              <h2 className="text-2xl font-bold">START PROCESSING</h2>
+            </div>
 
-        <div className='text-teal-600 text-pretty font-bold text-2xl mb-2'>START PROCESSING</div>
-        <hr className='border-teal-600 h-2 mb-4'></hr>
-        <div className='divider'></div>
+            <div className="grid grid-cols-1 gap-4">
+              <div className="input_container flex flex-col">
+                <label className="input_label text-gray-700 font-semibold mb-1" htmlFor="processName">
+                  Process Name
+                </label>
+                <input
+                  type="text"
+                  name="processName"
+                  value={batch_no}
+                  className="input_field border border-slate-300 rounded-md p-2 bg-gray-100"
+                  id="processName"
+                  readOnly
+                />
+              </div>
 
-          <div className="input_container w-full flex mb-2">
-            <label className="input_label w-full m-3" htmlFor="pricePerKg">
-              Process Name
-            </label>
-            <input
-              type="text"
-              name="pricePerKg"
-              value={batch_no}
-              className="input_field w-full border-1 rounded"
-              id="pricePerKg"
-              autoComplete='off'
-              readOnly
-            />
-          </div>
-          <div className="input_container w-full flex mb-2">
-            <label className="input_label w-full m-3" htmlFor="processType">
-              Process Type
-            </label>
-            
-            <select
-              value={processtype || (options && options.length > 0 ? options[0].id : '')}
-              onChange={(e) => setProcesstype(e.target.value)}
-              id="processType"
-              className='w-full border-1 rounded'
-            >
-              <option>Select process type</option>
-              {options && options.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.outputs}
-                </option>
-              ))}
-            </select>
-          </div>
-        {/* <input type="text" value={processtype} onChange={(e)=>setProcesstype(e.target.value)}/> */}
-          <div className="input_container w-full flex">
-            <label className="input_label w-full m-3" htmlFor="pricePerKg">
-              Schedule Date
-            </label>
-            <Calendar className='w-full' value={scheduledate} onChange={(e) => setScheduledate(e.target.value)} dateFormat="dd/mm/yy" required />
-          </div>
-          <div className="input_container w-full flex m-3">
-            <label className="input_label w-full" htmlFor="transportPerKg">
-              Location To
-            </label>
-            <input
-              type="text"
-              name="transportPerKg"
-              value={cwsname}
-              className="input_field w-full p-3 border-1 rounded"
-              id="transportPerKg"
-              autoComplete='off'
-              readOnly
-            />
-          </div>
+              <div className="input_container flex flex-col">
+                <label className="input_label text-gray-700 font-semibold mb-1" htmlFor="processType">
+                  Process Type
+                </label>
+                <select
+                  value={processtype || ''}
+                  onChange={(e) => setProcesstype(e.target.value)}
+                  id="processType"
+                  className="border border-slate-300 rounded-md p-2"
+                  required
+                >
+                  <option value="" disabled>Select process type</option>
+                  {options && options.map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.outputs}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-          <center><button className='sign-in_btn mt-5 mb-5 bg-teal-600 p-3 w-1/2 rounded text-white'>Submit</button></center>
-        </form>
-        <Toast ref={toast} />
+              <div className="input_container flex flex-col">
+                <label className="input_label text-gray-700 font-semibold mb-1" htmlFor="scheduleDate">
+                  Schedule Date
+                </label>
+                <Calendar 
+                  value={scheduledate} 
+                  onChange={(e) => setScheduledate(e.target.value)} 
+                  dateFormat="dd/mm/yy" 
+                  className="w-full border border-slate-300 rounded-md" 
+                  required 
+                />
+              </div>
+
+              <div className="input_container flex flex-col">
+                <label className="input_label text-gray-700 font-semibold mb-1" htmlFor="locationTo">
+                  Location To
+                </label>
+                <input
+                  type="text"
+                  name="locationTo"
+                  value={cwsname}
+                  className="input_field border border-slate-300 rounded-md p-2 bg-gray-100"
+                  id="locationTo"
+                  readOnly
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-center mt-4">
+              <button className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out lg:w-1/2 md:w-1/2">
+                Submit
+              </button>
+            </div>
+          </form>
+          <Toast ref={toast} />
         </div>
         
       );

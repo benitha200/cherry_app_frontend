@@ -259,8 +259,7 @@ const statusBodyTemplate = (status) => {
             paginator
             paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            rows={10}
-            rowsPerPageOptions={[10, 20, 50]}
+            rows={100}
             dataKey="batch_no"
             filters={filters}
             globalFilterFields={['batch_no', 'cws_name', 'total_kgs', 'status']}

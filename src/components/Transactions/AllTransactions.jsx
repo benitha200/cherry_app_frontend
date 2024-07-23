@@ -29,6 +29,8 @@ export default function AllTransactions({ dailytotal }) {
   const [rowClick, setRowClick] = useState(true);
   const [customers,setCustomers]=useState([])
   const [status, setStatus] = useState('Pending');
+  const [totalCherryKg, setTotalCherryKg] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
 
 //   const toast = useRef(null);
 
@@ -106,8 +108,19 @@ export default function AllTransactions({ dailytotal }) {
   // Handler for selection change
   const handleSelectionChange = (e) => {
     const selectedRows = e.value;
+
     setSelectedData(selectedRows);
     calculateTotalOfSelected(selectedRows);
+  
+  const totalCherryKg = selectedRows.reduce((sum, row) => sum + parseFloat(row.cherry_kg || 0), 0);
+  const totalAmount = selectedRows.reduce((sum, row) => {
+    const rowTotal = (parseFloat(row.cherry_kg || 0) + parseFloat(row.transport || 0)) * parseFloat(row.price || 0);
+    return sum + rowTotal;
+  }, 0);
+  
+  setTotalCherryKg(totalCherryKg);
+  setTotalAmount(totalAmount);
+    
   };
 
 
@@ -360,7 +373,8 @@ export default function AllTransactions({ dailytotal }) {
         if (profile && 
         profile.jobTitle && 
         profile.jobTitle.includes('CWS') && 
-        profile.jobTitle.includes('Manager')) {
+        profile.jobTitle.includes('Manager'))
+         {
             
         return (
             <div className="flex justify-content-between">
@@ -420,7 +434,7 @@ export default function AllTransactions({ dailytotal }) {
   const header = renderHeader();
 
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-full mx-auto my-8 border-2">
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-full mx-auto border-2">
       <div className="bg-gradient-to-r from-teal-600 to-teal-700 p-3 ">
         <h2 className="text-2xl font-bold text-white"> All Transactions</h2>
       </div>
@@ -457,7 +471,7 @@ export default function AllTransactions({ dailytotal }) {
         onRowEditComplete={onRowEditComplete}
         paginator
         showGridlines
-        rows={10}
+        rows={100}
         loading={loading}
         dataKey="id"
         filters={filters}
@@ -479,7 +493,30 @@ export default function AllTransactions({ dailytotal }) {
         resizableColumns
         scrollable
         scrollHeight="400px"
-        className="p-datatable-sm"
+        className="small-row"
+        footer={selectedData.length > 0 ? 
+          <div className="flex flex-wrap justify-between items-center p-3 bg-gray-100 text-sm">
+            <div className="flex items-center space-x-2 mb-2 sm:mb-0">
+              <span className="font-semibold text-gray-700">Selected:</span>
+              <span className="bg-blue-500 text-white px-2 py-1 rounded-full">
+                {selectedData.length}
+              </span>
+            </div>
+            <div className="flex items-center space-x-2 mb-2 sm:mb-0">
+              <span className="font-semibold text-gray-700">Total Cherry Kg:</span>
+              <span className="bg-green-500 text-white px-2 py-1 rounded-full">
+                {totalCherryKg.toFixed(2)}
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="font-semibold text-gray-700">Total Amount:</span>
+              <span className="bg-purple-500 text-white px-2 py-1 rounded-full">
+                {totalAmount.toLocaleString('en-US', { style: 'currency', currency: 'RWF' })}
+              </span>
+            </div>
+          </div>
+          : undefined
+        }
       >
         <Column 
           selectionMode="multiple" 
@@ -487,7 +524,7 @@ export default function AllTransactions({ dailytotal }) {
           frozen 
           alignFrozen="left"
         />
-        <Column field="batch_no" header="Batch Number" style={{ minWidth: '8rem' }} frozen alignFrozen='left'/>
+        <Column field="batch_no" header="Batch Number" filter style={{ minWidth: '8rem' }} frozen alignFrozen='left'/>
         <Column field="id" sortable header="Transaction Id" filter filterPlaceholder="Transaction Id" hidden style={{ minWidth: '2rem' }} />
         <Column field="cws_name" sortable header="CWS Name" filter filterPlaceholder="Search by CWS Name" style={{ minWidth: '10rem' }} />
         <Column field="farmer_name" sortable header="Farmer Name" filter filterPlaceholder="Search by Farmer Name" style={{ minWidth: '14rem' }} />
@@ -536,9 +573,9 @@ export default function AllTransactions({ dailytotal }) {
         } />
       </DataTable>
 
-      <div className="bg-gray-50 p-4 border-t border-gray-200">
-        <h3 className="text-lg font-semibold text-gray-700">Total of Selected Rows: <span className="text-teal-600">{totalOfSelected.toLocaleString()} RWF</span></h3>
-      </div>
+      {/* <div className="bg-gray-50 p-4 border-t border-gray-200">
+        <h3 className="text-lg font-semibold text-gray-700">Total of Selected Rows: <span className="text-teal-600">{totalOfSelected} RWF</span></h3>
+      </div> */}
     </div>
   );
 }

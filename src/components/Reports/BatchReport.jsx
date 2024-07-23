@@ -211,8 +211,8 @@ const BatchReport = () => {
       </div>
       
       <div className="bg-white shadow-lg rounded-b-lg overflow-hidden border-2 border-t-0">
-        <div className="p-4">
-          <div className="flex justify-end mb-4">
+        <div className="p-0">
+          <div className="flex justify-end m-4">
             {customers && (
               <CSVLink data={customers} headers={csvHeaders} filename="batch_report.csv">
                 <Button
@@ -231,8 +231,7 @@ const BatchReport = () => {
             paginator
             paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            rows={10}
-            rowsPerPageOptions={[10, 20, 50]}
+            rows={100}
             dataKey="id"
             filters={filters}
             globalFilterFields={['season', 'batch_no', 'cws_name', 'cherry_grade', 'schedule_date', 'total_output_quantity', 'completed_date', 'received_cherry_kg', 'status']}
@@ -255,14 +254,19 @@ const BatchReport = () => {
             <Column field="total_output_quantity" header="Total Output Quantity" sortable style={{ minWidth: '12rem' }} />
             <Column field="out_turn" header="Out Turn %" sortable style={{ minWidth: '8rem' }} body={renderOutTurn} />
             <Column field="process_type" header="Process Type" style={{ minWidth: '10rem' }} />
-            <Column
-              field="status"
-              header="Status"
-              sortable
-              filter
-              filterMatchMode="equals"
-              body={(rowData) => (rowData.completed_date ? 'Completed' : 'Pending')}
-              style={{ minWidth: '8rem', fontWeight: 'bold' }}
+           
+            <Column 
+              field="status" 
+              header="Status" 
+              body={(rowData) => (
+                <span className={`px-2 py-1 rounded-full text-xs font-semibold ${
+                  rowData.completed_date 
+                    ? 'bg-green-100 text-green-800' 
+                    : 'bg-yellow-100 text-yellow-800'
+                }`}>
+                  {rowData.completed_date ? 'Completed' : 'Pending'}
+                </span>
+              )}
             />
           </DataTable>
         </div>
