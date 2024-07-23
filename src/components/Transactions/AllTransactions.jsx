@@ -420,15 +420,22 @@ export default function AllTransactions({ dailytotal }) {
   const header = renderHeader();
 
   return (
-    <div className="card">
-      <div className="flex justify-between m-2">
-      <Select onChange={handleStatusChange}>
-            <option value="all">All</option>
-            <option value="Pending">Pending</option>
-            <option value="Rejected">Rejected</option>
-          </Select>
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-full mx-auto my-8 border-2">
+      <div className="bg-gradient-to-r from-teal-600 to-teal-700 p-3 ">
+        <h2 className="text-2xl font-bold text-white"> All Transactions</h2>
+      </div>
+
+      <div className="flex justify-between items-center p-4 bg-gray-50 border-b border-gray-200">
+        <Select 
+          onChange={handleStatusChange}
+          className="w-48 rounded-md shadow-sm border-gray-300 focus:border-teal-500 focus:ring focus:ring-teal-200 focus:ring-opacity-50"
+        >
+          <option value="all">All Transactions</option>
+          <option value="Pending">Pending</option>
+          <option value="Rejected">Rejected</option>
+        </Select>
+
         {customers && (
-            
           <CSVLink
             data={customers}
             headers={csvHeaders}
@@ -438,11 +445,12 @@ export default function AllTransactions({ dailytotal }) {
               type="button"
               icon="pi pi-file-excel"
               label="Download Excel"
-              className="bg-teal-400 text-gray-100 p-3"
+              className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded transition duration-150 ease-in-out"
             />
           </CSVLink>
         )}
       </div>
+
       <DataTable
         value={customers}
         editMode="row"
@@ -463,7 +471,6 @@ export default function AllTransactions({ dailytotal }) {
           'batch_no',
         ]}
         header={header}
-        tableStyle={{ minWidth: '30rem', maxWidth: '30rem' }}
         emptyMessage="No Pending Transactions found."
         selectionMode='checkbox'
         selection={selectedData}
@@ -472,51 +479,65 @@ export default function AllTransactions({ dailytotal }) {
         resizableColumns
         scrollable
         scrollHeight="400px"
-        className="small-row"
+        className="p-datatable-sm"
       >
-          <Column 
-            selectionMode="multiple" 
-            headerStyle={{ width: '3rem' }}
-            frozen 
-            alignFrozen="left"
-        />
-        <Column field="batch_no" header="Batch Number" style={{ minWidth: '8rem', maxWidth: '10rem' }} frozen alignFrozen='left'/>
-        <Column field="id" sortable header="Transaction Id" filter filterPlaceholder="Transaction Id" hidden style={{ minWidth: '2rem', maxWidth: '10rem' }} />
-        <Column field="cws_name" sortable header="CWS Name" filter filterPlaceholder="Search by CWS Name" style={{ minWidth: '10rem', maxWidth: '12rem' }} />
-        {/* <Column field="cws_code" sortable header="CWS Code" filter filterPlaceholder="Search by CWS Name" style={{ minWidth: '10rem', maxWidth: '12rem' }} /> */}
-        <Column field="farmer_name" sortable header="Farmer Name" filter filterPlaceholder="Search by Farmer Name" style={{ minWidth: '14rem', maxWidth: '18rem' }} />
-        <Column field="plot_name" sortable header="Plot Name" filter filterPlaceholder="Search by Plot Name" style={{ minWidth: '14rem', maxWidth: '18rem' }} />
-        <Column field="purchase_date" sortable header="Purchase Date" style={{ minWidth: '10rem', maxWidth: '12rem' }} />        
-        <Column field="has_card" header="Has Card" style={{ minWidth: '8rem', maxWidth: '8rem' }} body={(rowData) => rowData.has_card === 1 ? 'Yes' : 'No'} />
-        <Column field="cherry_grade" sortable header="Cherry Grade" style={{ minWidth: '9rem', maxWidth: '10rem' }} filterPlaceholder="Search by cherry grade" filter />
-        <Column field="cherry_kg" header="Cherry Kg" style={{ minWidth: '5rem', maxWidth: '8rem' }} editor={(options) => textEditor(options)} />
-        <Column field="is_paid" header="Paid" filter sortable style={{ minWidth: '8rem', maxWidth: '8rem' }} body={(rowData) => rowData.is_paid === 1 ? <CheckBadgeIcon className="h-6 w-6 text-green-500" /> : <XCircleIcon className="h-6 w-6 text-red-500" />} />
-        <Column field="price" header="Price" style={{ minWidth: '5rem', maxWidth: '8rem' }} />
         <Column 
-            field="total" 
-            header="Total (RWF)" 
-            style={{ minWidth: '5rem', maxWidth: '8rem' }}
-            body={(rowData) => {
-                const total = (parseFloat(rowData.cherry_kg) + parseFloat(rowData.transport)) * parseFloat(rowData.price);
-                return total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            }}
-            />
-        <Column field="grn_no" header="Transaction No" style={{ minWidth: '8rem', maxWidth: '10rem' }} />
-        <Column field="transport" header="Transport" style={{ minWidth: '5rem', maxWidth: '10rem' }} editor={(options) => textEditor(options)} />
+          selectionMode="multiple" 
+          headerStyle={{ width: '3rem' }}
+          frozen 
+          alignFrozen="left"
+        />
+        <Column field="batch_no" header="Batch Number" style={{ minWidth: '8rem' }} frozen alignFrozen='left'/>
+        <Column field="id" sortable header="Transaction Id" filter filterPlaceholder="Transaction Id" hidden style={{ minWidth: '2rem' }} />
+        <Column field="cws_name" sortable header="CWS Name" filter filterPlaceholder="Search by CWS Name" style={{ minWidth: '10rem' }} />
+        <Column field="farmer_name" sortable header="Farmer Name" filter filterPlaceholder="Search by Farmer Name" style={{ minWidth: '14rem' }} />
+        <Column field="plot_name" sortable header="Plot Name" filter filterPlaceholder="Search by Plot Name" style={{ minWidth: '14rem' }} />
+        <Column field="purchase_date" sortable header="Purchase Date" style={{ minWidth: '10rem' }} />        
+        <Column field="has_card" header="Has Card" style={{ minWidth: '8rem' }} body={(rowData) => rowData.has_card === 1 ? 'Yes' : 'No'} />
+        <Column field="cherry_grade" sortable header="Cherry Grade" style={{ minWidth: '9rem' }} filterPlaceholder="Search by cherry grade" filter />
+        <Column field="cherry_kg" header="Cherry Kg" style={{ minWidth: '5rem' }} editor={(options) => textEditor(options)} />
+        <Column field="is_paid" header="Paid" filter sortable style={{ minWidth: '8rem' }} body={(rowData) => rowData.is_paid === 1 ? <CheckBadgeIcon className="h-6 w-6 text-green-500" /> : <XCircleIcon className="h-6 w-6 text-red-500" />} />
+        <Column field="price" header="Price" style={{ minWidth: '5rem' }} />
+        <Column 
+          field="total" 
+          header="Total (RWF)" 
+          style={{ minWidth: '5rem' }}
+          body={(rowData) => {
+            const total = (parseFloat(rowData.cherry_kg) + parseFloat(rowData.transport)) * parseFloat(rowData.price);
+            return total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          }}
+        />
+        <Column field="grn_no" header="Transaction No" style={{ minWidth: '8rem' }} />
+        <Column field="transport" header="Transport" style={{ minWidth: '5rem' }} editor={(options) => textEditor(options)} />
         
-        <Column rowEditor headerStyle={{ width: '10%', minWidth: '5rem', maxWidth: '7rem' }} bodyStyle={{ textAlign: 'center' }}></Column>
-        <Column header="Payment status" body={(rowData) => rowData.is_paid === 1 ? <span className="text-green-400 p-3">Paid</span> : <>
-          {/* <Toast ref={toast} /> */}
-          <ToastContainer/>
-          <ConfirmDialog group="declarative" visible={visible} onHide={() => setVisible(false)} message="Are you sure you want to Confirm Payment?" header="Confirmation" icon="pi pi-exclamation-triangle" accept={() => accept(rowData.id)} reject={reject} />
-          <div className="">
-            <Button className="bg-blue-400 p-3 text-slate-50" onClick={() => setVisible(true)} icon="pi pi-check" label="Confirm" />
-          </div>
-        </>} />
+        <Column rowEditor headerStyle={{ width: '10%', minWidth: '5rem' }} bodyStyle={{ textAlign: 'center' }}></Column>
+        <Column header="Payment status" body={(rowData) => rowData.is_paid === 1 ? 
+          <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Paid</span> 
+          : 
+          <>
+            <ToastContainer/>
+            <ConfirmDialog 
+              group="declarative" 
+              visible={visible} 
+              onHide={() => setVisible(false)} 
+              message="Are you sure you want to Confirm Payment?" 
+              header="Confirmation" 
+              icon="pi pi-exclamation-triangle" 
+              accept={() => accept(rowData.id)} 
+              reject={reject} 
+            />
+            <Button 
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded text-sm transition duration-150 ease-in-out" 
+              onClick={() => setVisible(true)} 
+              icon="pi pi-check" 
+              label="Confirm" 
+            />
+          </>
+        } />
       </DataTable>
 
-      <div className="total-display">
-        <h3>Total of Selected Rows: {totalOfSelected} RWF</h3>
+      <div className="bg-gray-50 p-4 border-t border-gray-200">
+        <h3 className="text-lg font-semibold text-gray-700">Total of Selected Rows: <span className="text-teal-600">{totalOfSelected.toLocaleString()} RWF</span></h3>
       </div>
     </div>
   );

@@ -117,7 +117,7 @@ function AppContent() {
         
         {/* <Router> */}
 
-        <div className='flex flex-row w-full relative'>
+        <div className='flex flex-row w-full relative bg-teal-50'>
             <button
               className="lg:hidden text-gray-500 w-5 h-5"
               onClick={() => setIsOpen(true)}

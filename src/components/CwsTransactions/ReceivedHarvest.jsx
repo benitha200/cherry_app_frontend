@@ -247,84 +247,83 @@ const statusBodyTemplate = (status) => {
 
 
   return (
-    <div>
-      <div className='text-teal-600 text-pretty font-bold text-2xl'>START PROCESSING</div>
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-full mx-auto my-8 border-2">
+      <div className="bg-gradient-to-r from-teal-600 to-teal-700 p-3 ">
+            <h2 className="text-2xl font-bold text-white"> Start Processing</h2>
+          </div>
       
-      <div className="card">
-      <div className="flex justify-content-end m-3">
-                
-            </div>
-            <DataTable
-                value={batch}
-                paginator
-                showGridlines
-                rows={10}
-                dataKey="batch_no"
-                filters={filters}
-                globalFilterFields={['batch_no', 'cws_name', 'total_kgs','status']}
-                header={header}
-                emptyMessage="No Transactions found ."
-                >   
-                <Column
-                    field="batch_no"
-                    sortable
-                    header="Batch No"
-                    filter
-                    filterPlaceholder="Search by CWS Name"
-                    style={{ minWidth: '12rem' }}
-                />
-                <Column
-                    field="location_to"
-                    sortable
-                    header="Station Name"
-                    filter
-                    filterPlaceholder="Search by Farmer Name"
-                    style={{ minWidth: '12rem' }}
-                />
-                <Column
-                    field="cherry_grade"
-                    sortable
-                    header="Cherry Grade"
-                    filter
-                    filterPlaceholder="search by cherry Grade"
-                    style={{ minWidth: '10rem' }}
-                />
-                <Column
-                    field="harvest_cherry_kg"
-                    sortable
-                    header="Harvest KGS"
-                    filter
-                    filterPlaceholder='search by harvested KGS'
-                    style={{ minWidth: '10rem' }}
-                />
-                <Column
-                    field="received_cherry_kg"
-                    sortable
-                    header="Received KGS"
-                    filter
-                    filterPlaceholder='Search by received kgs'
-                    style={{ minWidth: '10rem' }}
-                />
-                <Column
-                    field="location_to"
-                    sortable
-                    header="Location"
-                    style={{ minWidth: '10rem' }}
-                />
-                {/*<Column
-                field="status"
-                header="Status"
-                sortable
-                style={{minWidth:'10rem'}}
-                />*/}
-                <Column
-                    header="Start Processing"
-                    style={{minWidth:'10rem'}}
-                    body={renderReceiveButton}
-                    // sortable
-                />
-                </DataTable>
+      <div className="bg-white shadow-md rounded-lg overflow-hidden">
+        <div className="p-4 sm:p-0 md:mt-4">
+          <DataTable
+            value={batch}
+            paginator
+            paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            rows={10}
+            rowsPerPageOptions={[10, 20, 50]}
+            dataKey="batch_no"
+            filters={filters}
+            globalFilterFields={['batch_no', 'cws_name', 'total_kgs', 'status']}
+            header={header}
+            emptyMessage="No transactions found."
+            className="p-datatable-sm"
+            responsiveLayout="scroll"
+          >
+            <Column
+              field="batch_no"
+              header="Batch No"
+              sortable
+              filter
+              filterPlaceholder="Search Batch No"
+              style={{ minWidth: '10rem' }}
+              className="p-column-title"
+            />
+            <Column
+              field="location_to"
+              header="Station Name"
+              sortable
+              filter
+              filterPlaceholder="Search Station"
+              style={{ minWidth: '12rem' }}
+            />
+            <Column
+              field="cherry_grade"
+              header="Cherry Grade"
+              sortable
+              filter
+              filterPlaceholder="Search Grade"
+              style={{ minWidth: '10rem' }}
+            />
+            <Column
+              field="harvest_cherry_kg"
+              header="Harvest KGS"
+              sortable
+              filter
+              filterPlaceholder="Search Harvest KGS"
+              style={{ minWidth: '10rem' }}
+            />
+            <Column
+              field="received_cherry_kg"
+              header="Received KGS"
+              sortable
+              filter
+              filterPlaceholder="Search Received KGS"
+              style={{ minWidth: '10rem' }}
+            />
+            <Column
+              field="location_to"
+              header="Location"
+              sortable
+              style={{ minWidth: '10rem' }}
+            />
+            <Column
+              header="Start Processing"
+              body={renderReceiveButton}
+              style={{ minWidth: '10rem' }}
+            />
+          </DataTable>
         </div>
+      </div>
     </div>
 
   );

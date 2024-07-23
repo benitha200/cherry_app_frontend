@@ -82,11 +82,11 @@ const statusBodyTemplate = (status) => {
 
   const renderHeader = () => {
     return (
-        <div className="flex justify-content-around">
+        <div className="flex justify-content-between">
             <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
             <span className="p-input-icon-left">
                 {/* <i className="pi pi-search" /> */}
-                <InputText style={{width:'5rem'}} value={globalFilterValue} onChange={onGlobalFilterChange} className='w-5' placeholder="Search" />
+                <InputText style={{width:'5rem'}} value={globalFilterValue} onChange={onGlobalFilterChange} className='w-full' placeholder="Search" />
             </span>
         </div>
     );
@@ -246,74 +246,78 @@ const statusBodyTemplate = (status) => {
 
 
   return (
-    <div>
-      <div className='text-teal-600 text-pretty font-bold text-2xl'>IN PROCESSING</div>
-      
-      <div className="card">
-      <div className="flex justify-content-end m-3">
-                
-            </div>
-            <DataTable
-                value={batch}
-                paginator
-                showGridlines
-                rows={10}
-                dataKey="batch_no"
-                filters={filters}
-                globalFilterFields={['batch_no', 'cws_name', 'total_kgs','status']}
-                header={header}
-                emptyMessage="No Transactions found ."
-                >   
-                <Column
-                    field="batch_no"
-                    sortable
-                    header="Process Name"
-                    filter
-                    filterPlaceholder="Search by CWS Name"
-                    style={{ minWidth: '12rem' }}
-                />
-                 <Column
-                    field="process_type"
-                    sortable
-                    header="Process Type"
-                    filter
-                    filterPlaceholder='search by Process Type'
-                    style={{ minWidth: '10rem' }}
-                />
-                <Column
-                    field="cherry_grade"
-                    sortable
-                    header="Cherry Grade"
-                    filter
-                    filterPlaceholder="search by cherry Grade"
-                    style={{ minWidth: '10rem' }}
-                />
-                <Column
-                    field="received_cherry_kg"
-                    sortable
-                    header="Total KGS"
-                    filter
-                    filterPlaceholder='Search by received kgs'
-                    style={{ minWidth: '10rem' }}
-                />
-                <Column
-                    field="location_to"
-                    sortable
-                    header="Location"
-                    style={{ minWidth: '10rem' }}
-                />
-                <Column
-                    header="Actions"
-                    style={{minWidth:'10rem'}}
-                    body={renderReceiveButton}
-                />
-                <Column
-                rowEditor
-                headerStyle={{ width: '10%', minWidth: '5rem', maxWidth: '7rem' }}
-                bodyStyle={{ textAlign: 'center' }}
-              ></Column>
-                </DataTable>
-        </div>
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-full mx-auto my-8 border-2">
+      <div className="bg-gradient-to-r from-teal-600 to-teal-700 p-3">
+        <h2 className="text-2xl font-bold text-white">IN PROCESSING</h2>
+      </div>
+
+      <div className="p-4">
+        <DataTable
+          value={batch}
+          paginator
+          paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+          rows={10}
+          rowsPerPageOptions={[10, 20, 50]}
+          dataKey="batch_no"
+          filters={filters}
+          globalFilterFields={['batch_no', 'cws_name', 'total_kgs', 'status']}
+          header={header}
+          emptyMessage="No transactions found."
+          showGridlines
+          className="p-datatable-sm"
+          responsiveLayout="scroll"
+        >
+          <Column
+            field="batch_no"
+            header="Process Name"
+            sortable
+            filter
+            filterPlaceholder="Search Process Name"
+            style={{ minWidth: '12rem' }}
+          />
+          <Column
+            field="process_type"
+            header="Process Type"
+            sortable
+            filter
+            filterPlaceholder="Search Process Type"
+            style={{ minWidth: '10rem' }}
+          />
+          <Column
+            field="cherry_grade"
+            header="Cherry Grade"
+            sortable
+            filter
+            filterPlaceholder="Search Cherry Grade"
+            style={{ minWidth: '10rem' }}
+          />
+          <Column
+            field="received_cherry_kg"
+            header="Total KGS"
+            sortable
+            filter
+            filterPlaceholder="Search Total KGS"
+            style={{ minWidth: '10rem' }}
+          />
+          <Column
+            field="location_to"
+            header="Location"
+            sortable
+            style={{ minWidth: '10rem' }}
+          />
+          <Column
+            header="Actions"
+            body={renderReceiveButton}
+            style={{ minWidth: '10rem' }}
+          />
+          <Column
+            rowEditor
+            headerStyle={{ width: '10%', minWidth: '5rem', maxWidth: '7rem' }}
+            bodyStyle={{ textAlign: 'center' }}
+          />
+        </DataTable>
+      </div>
     </div>
 
   );

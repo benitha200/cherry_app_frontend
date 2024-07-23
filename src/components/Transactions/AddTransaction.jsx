@@ -556,11 +556,14 @@ const handleInputChange = (e) => {
       return (
         <div className="d-flex lg:w-1/2 md:w-3/4 mx-auto">
         
-        <form className="flex flex-col items-center justify-center gap-15 p-4 md:p-10 gap-4 bg-white shadow-xl rounded-lg font-inter" onSubmit={handleSubmit}>
-        <div className='text-teal-600 text-pretty font-bold text-2xl'>ADD TRANSACTION</div>
-        <hr className='border-teal-600 h-2'></hr>
-        <div className='divider'></div>
-        <div className='flex w-full gap-10'>
+        <form className="flex flex-col items-center justify-center  gap-4 bg-white border-2 shadow-xl rounded-lg font-inter" onSubmit={handleSubmit}>
+        <div className="bg-gradient-to-r from-teal-600 to-teal-700 text-white text-center py-2 w-full rounded-lg">
+          <h2 className="text-3xl font-bold">Add Transaction</h2>
+        </div>
+        
+        <div className='w-full p-6'>
+
+        <div className='flex w-full gap-10 '>
           <div className="input_container w-full flex flex-col">
             <label className="input_label" htmlFor="date">
             Purchase Date
@@ -721,6 +724,7 @@ const handleInputChange = (e) => {
 
            
           <button className='sign-in_btn mb-12'>Submit</button>
+          </div>
         </form>
         <Toast ref={toast} />
         </div>
