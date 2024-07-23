@@ -135,48 +135,53 @@ const mapApiResponseToCustomers = (data) => {
     generateReport();
   }, [date]);
 
-  return (
-    <div className='w-full mx-auto'>
-      
-      <div className='text-teal-600 text-pretty font-bold text-2xl'>DAILY REPORT</div>
-      <div className='flex flex-row space-x-2 md:space-x-8 justify-between'>
-        <form action="" className='flex flex-row flex-wrap mt-2 w-10'>
-            <div className='flex flex-row flex-wrap items-center ml-4'>
-              <label className='text-dark p-2 text-sm'>Select Date</label>
-              <input
-                placeholder="First"
-                className="input m-2"
-                name="date"
-                type="date"
-                value={date}
-                onChange={(e) => onDateChange(e.target.value)}
-              />
-            </div>
-          </form>
-          <div className='card flex flex-column space-y-4'>
-          <div className="flex flex-row w-full gap-4">
-              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-200'>
-                Purchase
-                <span className='text-sl text-cyan-600 font-bold p-2'>{dailytotal} RWF</span>
-              </span>
-              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-200'>
-                Cherry A
-                <span className='text-sl text-cyan-600 font-bold p-2'>{totalcherrya} Kg</span>
-              </span>
-              <span className='text-black-600 text-xl font-bold p-2 flex flex-col w-2/6 rounded-md bg-slate-200'>
-                Cherry B
-                <span className='text-sl text-cyan-600 font-bold p-2'>{totalcherryb} Kg</span>
-              </span>
-            </div>
+  const StatCard = ({ title, value }) => (
+    <div className='bg-slate-200 p-3 rounded-md'>
+      <h2 className='text-black-600 text-lg font-bold mb-1'>{title}</h2>
+      <p className='text-cyan-600 font-bold'>{value}</p>
+    </div>
+  );
 
-            <div className='flex flex-row bg-slate-200 p-4 rounded-sm justify-left gap-5'>
-              
-              <span className='text-black-600 text-xl font-bold'>Paid:<span className='text-sl text-teal-600 font-bold p-2'>{totalPaid} RWF</span></span>|
-              <span className='text-black-600 text-xl font-bold'>UnPaid:<span className='text-sl text-red-600 font-bold p-2'>{totalUnpaid} RWF</span></span>  
-            </div> 
+  return (
+    <div className='w-full mx-auto p-4'>
+
+      <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6'>
+        <form className='w-full sm:w-auto mb-4 sm:mb-0'>
+          <div className='flex flex-col sm:flex-row items-start sm:items-center'>
+            <label className='text-dark p-2 text-sm mb-1 sm:mb-0'>Select Date</label>
+            <input
+              placeholder="Select date"
+              className="input m-2 
+               w-full sm:w-auto"
+              name="date"
+              type="date"
+              value={date}
+              onChange={(e) => onDateChange(e.target.value)}
+            />
           </div>
+        </form>
+
+        <div className='w-full sm:w-auto'>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <StatCard title="Purchase" value={`${dailytotal} RWF`} />
+            <StatCard title="Cherry A" value={`${totalcherrya} Kg`} />
+            <StatCard title="Cherry B" value={`${totalcherryb} Kg`} />
+          </div>
+        </div>
       </div>
-      
+
+      <div className='bg-slate-200 p-4 rounded-md mb-6'>
+        <div className='flex flex-col sm:flex-row justify-between items-center gap-4'>
+          <span className='text-black-600 text-lg sm:text-xl font-bold'>
+            Paid: <span className='text-teal-600 font-bold'>{totalPaid} RWF</span>
+          </span>
+          <div className='hidden sm:block w-px h-8 bg-gray-400'></div>
+          <span className='text-black-600 text-lg sm:text-xl font-bold'>
+            Unpaid: <span className='text-red-600 font-bold'>{totalUnpaid} RWF</span>
+          </span>
+        </div>
+      </div>
+
       <Transactions customers={customers} loading={loading} dailytotal={dailytotal} />
     </div>
   );

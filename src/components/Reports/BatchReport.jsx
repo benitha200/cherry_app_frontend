@@ -97,8 +97,7 @@ const BatchReport = () => {
         <div className="flex justify-content-between">
             <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
             <span className="p-input-icon-left">
-                {/* <i className="pi pi-search" /> */}
-                <InputText value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
+                <InputText className='w-full p-2' value={globalFilterValue} onChange={onGlobalFilterChange} placeholder="Keyword Search" />
             </span>
         </div>
     );
@@ -206,70 +205,68 @@ const BatchReport = () => {
   }));
 
   return (
-    <div>
-      <div className='text-teal-600 text-pretty font-bold text-2xl'>BATCH REPORT</div>
-
-      <div className="card">
-      <div className="flex justify-content-end m-3">
-                {customers && (
-                <CSVLink data={customers} headers={csvHeaders} filename="transactions.csv">
-                    <Button type="button" icon="pi pi-file-excel" label="Download Excel" className="bg-teal-400 text-gray-100 p-3" onClick={exportCSV} />
-                </CSVLink>
-                )}
-            </div>
-
-
-            <DataTable
-                  value={modifiedCustomersWithId}
-                  paginator
-                  showGridlines
-                  rows={10}
-                  dataKey="id"
-                  filters={filters}
-                  globalFilterFields={['season', 'batch_no', 'cws_name', 'cherry_grade', 'schedule_date', 'total_output_quantity', 'completed_date', 'received_cherry_kg', 'status']}
-                  header={header}
-                  emptyMessage="No Transactions found."
-                  rowClassName={(data) => ({
-                    'bg-red-50 text-red-950':data.out_turn ? parseFloat(data.out_turn.replace('%', '')) < 20:'',
-                    'bg-green-50 text-green-950':data.out_turn ? parseFloat(data.out_turn.replace('%', '')) >= 20:'',
-                  })}
-                >
-              <Column key="batch_no" field="batch_no" sortable header="Batch No" filter filterPlaceholder="Search by Batch No" style={{ minWidth: '12rem' }} />
-              <Column key="season" field="season" sortable header="Crop Year" filter filterPlaceholder="Search by CWS Name" style={{ minWidth: '12rem' }} />
-              <Column key="cws_name" field="cws_name" sortable header="CWS Name" filter filterPlaceholder="Search by Farmer Name" style={{ minWidth: '12rem' }} />
-              <Column key="cherry_grade" field="cherry_grade" sortable header="Cherry Grade" style={{ minWidth: '10rem' }} />
-              <Column key="schedule_date" field="schedule_date" sortable header="Schedule Date" style={{ minWidth: '10rem' }} />
-              <Column key="completed_date" field="completed_date" header="Completed Date" style={{ minWidth: '8rem' }} />
-              <Column key="received_cherry_kg" field="received_cherry_kg" sortable header="Received Cherry KG" style={{ minWidth: '8rem' }} />
-              <Column key="total_output_quantity" field="total_output_quantity" sortable header="Total Output Quantity" style={{ minWidth: '8rem' }} />
-              {/* <Column key="out_turn" field="out_turn" sortable header="Out Turn %" style={{ minWidth: '8rem' }} body={(rowData) => `${rowData.out_turn}%`} /> */}
-              <Column
-                    key="out_turn"
-                    field="out_turn"
-                    sortable
-                    header="Out Turn %"
-                    style={{ minWidth: '8rem' }}
-                    body={renderOutTurn}
+    <div className="max-w-full mx-auto my-8">
+      <div className="bg-gradient-to-r from-teal-600 to-teal-700 p-4 rounded-t-lg">
+        <h2 className="text-2xl font-bold text-white">BATCH REPORT</h2>
+      </div>
+      
+      <div className="bg-white shadow-lg rounded-b-lg overflow-hidden border-2 border-t-0">
+        <div className="p-4">
+          <div className="flex justify-end mb-4">
+            {customers && (
+              <CSVLink data={customers} headers={csvHeaders} filename="batch_report.csv">
+                <Button
+                  type="button"
+                  icon="pi pi-file-excel"
+                  label="Download Excel"
+                  className="bg-teal-500 text-white p-2 rounded hover:bg-teal-600 transition-colors"
+                  onClick={exportCSV}
                 />
-
-              <Column key="process_type" field="process_type" header="Process Type" style={{ minWidth: '10rem' }} />
-              <Column
-                key="status"
-                field="status"
-                header="Status"
-                sortable
-                filter
-                filterMatchMode="equals"
-                body={(rowData) => (rowData.completed_date ? 'Completed' : 'Pending')}
-                style={(rowData) => ({
-                  minWidth: '5rem',
-                  fontWeight: 'bold',
-                })}
-              />
-
-            </DataTable>
-
+              </CSVLink>
+            )}
+          </div>
+          
+          <DataTable
+            value={modifiedCustomersWithId}
+            paginator
+            paginatorTemplate="CurrentPageReport FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink RowsPerPageDropdown"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+            rows={10}
+            rowsPerPageOptions={[10, 20, 50]}
+            dataKey="id"
+            filters={filters}
+            globalFilterFields={['season', 'batch_no', 'cws_name', 'cherry_grade', 'schedule_date', 'total_output_quantity', 'completed_date', 'received_cherry_kg', 'status']}
+            header={header}
+            emptyMessage="No transactions found."
+            rowClassName={(data) => ({
+              'bg-red-50 text-red-950': data.out_turn && parseFloat(data.out_turn) < 20,
+              'bg-green-50 text-green-950': data.out_turn && parseFloat(data.out_turn) >= 20,
+            })}
+            className="p-datatable-sm"
+            responsiveLayout="scroll"
+          >
+            <Column field="batch_no" header="Batch No" sortable filter filterPlaceholder="Search Batch No" style={{ minWidth: '10rem' }} />
+            <Column field="season" header="Crop Year" sortable filter filterPlaceholder="Search Crop Year" style={{ minWidth: '10rem' }} />
+            <Column field="cws_name" header="Station Name" sortable filter filterPlaceholder="Search Station" style={{ minWidth: '12rem' }} />
+            <Column field="cherry_grade" header="Cherry Grade" sortable filter filterPlaceholder="Search Grade" style={{ minWidth: '10rem' }} />
+            <Column field="schedule_date" header="Schedule Date" sortable style={{ minWidth: '10rem' }} />
+            <Column field="completed_date" header="Completed Date" style={{ minWidth: '10rem' }} />
+            <Column field="received_cherry_kg" header="Received KGS" sortable filter filterPlaceholder="Search Received KGS" style={{ minWidth: '10rem' }} />
+            <Column field="total_output_quantity" header="Total Output Quantity" sortable style={{ minWidth: '12rem' }} />
+            <Column field="out_turn" header="Out Turn %" sortable style={{ minWidth: '8rem' }} body={renderOutTurn} />
+            <Column field="process_type" header="Process Type" style={{ minWidth: '10rem' }} />
+            <Column
+              field="status"
+              header="Status"
+              sortable
+              filter
+              filterMatchMode="equals"
+              body={(rowData) => (rowData.completed_date ? 'Completed' : 'Pending')}
+              style={{ minWidth: '8rem', fontWeight: 'bold' }}
+            />
+          </DataTable>
         </div>
+      </div>
     </div>
 
   );
