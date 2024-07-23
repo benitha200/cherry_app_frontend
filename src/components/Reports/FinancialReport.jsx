@@ -145,7 +145,7 @@ const mapApiResponseToCustomers = (data) => {
   return (
     <div className='w-full mx-auto p-4'>
 
-      <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6'>
+      <div className='flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2'>
         <form className='w-full sm:w-auto mb-4 sm:mb-0'>
           <div className='flex flex-col sm:flex-row items-start sm:items-center'>
             <label className='text-dark p-2 text-sm mb-1 sm:mb-0'>Select Date</label>
@@ -170,7 +170,7 @@ const mapApiResponseToCustomers = (data) => {
         </div>
       </div>
 
-      <div className='bg-slate-200 p-4 rounded-md mb-6'>
+      <div className='bg-slate-200 p-4 rounded-md mb-2'>
         <div className='flex flex-col sm:flex-row justify-between items-center gap-4'>
           <span className='text-black-600 text-lg sm:text-xl font-bold'>
             Paid: <span className='text-teal-600 font-bold'>{totalPaid} RWF</span>

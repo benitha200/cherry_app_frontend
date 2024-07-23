@@ -205,7 +205,7 @@ const BatchReport = () => {
   }));
 
   return (
-    <div className="max-w-full mx-auto my-8">
+    <div className="max-w-full mx-auto">
       <div className="bg-gradient-to-r from-teal-600 to-teal-700 p-4 rounded-t-lg">
         <h2 className="text-2xl font-bold text-white">BATCH REPORT</h2>
       </div>

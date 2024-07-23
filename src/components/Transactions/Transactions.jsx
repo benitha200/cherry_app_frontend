@@ -313,7 +313,7 @@ export default function Transactions({ customers, dailytotal }) {
   const header = renderHeader();
 
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-full mx-auto my-8">
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-full mx-auto">
       <div className="bg-gradient-to-r from-teal-600 to-teal-700 p-2">
         <h2 className="text-2xl font-bold text-white">Daily Report</h2>
       </div>

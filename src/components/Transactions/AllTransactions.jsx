@@ -368,6 +368,7 @@ export default function AllTransactions({ dailytotal }) {
         const profileCookie = Cookies.get('profile');
 
         const profile = JSON.parse(profileCookie);
+        console.log("profile")
         console.log(profile)
         
         if (profile && 
