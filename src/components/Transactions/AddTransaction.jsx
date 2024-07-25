@@ -109,13 +109,14 @@ const AddTransaction = ({token,setToken,role,cwscode,cws,profile}) => {
           .then(result => setFarmers(result))
           .catch(error => console.log('error', error));
   }
+  
     const farmerOptionTemplate = (option) => {
-      return (
-        <div className="flex align-items-center">
-          <div>{`${option.farmer_code} - ${option.farmer_name}`}</div>
-        </div>
-      );
-    };
+          return (
+              <div className="flex align-items-center">
+                  <div>{`${option.farmer_code} - ${option.farmer_name}`}</div>
+              </div>
+          );
+      };
     const [formData, setFormData] = useState({
       date: new Date().toISOString().split('T')[0],
         // date:'',
@@ -132,10 +133,15 @@ const AddTransaction = ({token,setToken,role,cwscode,cws,profile}) => {
         farmName:'',
       });
 
-      const filterOption = (option, value) => {
+      const filterOption = (value, option) => {
+        if (value === null || value.trim() === '') {
+            return true;
+        }
+        
+        const searchValue = value.toLowerCase();
         return (
-            option.farmer_code.toLowerCase().includes(value.toLowerCase()) ||
-            option.farmer_name.toLowerCase().includes(value.toLowerCase())
+            option.farmer_code.toLowerCase().includes(searchValue) ||
+            option.farmer_name.toLowerCase().includes(searchValue)
         );
     };
 
@@ -583,19 +589,34 @@ const handleInputChange = (e) => {
               <label className="input_label" htmlFor="customFarmerName">
                 Farmer Name
               </label>
-                    <Dropdown
-                        value={selectedFarmer}
-                        // onChange={(e) => setSelectedFarmer(e.value)}
-                        onChange={handleFarmerChange}
-                        options={Array.isArray(farmers) ? farmers : []}
-                        optionLabel="farmer_name"
-                        placeholder="Select a Farmer"
-                        itemTemplate={farmerOptionTemplate}
-                        className="border-1 w-full border-slate-400 rounded-md"
-                        filter
-                        filterFunction={filterOption}
-                        required
-                    />
+              {/* <Dropdown
+                value={selectedFarmer}
+                onChange={handleFarmerChange}
+                options={Array.isArray(farmers) ? farmers : []}
+                optionLabel="farmer_name"
+                placeholder="Select a Farmer"
+                itemTemplate={farmerOptionTemplate}
+                className="border-1 w-full border-slate-400 rounded-md"
+                filter
+                filterBy="farmer_name,farmer_code"
+                filterMatchMode="contains"
+                filterFunction={filterOption}
+                required
+            /> */}
+            <Dropdown
+                value={selectedFarmer}
+                onChange={handleFarmerChange}
+                options={Array.isArray(farmers) ? farmers : []}
+                optionLabel="farmer_name"
+                placeholder="Select a Farmer"
+                itemTemplate={farmerOptionTemplate}
+                className="border-1 w-full border-slate-400 rounded-md"
+                filter
+                filterBy="farmer_name,farmer_code"
+                filterMatchMode="contains"
+                filterFunction={filterOption}
+                required
+            />
                 </div>
         </div>
         <div className='flex w-full flex-row'>

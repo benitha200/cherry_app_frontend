@@ -574,6 +574,7 @@ export default function AllTransactions({ dailytotal }) {
         } />
       </DataTable>
 
+      <ToastContainer/>
       {/* <div className="bg-gray-50 p-4 border-t border-gray-200">
         <h3 className="text-lg font-semibold text-gray-700">Total of Selected Rows: <span className="text-teal-600">{totalOfSelected} RWF</span></h3>
       </div> */}
