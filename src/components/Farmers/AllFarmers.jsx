@@ -34,7 +34,13 @@ const AllFarmers = ({token,cwsname,cwscode,cws}) => {
   const [batch,setBatch]=useState([]);
   const [farmers,setFarmers]=useState([]);
   const [loading, setLoading] = useState(false); 
-  const [filters, setFilters] = useState(null);
+  const [filters, setFilters] = useState({
+      global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      farmer_name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+      gender: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+      address: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      village: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  });
   const [exportData, setExportData] = useState(null);
   const [dailytotal,setDailytotal]=useState();
   const [totalcherrya,setTotalcherrya]=useState();
@@ -61,18 +67,8 @@ const AllFarmers = ({token,cwsname,cwscode,cws}) => {
   ];
 
 
-  const onGlobalFilterChange = (e) => {
-    const value = e.target.value;
-    let _filters = { ...filters };
-
-    _filters['global'].value = value;
-
-    setFilters(_filters);
-    setGlobalFilterValue(value);
-};
-
   
-  const [globalFilterValue, setGlobalFilterValue] = useState('');
+const [globalFilterValue, setGlobalFilterValue] = useState('');
 
   const initFilters = () => {
     setFilters({
@@ -87,21 +83,52 @@ const AllFarmers = ({token,cwsname,cwscode,cws}) => {
     });
     setGlobalFilterValue('');
 };
-  const clearFilter = () => {
-    initFilters();
+
+const onGlobalFilterChange = (e) => {
+  const value = e.target.value;
+  let _filters = { ...filters };
+  
+  _filters['global'] = { value: value, matchMode: FilterMatchMode.CONTAINS };
+  
+  setFilters(_filters);
+  setGlobalFilterValue(value);
 };
 
-  const renderHeader = () => {
-    return (
-        <div className="flex justify-content-between">
-            <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
-            <span className="p-input-icon-left">
-                {/* <i className="pi pi-search" /> */}
-                <InputText  value={globalFilterValue} onChange={onGlobalFilterChange} className='w-full' placeholder="Search" />
-            </span>
-        </div>
-    );
+const clearFilter = () => {
+  const _filters = {
+      global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      farmer_name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+      gender: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+      address: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      village: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+  };
+  setFilters(_filters);
+  setGlobalFilterValue('');
 };
+
+    const renderHeader = () => {
+      return (
+          <div className="flex justify-between items-center">
+              <Button 
+                  type="button" 
+                  icon="pi pi-filter-slash" 
+                  label="Clear" 
+                  outlined 
+                  onClick={clearFilter} 
+                  className="p-button-sm"
+              />
+              <span className="p-input-icon-left">
+                  <i className="pi pi-search" />
+                  <InputText
+                      value={globalFilterValue}
+                      onChange={onGlobalFilterChange}
+                      placeholder="Search"
+                      className="p-inputtext-sm"
+                  />
+              </span>
+          </div>
+      );
+    };
 
   const header = renderHeader();
 
@@ -193,88 +220,92 @@ const AllFarmers = ({token,cwsname,cwscode,cws}) => {
   };
 
   return (
-    <div>
-      <div className='text-teal-600 text-pretty font-bold text-2xl'>FARMERS INFORMATION</div>
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+      <div className='bg-teal-600 text-white p-4'>
+        <h1 className='text-2xl font-bold'>FARMERS INFORMATION</h1>
+      </div>
       
-      <div className="card">
-      <div className="flex justify-content-end m-3">
-                
-            </div>
-            <DataTable
-            value={farmers}
-            paginator
-            showGridlines
-            rows={10}
-            dataKey="farmer_code"
-            filters={filters}
-            globalFilterFields={['farmer_code', 'farmer_name', 'village']}
-            header={header}
-            emptyMessage="No Farmers found."
-        >
-            <Column
-                field="farmer_name"
-                sortable
-                header="Farmer Name"
-                filter
-                filterPlaceholder="Search by Farmer Name"
-                style={{ minWidth: '12rem' }}
-            />
-            <Column
-                field="gender"
-                sortable
-                header="Gender"
-                filter
-                filterPlaceholder="Search by Gender"
-                style={{ minWidth: '10rem' }}
-            />
-            <Column
-                field="address"
-                sortable
-                header="Address"
-                filter
-                filterPlaceholder="Search by Address"
-                style={{ minWidth: '12rem' }}
-            />
-            <Column
-                field="phone_number"
-                sortable
-                header="Phone Number"
-                style={{ minWidth: '12rem' }}
-            />
-            <Column
-                field="national_id"
-                sortable
-                header="National ID"
-                style={{ minWidth: '12rem' }}
-            />
-            <Column
-                field="village"
-                sortable
-                header="Village"
-                filter
-                filterPlaceholder="Search by Village"
-                style={{ minWidth: '12rem' }}
-            />
-            <Column
-                field="location"
-                sortable
-                header="Location"
-                style={{ minWidth: '12rem' }}
-            />
-            <Column
-                field="is_certified"
-                sortable
-                header="Certified"
-                style={{ minWidth: '10rem' }}
-            />
-            <Column
-                    header="Actions"
-                    style={{minWidth:'10rem'}}
-                    body={renderReceiveButton}
-                
-                />
+      <div className="p-4">
+        <DataTable
+          value={farmers}
+          paginator
+          rows={10}
+          dataKey="farmer_code"
+          filters={filters}
+          globalFilterFields={['farmer_code', 'farmer_name', 'gender', 'address', 'village']}
+          header={renderHeader}
+          emptyMessage="No Farmers found."
+          className="p-datatable-sm"
+          responsiveLayout="scroll"
+      >
+          <Column
+            field="farmer_name"
+            header="Farmer Name"
+            sortable
+            filter
+            filterPlaceholder="Search Name"
+            style={{ minWidth: '12rem' }}
+          />
+          <Column
+            field="gender"
+            header="Gender"
+            sortable
+            filter
+            filterPlaceholder="Search Gender"
+            style={{ minWidth: '8rem' }}
+          />
+          <Column
+            field="address"
+            header="Address"
+            sortable
+            filter
+            filterPlaceholder="Search Address"
+            style={{ minWidth: '12rem' }}
+          />
+          <Column
+            field="phone_number"
+            header="Phone Number"
+            sortable
+            style={{ minWidth: '10rem' }}
+          />
+          <Column
+            field="national_id"
+            header="National ID"
+            sortable
+            style={{ minWidth: '10rem' }}
+          />
+          <Column
+            field="village"
+            header="Village"
+            sortable
+            filter
+            filterPlaceholder="Search Village"
+            style={{ minWidth: '10rem' }}
+          />
+          <Column
+            field="location"
+            header="Location"
+            sortable
+            style={{ minWidth: '10rem' }}
+          />
+          <Column
+            field="is_certified"
+            header="Certified"
+            sortable
+            body={(rowData) => (
+              <span className={`px-2 py-1 rounded-full ${rowData.is_certified ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'}`}>
+                {rowData.is_certified ? 'Yes' : 'No'}
+              </span>
+            )}
+            style={{ minWidth: '8rem' }}
+          />
+          <Column
+            header="Actions"
+            body={renderReceiveButton}
+            style={{minWidth:'8rem'}}
+          />
         </DataTable>
-        </div>
+      </div>
     </div>
 
   );
