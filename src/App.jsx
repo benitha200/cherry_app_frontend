@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, Outlet, useLocation } from 'react-router-dom';
-import { FileInput, NotebookPen, FileSpreadsheet, FileArchive, BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home, BoxIcon, CombineIcon, X, Divide, PersonStanding, Power } from 'lucide-react';
+import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
+import { FileInput, NotebookPen, FileSpreadsheet, FileArchive, BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home, BoxIcon, CombineIcon, X, PersonStanding, Power } from 'lucide-react';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import Cookies from 'js-cookie';
 import logo from "./assets/img/RwacofLogoCoulRVB.png";
@@ -35,7 +35,6 @@ const AllTransactions = lazy(() => import('./components/Transactions/AllTransact
 const AllFarmers = lazy(() => import('./components/Farmers/AllFarmers'));
 const AddTransactionAdmin = lazy(() => import('./components/Transactions/AddTransactionAdmin'));
 
-
 function AppContent() {
   const [isOpen, setIsOpen] = useState(false);
   const [token, setToken] = useState(null);
@@ -44,9 +43,7 @@ function AppContent() {
   const [cwsname, setCwsname] = useState(null);
   const [cwscode, setCwscode] = useState(null);
   const [cws, setCws] = useState(null);
-  // const [profile, setProfile] = useState(others_profile);
-  // Cookies.set("profile", JSON.stringify(others_profile));
-  const [profile,setProfile]=useState();
+  const [profile, setProfile] = useState();
 
   const location = useLocation();
   const currentPath = location.pathname;
@@ -69,9 +66,6 @@ function AppContent() {
       } catch (error) {
         console.error('Error parsing profile data:', error);
       }
-    } else if (profile) {
-      console.log("profile");
-      console.log(profile);
     } else {
       window.location.href = "https://cherryapp.sucafina.com:8000/login";
     }
@@ -107,7 +101,7 @@ function AppContent() {
               </div>
               <div className='d-flex flex-column justify-content-between gap-2 mt-5'>
                 {(() => {
-                  if (role === 'cws_manager' || (profile.jobTitle.includes('CWS') && profile.jobTitle.includes('Manager'))) {
+                  if (role === 'cws_manager' || (profile?.jobTitle?.includes('CWS') && profile?.jobTitle?.includes('Manager'))) {
                     return (
                       <>
                         <SidebarItem
@@ -178,7 +172,7 @@ function AppContent() {
                         />
                       </>
                     );
-                  } else if (role === 'Data analyst' || (profile.jobTitle.includes('Data') && profile.jobTitle.includes('Analyst'))) {
+                  } else if (role === 'Data analyst' || (profile?.jobTitle?.includes('Data') && profile?.jobTitle?.includes('Analyst'))) {
                     return (
                       <>
                         <SidebarItem
@@ -344,6 +338,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
