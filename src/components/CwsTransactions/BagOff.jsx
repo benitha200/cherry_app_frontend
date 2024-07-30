@@ -16,7 +16,6 @@ const BagOff = ({ token, cwsname, cwscode, cws, profile }) => {
     const now = new Date();
     const startdateofmonth = new Date(now.getFullYear(), now.getMonth(), 1);
     return startdateofmonth.toISOString().split('T')[0];
-    // return new Date(now.getFullYear(), now.getMonth(), 1);
   };
 
   // Function to get the last day of the current month
@@ -139,7 +138,7 @@ const BagOff = ({ token, cwsname, cwscode, cws, profile }) => {
       }
 
 
- 
+    }
 
   };
 
@@ -218,12 +217,6 @@ const BagOff = ({ token, cwsname, cwscode, cws, profile }) => {
             </button>
           </Link>
 
-          {/* <button
-          className='bg-teal-500 text-white p-2 rounded-md ml-2'
-          // onClick={() => handleReceive(rowData.batch_no,rowData.purchase_date,rowData.cherry_grade)}
-        >
-          Start
-        </button> */}
         </div>
       );
     }
