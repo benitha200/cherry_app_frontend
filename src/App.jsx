@@ -1,6 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
-export { FileInput, NotebookPen, FileSpreadsheet, FileArchive, BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home, BoxIcon, CombineIcon, X, PersonStanding, Power } from 'lucide-react';
+export { FileInput,Users,Home, NotebookPen, FileSpreadsheet, FileArchive,FileInput,Files, DollarSign, BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home, CombineIcon, X, PersonStanding, Power,BoxIcon } from 'lucide-react';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import Cookies from 'js-cookie';
 import logo from "./assets/img/RwacofLogoCoulRVB.png";
