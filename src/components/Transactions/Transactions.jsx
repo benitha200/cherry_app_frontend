@@ -46,7 +46,7 @@ export default function Transactions({ customers, dailytotal }) {
   // // Example function for handling payment confirmation
   // const accept = (id) => {
   //   toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'Payment confirmed', life: 3000 });
-  
+
   // };
 
   // const reject = () => {
@@ -79,7 +79,7 @@ export default function Transactions({ customers, dailytotal }) {
   }
 
   const reject = () => {
-      toast.current.show({ severity: 'warn', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+    toast.current.show({ severity: 'warn', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
   }
 
 
@@ -117,7 +117,7 @@ export default function Transactions({ customers, dailytotal }) {
         return null;
     }
   };
-  const handlePay=(e)=>{
+  const handlePay = (e) => {
     e.preventDefault();
   }
 
@@ -125,40 +125,40 @@ export default function Transactions({ customers, dailytotal }) {
     const editedRow = e.newData; // Extract the edited row data
 
     console.log("onRowEditComplete called", e);
-    console.log("edited",editedRow);
+    console.log("edited", editedRow);
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
     // Create the payload using the edited row data
     const raw = JSON.stringify({
-        pk: editedRow.id,
-        cws_name: editedRow.cws_name,
-        cws_code: editedRow.cws_code,
-        purchase_date: editedRow.purchase_date,
-        farmer_code: editedRow.farmer_code,
-        farmer_name: editedRow.farmer_name,
-        season: editedRow.season,
-        cherry_kg: editedRow.cherry_kg,
-        has_card: editedRow.has_card,
-        cherry_grade: editedRow.cherry_grade,
-        price: editedRow.price,
-        grn_no: editedRow.grn_no,
-        transport: editedRow.transport,
-        batch_no: editedRow.batch_no,
-        occupation: editedRow.occupation,
-        synced: editedRow.synced,
-        id_no: editedRow.id_no,
-        created_at: editedRow.created_at,
+      pk: editedRow.id,
+      cws_name: editedRow.cws_name,
+      cws_code: editedRow.cws_code,
+      purchase_date: editedRow.purchase_date,
+      farmer_code: editedRow.farmer_code,
+      farmer_name: editedRow.farmer_name,
+      season: editedRow.season,
+      cherry_kg: editedRow.cherry_kg,
+      has_card: editedRow.has_card,
+      cherry_grade: editedRow.cherry_grade,
+      price: editedRow.price,
+      grn_no: editedRow.grn_no,
+      transport: editedRow.transport,
+      batch_no: editedRow.batch_no,
+      occupation: editedRow.occupation,
+      synced: editedRow.synced,
+      id_no: editedRow.id_no,
+      created_at: editedRow.created_at,
     });
 
     const requestOptions = {
-        method: 'PUT',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
+      method: 'PUT',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
     };
 
-    fetch(`https://cherryapp.sucafina.com:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
+    fetch(`http://192.168.81.68:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
         .then(response => response.text())
         .then(result => {
           console.log(result);
@@ -167,7 +167,7 @@ export default function Transactions({ customers, dailytotal }) {
         .catch(error => console.log('error', error));
 
     location.reload(true);
-};
+  };
 
 
 
@@ -259,7 +259,7 @@ export default function Transactions({ customers, dailytotal }) {
           const selectedIds = selectedData.map(item => item.id);
           console.log('Selected IDs:', selectedIds);
     try {
-      const response = await fetch('https://cherryapp.sucafina.com:8000/api/approvetransactions/', {
+      const response = await fetch('http://192.168.81.68:8000/api/approvetransactions/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -267,18 +267,19 @@ export default function Transactions({ customers, dailytotal }) {
         body: JSON.stringify({ ids: selectedIds }),
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data.message); // Handle success
-      } else {
-        const errorData = await response.json();
-        console.error('Error:', errorData.error); // Handle error
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data.message); // Handle success
+        } else {
+          const errorData = await response.json();
+          console.error('Error:', errorData.error); // Handle error
+        }
+      } catch (error) {
+        console.error('Error:', error); // Handle network errors
       }
-    } catch (error) {
-      console.error('Error:', error); // Handle network errors
     }
-  }}
-  ;
+  }
+    ;
 
   const renderHeader = () => {
     return (
@@ -365,12 +366,19 @@ export default function Transactions({ customers, dailytotal }) {
         scrollHeight="400px"
         className="p-datatable-sm"
       >
-        <Column field="batch_no" header="Batch Number" style={{ minWidth: '8rem' }} frozen alignFrozen='left'/>
+        <Column
+          header="No."
+          frozen
+          alignFrozen="left"
+          headerStyle={{ width: '3rem' }}
+          body={(data, options) => options.rowIndex + 1}
+        />
+        <Column field="batch_no" header="Batch Number" style={{ minWidth: '8rem' }} frozen alignFrozen='left' />
         <Column field="id" hidden sortable header="Transaction Id" filter filterPlaceholder="Transaction Id" style={{ minWidth: '2rem' }} />
         <Column field="cws_name" sortable header="CWS Name" filter filterPlaceholder="Search by CWS Name" style={{ minWidth: '10rem' }} />
         <Column field="farmer_name" sortable header="Farmer Name" filter filterPlaceholder="Search by Farmer Name" style={{ minWidth: '14rem' }} />
         <Column field="plot_name" sortable header="Plot Name" filter filterPlaceholder="Search by Plot Name" style={{ minWidth: '14rem' }} />
-        <Column field="purchase_date" sortable header="Purchase Date" style={{ minWidth: '10rem' }} body={(rowData) => new Date(rowData.purchase_date).toLocaleDateString()} />        
+        <Column field="purchase_date" sortable header="Purchase Date" style={{ minWidth: '10rem' }} body={(rowData) => new Date(rowData.purchase_date).toLocaleDateString()} />
         <Column field="has_card" header="Has Card" style={{ minWidth: '8rem' }} body={(rowData) => rowData.has_card === 1 ? 'Yes' : 'No'} />
         <Column field="cherry_grade" sortable header="Cherry Grade" style={{ minWidth: '9rem' }} filterPlaceholder="Search by cherry grade" filter />
         <Column field="cherry_kg" header="Cherry Kg" style={{ minWidth: '5rem' }} editor={(options) => textEditor(options)} />
@@ -380,8 +388,8 @@ export default function Transactions({ customers, dailytotal }) {
         <Column field="total" header="Total (RWF)" style={{ minWidth: '5rem' }} body={(rowData) => `${rowData.total.toLocaleString()} RWF`} />
         <Column field="grn_no" header="Transaction No" style={{ minWidth: '8rem' }} />
         <Column field="transport" header="Transport" style={{ minWidth: '5rem' }} editor={(options) => textEditor(options)} />
-        <Column 
-          header="Status" 
+        <Column
+          header="Status"
           body={(rowData) => {
             if (rowData.is_approved == 1) {
               return <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Approved</span>;
@@ -390,30 +398,30 @@ export default function Transactions({ customers, dailytotal }) {
             } else {
               return <span className="px-2 py-1 bg-yellow-100 text-yellow-800 rounded-full text-sm font-medium">Pending</span>;
             }
-          }} 
+          }}
         />
-        
+
         <Column rowEditor headerStyle={{ width: '10%', minWidth: '5rem' }} bodyStyle={{ textAlign: 'center' }}></Column>
-        <Column header="Payment status" body={(rowData) => rowData.is_paid === 1 ? 
-          <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Paid</span> 
-          : 
+        <Column header="Payment status" body={(rowData) => rowData.is_paid === 1 ?
+          <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Paid</span>
+          :
           <>
             <Toast ref={toast} />
-            <ConfirmDialog 
-              group="declarative" 
-              visible={visible} 
-              onHide={() => setVisible(false)} 
-              message="Are you sure you want to Confirm Payment?" 
-              header="Confirmation" 
-              icon="pi pi-exclamation-triangle" 
-              accept={() => accept(rowData.id)} 
-              reject={reject} 
+            <ConfirmDialog
+              group="declarative"
+              visible={visible}
+              onHide={() => setVisible(false)}
+              message="Are you sure you want to Confirm Payment?"
+              header="Confirmation"
+              icon="pi pi-exclamation-triangle"
+              accept={() => accept(rowData.id)}
+              reject={reject}
             />
-            <Button 
-              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded text-sm transition duration-150 ease-in-out" 
-              onClick={() => setVisible(true)} 
-              icon="pi pi-check" 
-              label="Confirm" 
+            <Button
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-1 px-3 rounded text-sm transition duration-150 ease-in-out"
+              onClick={() => setVisible(true)}
+              icon="pi pi-check"
+              label="Confirm"
             />
           </>
         } />

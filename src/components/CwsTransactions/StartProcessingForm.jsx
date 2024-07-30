@@ -1,19 +1,11 @@
 import React, { useState,useEffect,useRef } from 'react';
 import { Toast } from 'primereact/toast';
-import {openDB} from 'idb';
 import { useSearchParams } from 'react-router-dom';
 import { Calendar } from 'primereact/calendar';
 
 
-const initializeIndexedDB=async()=>{
-    const db=await openDB('offlineTransactions',1,{
-        upgrade(db){
-            db.createObjectStore('transactions',{keyPath:'id',autoIncrement:true});
-        },
-    });
-    return db;
-}
-const StartProcessingForm = () => {        
+
+const StartProcessingForm = ({profile}) => {        
     const [searchParams] = useSearchParams();
     const [options,setOptions]=useState();
     const [processtype,setProcesstype]=useState();
@@ -73,51 +65,8 @@ const StartProcessingForm = () => {
         batchNumber: '',
       });
 
-    
-const getPriceForGrade = (grade) => {
-  return grade.includes('A') ? 410 : 100;
-}
-// const handleInputChange = (e) => {
 
-//   const {name, value} = e.target;
-
-//   // Date validation
-//   if(name === 'date') {
-//     const selected = new Date(value);
-//     const lastTwoDigitsOfYear = selected.getFullYear().toString().slice(-2);
-//     const formattedMonth = String(selected.getMonth() + 1).padStart(2, '0');
-//     const formattedDay = String(selected.getDate()).padStart(2, '0');
-//     setFormData({
-//         ...formData,
-//         [name]: value,
-//         lastTwoDigitsOfYear,
-//         formattedMonth,
-//         formattedDay,
-//      });
-//     if(!isDateValid(selected)) {
-//       setFormData({
-//         ...formData,
-//         date: ''
-//       });
-//       alert('Please select today or yesterday');
-//       return;
-//     }
-//   }
-
-//   // Handle cherryGrade
-//   if(name === 'cherryGrade') {
-//     setGrade(value)
-//     const price = getPriceForGrade(value); 
-//     setPrice(price);
-//   }
-
-//   // Update form data 
-//   setFormData({
-//     ...formData,
-//     [name]: value 
-//   });
-
-// }    
+  
 function get_cherry_grade_outputs(cherry_grade){
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -141,24 +90,7 @@ function get_cherry_grade_outputs(cherry_grade){
     })
     .catch(error => console.log('error', error));
 }
-// useEffect(() => {
-//   get_cherry_grade_outputs(cherry_grade);
-//   if (options && options.length > 0) {
-//     setProcesstype(options[0].id);
-//   }
 
-//   const handleOnlineStatusChange = () => {
-//     if (navigator.onLine) {
-//       synchronizeOfflineData();
-//     }
-//   };
-
-//   window.addEventListener('online', handleOnlineStatusChange);
-
-//   return () => {
-//     window.removeEventListener('online', handleOnlineStatusChange);
-//   };
-// }, [cherry_grade, options]);
 
 useEffect(() => {
   get_cherry_grade_outputs(cherry_grade);
@@ -191,7 +123,8 @@ useEffect(() => {
         "process_name": batch_no,
         "schedule_date": scheduledate.toISOString().split('T')[0],
         "process_type": parseInt(processtype, 10),
-        "location_to":cwsname
+        "location_to":cwsname,
+        "created_by":profile.displayName
         });
 
         var requestOptionss = {

@@ -8,7 +8,7 @@ const ReceiveHarvestForm = ({profile}) => {
     const [searchParams] = useSearchParams();
   
     // Access query parameters using get method
-    const cwsname = searchParams.get('cwsname');
+    const cwsname = searchParams.get('cws_name');
     const token = searchParams.get('token');
     const batch_no = searchParams.get('batch_no');
     const purchase_date=searchParams.get('purchase_date')
@@ -111,7 +111,7 @@ const ReceiveHarvestForm = ({profile}) => {
         e.preventDefault();
         console.log("button Clicked")
 
-        if(receivedqty!==harvest_kgs){
+        if(parseInt(receivedqty)!==parseInt(harvest_kgs)){
             toast.error("Received Quantity must be the same as Harvest Quantity Please correct it")
         }
         else{
@@ -128,6 +128,7 @@ const ReceiveHarvestForm = ({profile}) => {
               "harvest_cherry_kg": harvest_kgs,
               "received_cherry_kg": receivedqty,
               "location_to": cwsname,
+              "created_by":profile.displayName
             }),
             redirect: 'follow',
           };
@@ -173,7 +174,7 @@ const ReceiveHarvestForm = ({profile}) => {
         </div>
       
 
-            <div className="grid grid-cols-1 md:grid-cols-2 p-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 p-2 gap-4">
               <div className="input_container flex flex-col">
                 <label className="input_label text-gray-700 font-semibold mb-1" htmlFor="batchNo">
                   Batch No
@@ -223,7 +224,7 @@ const ReceiveHarvestForm = ({profile}) => {
                 <input
                   type="text"
                   name="harvestQuantity"
-                  value={harvest_kgs}
+                  value={Math.round(harvest_kgs)}
                   className="input_field border border-slate-300 rounded-md p-2 bg-gray-100"
                   id="harvestQuantity"
                   readOnly
@@ -260,7 +261,7 @@ const ReceiveHarvestForm = ({profile}) => {
               </div>
             </div>
 
-            <button className="bg-teal-600 hover:bg-teal-700 md:w-1/2 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out mt-2 mb-2">
+            <button className="bg-teal-600 hover:bg-teal-700 md:w-1/2 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out mt-2 mb-4">
               Submit
             </button>
           </form>

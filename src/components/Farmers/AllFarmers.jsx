@@ -10,44 +10,44 @@ import { Link } from 'react-router-dom';
 import { Edit, Edit2 } from 'lucide-react';
 
 
-const AllFarmers = ({token,cwsname,cwscode,cws}) => {
+const AllFarmers = ({ token, cwsname, cwscode, cws }) => {
 
 
-    const getFirstDayOfMonth = () => {
-        const now = new Date();
-        const startdateofmonth= new Date(now.getFullYear(), now.getMonth(), 1);
-        return startdateofmonth.toISOString().split('T')[0];
-        // return new Date(now.getFullYear(), now.getMonth(), 1);
-      };
-    
-      // Function to get the last day of the current month
-      const getLastDayOfMonth = () => {
-        const now = new Date();
-        const enddateofmonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-        return enddateofmonth.toISOString().split('T')[0];
-      };
+  const getFirstDayOfMonth = () => {
+    const now = new Date();
+    const startdateofmonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    return startdateofmonth.toISOString().split('T')[0];
+    // return new Date(now.getFullYear(), now.getMonth(), 1);
+  };
+
+  // Function to get the last day of the current month
+  const getLastDayOfMonth = () => {
+    const now = new Date();
+    const enddateofmonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    return enddateofmonth.toISOString().split('T')[0];
+  };
 
 
-  const [startdate,setStartdate]=useState(getFirstDayOfMonth());
-  const [enddate,setEnddate]=useState(getLastDayOfMonth());
+  const [startdate, setStartdate] = useState(getFirstDayOfMonth());
+  const [enddate, setEnddate] = useState(getLastDayOfMonth());
   const [customers, setCustomers] = useState([]);
-  const [batch,setBatch]=useState([]);
-  const [farmers,setFarmers]=useState([]);
-  const [loading, setLoading] = useState(false); 
+  const [batch, setBatch] = useState([]);
+  const [farmers, setFarmers] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState({
-      global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-      farmer_name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-      gender: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-      address: { value: null, matchMode: FilterMatchMode.CONTAINS },
-      village: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    farmer_name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    gender: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
+    address: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    village: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   });
   const [exportData, setExportData] = useState(null);
-  const [dailytotal,setDailytotal]=useState();
-  const [totalcherrya,setTotalcherrya]=useState();
-  const [totalcherryb,setTotalcherryb]=useState();
+  const [dailytotal, setDailytotal] = useState();
+  const [totalcherrya, setTotalcherrya] = useState();
+  const [totalcherryb, setTotalcherryb] = useState();
 
   const exportCSV = () => {
-      setExportData(customers);
+    setExportData(customers);
   };
 
   const csvHeaders = [
@@ -62,98 +62,98 @@ const AllFarmers = ({token,cwsname,cwscode,cws}) => {
     { label: 'Transport', key: 'transport' },
     { label: 'GRN No', key: 'grn_no' },
     { label: 'Batch No', key: 'batch_no' },
-    
-    
+
+
   ];
 
 
-  
-const [globalFilterValue, setGlobalFilterValue] = useState('');
+
+  const [globalFilterValue, setGlobalFilterValue] = useState('');
 
   const initFilters = () => {
     setFilters({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-        'country.name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-        representative: { value: null, matchMode: FilterMatchMode.IN },
-        balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-        status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-        activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
-        verified: { value: null, matchMode: FilterMatchMode.EQUALS }
+      global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+      'country.name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+      representative: { value: null, matchMode: FilterMatchMode.IN },
+      balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+      status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+      activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
+      verified: { value: null, matchMode: FilterMatchMode.EQUALS }
     });
     setGlobalFilterValue('');
-};
+  };
 
-const onGlobalFilterChange = (e) => {
-  const value = e.target.value;
-  let _filters = { ...filters };
-  
-  _filters['global'] = { value: value, matchMode: FilterMatchMode.CONTAINS };
-  
-  setFilters(_filters);
-  setGlobalFilterValue(value);
-};
+  const onGlobalFilterChange = (e) => {
+    const value = e.target.value;
+    let _filters = { ...filters };
 
-const clearFilter = () => {
-  const _filters = {
+    _filters['global'] = { value: value, matchMode: FilterMatchMode.CONTAINS };
+
+    setFilters(_filters);
+    setGlobalFilterValue(value);
+  };
+
+  const clearFilter = () => {
+    const _filters = {
       global: { value: null, matchMode: FilterMatchMode.CONTAINS },
       farmer_name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
       gender: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
       address: { value: null, matchMode: FilterMatchMode.CONTAINS },
       village: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-  };
-  setFilters(_filters);
-  setGlobalFilterValue('');
-};
-
-    const renderHeader = () => {
-      return (
-          <div className="flex justify-between items-center">
-              <Button 
-                  type="button" 
-                  icon="pi pi-filter-slash" 
-                  label="Clear" 
-                  outlined 
-                  onClick={clearFilter} 
-                  className="p-button-sm"
-              />
-              <span className="p-input-icon-left">
-                  <i className="pi pi-search" />
-                  <InputText
-                      value={globalFilterValue}
-                      onChange={onGlobalFilterChange}
-                      placeholder="Search"
-                      className="p-inputtext-sm"
-                  />
-              </span>
-          </div>
-      );
     };
+    setFilters(_filters);
+    setGlobalFilterValue('');
+  };
+
+  const renderHeader = () => {
+    return (
+      <div className="flex justify-between items-center">
+        <Button
+          type="button"
+          icon="pi pi-filter-slash"
+          label="Clear"
+          outlined
+          onClick={clearFilter}
+          className="p-button-sm"
+        />
+        <span className="p-input-icon-left">
+          <i className="pi pi-search" />
+          <InputText
+            value={globalFilterValue}
+            onChange={onGlobalFilterChange}
+            placeholder="Search"
+            className="p-inputtext-sm"
+          />
+        </span>
+      </div>
+    );
+  };
 
   const header = renderHeader();
 
   const mapApiResponseToCustomers = (data) => {
     console.log(data);
     const mappedData = data.map((item) => {
-        // console.log(item.cws_name);
-        // ,'cherry_grade','purchase_date'
+      // console.log(item.cws_name);
+      // ,'cherry_grade','purchase_date'
 
-        return {
-            farmer_code: item.farmer_code,
-            farmer_name: item.farmer_name,
-            gender: item.gender,
-            address:item.address,
-            phone_number:item.phone_number,
-            national_id: item.national_id,
-            village: item.village,
-            location:item.location,
-            is_certified:item.is_certified,
+      return {
+        farmer_code: item.farmer_code,
+        farmer_name: item.farmer_name,
+        gender: item.gender,
+        address: item.address,
+        phone_number: item.phone_number,
+        national_id: item.national_id,
+        village: item.village,
+        location: item.location,
+        is_certified: item.is_certified,
 
-        };
+      };
     });
 
     return mappedData;
-};
+  };
 
 
   const generateReport = async () => {
@@ -167,15 +167,19 @@ const clearFilter = () => {
       const requestOptions = {
         method: 'GET',
         headers: {
-            "Authorization": `Bearer ${token}`
-          },
+          "Authorization": `Bearer ${token}`
+        },
         redirect: 'follow'
       };
 
       try {
         setLoading(true);
 
+<<<<<<< HEAD
         const response =await fetch("https://cherryapp.sucafina.com:8000/api/allfarmers/", requestOptions)
+=======
+        const response = await fetch("http://192.168.81.68:8000/api/allfarmers/", requestOptions)
+>>>>>>> 381ca6c2acbfbbcec4bdab651211ea8126451968
         const data = await response.json();
 
         console.log(data);
@@ -192,12 +196,12 @@ const clearFilter = () => {
 
   React.useEffect(() => {
     generateReport();
-  },[]);
+  }, []);
 
-  function handleReceive(batch_no,p_date,grade){
-        console.log(batch_no);
-        console.log(p_date);
-        console.log(grade)
+  function handleReceive(batch_no, p_date, grade) {
+    console.log(batch_no);
+    console.log(p_date);
+    console.log(grade)
   }
   const renderReceiveButton = (rowData) => {
     return <div>
@@ -206,17 +210,17 @@ const clearFilter = () => {
         // state: { batch_no:rowData.batch_no, purchase_date:rowData.purchase_date, cherry_grade: rowData.cherry_grade,cws,cwsname,cwscode,token}
         state: {cws,cwsname,cwscode,token}
       }}> */}
-      <button className='bg-teal-500 text-white p-2 rounded-md' 
-    //   onClick={() => handleReceive(rowData.batch_no,rowData.purchase_date,rowData.cherry_grade)}
+      <button className='bg-teal-500 text-white p-2 rounded-md'
+      //   onClick={() => handleReceive(rowData.batch_no,rowData.purchase_date,rowData.cherry_grade)}
       >
         {/* <Edit/> */}
-        <Edit2/>
+        <Edit2 />
       </button>
-    {/* </Link> */}
+      {/* </Link> */}
     </div>
-    
-    
-    
+
+
+
   };
 
   return (
@@ -224,7 +228,7 @@ const clearFilter = () => {
       <div className='bg-teal-600 text-white p-4'>
         <h1 className='text-2xl font-bold'>FARMERS INFORMATION</h1>
       </div>
-      
+
       <div className="p-4">
         <DataTable
           value={farmers}
@@ -237,7 +241,14 @@ const clearFilter = () => {
           emptyMessage="No Farmers found."
           className="p-datatable-sm"
           responsiveLayout="scroll"
-      >
+        >
+          <Column
+            header="No."
+            frozen
+            alignFrozen="left"
+            headerStyle={{ width: '3rem' }}
+            body={(data, options) => options.rowIndex + 1}
+          />
           <Column
             field="farmer_name"
             header="Farmer Name"
@@ -302,7 +313,7 @@ const clearFilter = () => {
           <Column
             header="Actions"
             body={renderReceiveButton}
-            style={{minWidth:'8rem'}}
+            style={{ minWidth: '8rem' }}
           />
         </DataTable>
       </div>

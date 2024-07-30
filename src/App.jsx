@@ -1,7 +1,7 @@
 import React, { useState, useEffect, lazy, Suspens } from 'react';
-import { BrowserRouter as Router, Route, Routes, Link, Outlet,useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, Outlet, useLocation } from 'react-router-dom';
 import { Bars3Icon, HomeModernIcon, XCircleIcon } from '@heroicons/react/24/outline';
-import { FileInput, NotebookPen, FileSpreadsheet, FileArchive,  BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home,  BoxIcon, CombineIcon, X, Divide } from 'lucide-react';
+import { FileInput, NotebookPen, FileSpreadsheet, FileArchive, BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home, BoxIcon, CombineIcon, X, Divide, PersonStanding, Power } from 'lucide-react';
 import "./App.css";
 import { SidebarItem } from './components/Header/Sidebar';
 import Cookies from 'js-cookie';
@@ -35,9 +35,10 @@ import LoanRequests from './components/Loans/LoanRequests';
 import { Divider } from 'primereact/divider';
 import AllTransactions from './components/Transactions/AllTransactions';
 import AllFarmers from './components/Farmers/AllFarmers';
+import AddTransactionAdmin from './components/Transactions/AddTransactionAdmin';
 
 
-const manager_profile={
+const manager_profile = {
   "givenName": "Uzamukunda",
   "mail": "stephanie.uzamukunda@sucafina.com",
   "displayName": "Stephanie Uzamukunda",
@@ -47,7 +48,7 @@ const manager_profile={
   "userPrincipalName": "stephanie.uzamukunda@sucafina.com"
 }
 
-const others_profile={
+const others_profile = {
   "givenName": "Iyuyisenga",
   "mail": "ibl@sucafina.com",
   "displayName": "Iyuyisenga Benitha Louange",
@@ -65,10 +66,10 @@ function AppContent() {
   const [cwsname, setCwsname] = useState(null);
   const [cwscode, setCwscode] = useState(null);
   const [cws, setCws] = useState(null);
-  const [profile, setProfile] = useState(manager_profile);
-  Cookies.set("profile",JSON.stringify(manager_profile));
-  // const [profile, setProfile] = useState(others_profile);
-  // Cookies.set("profile",JSON.stringify(others_profile));
+  // const [profile, setProfile] = useState(manager_profile);
+  // Cookies.set("profile", JSON.stringify(manager_profile));
+  const [profile, setProfile] = useState(others_profile);
+  Cookies.set("profile",JSON.stringify(others_profile));
   // const [profile, setProfile] = useState();
 
 
@@ -97,16 +98,16 @@ function AppContent() {
         console.error('Error parsing profile data:', error);
       }
     }
-    // else if(profile){
-    //   console.log("profile")
-    //   console.log(profile)
-    // }
+    else if (profile) {
+      console.log("profile")
+      console.log(profile)
+    }
     else {
       // fetchProfileData();
       // window.location.href="/login"
       window.location.href = "https://cherryapp.sucafina.com:8000/login";
     }
-     
+
   }, []);
 
 
@@ -114,40 +115,39 @@ function AppContent() {
   if (Cookies.get("profile")) {
     return (
       <div>
-        
+
         {/* <Router> */}
 
         <div className='flex flex-row w-full relative bg-teal-50'>
-            <button
-              className="lg:hidden text-gray-500 w-5 h-5"
-              onClick={() => setIsOpen(true)}
-            >
-              <Bars3Icon className="w-full h-full top-0 bg-teal-500 rounded-md text-white font-bold" />
-            </button>
-            
-            {isOpen && (
-              <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setIsOpen(false)} />
-            )}
-            
-            <div
-              className={`fixed inset-y-0 left-0 bg-white p-2 mb-2 flex flex-col lg:relative lg:w-auto min-h-screen max-h-screen transition-all duration-300 transform lg:transform-none ${
-                isOpen ? 'translate-x-0' : '-translate-x-full'
-              } z-50 lg:z-auto`}
-            >
-              <button
-                className="absolute top-0 right-0 lg:hidden text-gray-500 mb-4 mt-4 mr-4 w-8 h-8"
-                onClick={() => setIsOpen(false)}
-              >
-                <X className='mb-4 justify-left bg-teal-500 text-white rounded-md'/>
-              </button>
-              <Sidebar profile={profile} role={role}>
-                <div>
-                  <img src={logo} className='w-full'/>
-                </div>
+          <button
+            className="lg:hidden text-gray-500 w-5 h-5"
+            onClick={() => setIsOpen(true)}
+          >
+            <Bars3Icon className="w-full h-full top-0 bg-teal-500 rounded-md text-white font-bold" />
+          </button>
 
-        
-        
-          {/* <div className='flex flex-row w-100'>
+          {isOpen && (
+            <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={() => setIsOpen(false)} />
+          )}
+
+          <div
+            className={`fixed inset-y-0 left-0 bg-white p-2 mb-2 flex flex-col lg:relative lg:w-auto min-h-screen max-h-screen transition-all duration-300 transform lg:transform-none ${isOpen ? 'translate-x-0' : '-translate-x-full'
+              } z-50 lg:z-auto`}
+          >
+            <button
+              className="absolute top-0 right-0 lg:hidden text-gray-500 mb-4 mt-4 mr-4 w-8 h-8"
+              onClick={() => setIsOpen(false)}
+            >
+              <X className='mb-4 justify-left bg-teal-500 text-white rounded-md' />
+            </button>
+            <Sidebar profile={profile} role={role}>
+              <div>
+                <img src={logo} className='w-full' />
+              </div>
+
+
+
+              {/* <div className='flex flex-row w-100'>
            
             <button
               className="lg:hidden text-gray-500 w-5 h-5"
@@ -172,38 +172,39 @@ function AppContent() {
               <div>
                   <img src={logo} className='w-full'/>
               </div> */}
-                <div className='d-flex flex-column justify-content-between gap-2 mt-5'>
-                 {role === 'cws_manager' ||profile.jobTitle.includes('CWS') && profile.jobTitle.includes('Manager')? ( 
-            
-  
-                    <>
-                  
-                      <SidebarItem
-                        icon={<Home size={20} />}
-                        text="Dashboard"
-                        alert
-                        component={Link}
-                        to="/"
-                        isActive={isActive('/')}
-                      />
-                      <SidebarItem
-                        icon={<NotebookPen size={20} />}
-                        text="Add Transactions"
-                        alert
-                        component={Link}
-                        to="/add-transaction"
-                      />
-                      <SidebarItem
-                        icon={<FileInput size={20} />}
-                        text="All Transactions"
-                        alert
-                        component={Link}
-                        to="/alltransactions"
-                        isActive={isActive('/alltransactions')}
-                      />
-                      
-                     
-                      {/* <SidebarItem
+              <div className='d-flex flex-column justify-content-between gap-2 mt-5'>
+              {(() => {
+                  if (role === 'cws_manager' || (profile.jobTitle.includes('CWS') && profile.jobTitle.includes('Manager'))) {
+                    return (
+                      <>
+
+                        <SidebarItem
+                          icon={<Home size={20} />}
+                          text="Dashboard"
+                          alert
+                          component={Link}
+                          to="/"
+                          isActive={isActive('/')}
+                        />
+                        <SidebarItem
+                          icon={<NotebookPen size={20} />}
+                          text="Add Transactions"
+                          alert
+                          component={Link}
+                          to="/add-transaction"
+                          isActive={isActive('/add-transaction')}
+                        />
+                        <SidebarItem
+                          icon={<FileInput size={20} />}
+                          text="All Transactions"
+                          alert
+                          component={Link}
+                          to="/alltransactions"
+                          isActive={isActive('/alltransactions')}
+                        />
+
+
+                        {/* <SidebarItem
                         icon={<FileSpreadsheet size={20} />}
                         text="Daily Purchase"
                         alert
@@ -217,138 +218,174 @@ function AppContent() {
                         component={Link}
                         to="/daily-purchase-validation"
                       /> */}
-                      <SidebarItem
-                        icon={<BoxIcon size={20} />}
-                        text="Receive Harvest"
-                        alert
-                        component={Link}
-                        to="/receive-harvest"
-                        isActive={isActive('/reive-harvest')}
-                      />
-                      <SidebarItem
-                        icon={<Home size={20} />}
-                        text="Processing"
-                        alert
-                        component={Link}
-                        to="/processing"
-                        isActive={isActive('/processing')}
-                      />
-                      <SidebarItem
-                        icon={<Briefcase size={20} />}
-                        text="Bagging Off"
-                        alert
-                        component={Link}
-                        to="/bag-off"
-                        isActive={isActive('/bag-off')}
-                      />
-                      {/* <SidebarItem
+                        <SidebarItem
+                          icon={<BoxIcon size={20} />}
+                          text="Receive Harvest"
+                          alert
+                          component={Link}
+                          to="/receive-harvest"
+                          isActive={isActive('/receive-harvest')}
+                        />
+                        <SidebarItem
+                          icon={<Home size={20} />}
+                          text="Processing"
+                          alert
+                          component={Link}
+                          to="/processing"
+                          isActive={isActive('/processing')}
+                        />
+                        <SidebarItem
+                          icon={<Briefcase size={20} />}
+                          text="Bagging Off"
+                          alert
+                          component={Link}
+                          to="/bag-off"
+                          isActive={isActive('/bag-off')}
+                        />
+                        {/* <SidebarItem
                         icon={<Truck size={20} />}
                         text="ReadyTo Transfer"
                         alert
                         component={Link}
                         to="/transfer"
                       /> */}
-                      <span className='font-semibold pl-2 m-2 pt-2'>Reports</span>
-                      <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700"/>
-                      <SidebarItem
-                        icon={<FileSpreadsheet size={20} />}
-                        text="Daily Report"
-                        alert
-                        component={Link}
-                        to="/daily-report"
-                        isActive={isActive('/daily-report')}
-                      />
-                      <SidebarItem
-                        icon={<CombineIcon size={20} />}
-                        text="Batch Report"
-                        alert
-                        component={Link}
-                        to="/batchreport"
-                        isActive={isActive('/batchreport')}
-                      />
-                      {/* <SidebarItem
+                      <br/>
+                        <span className='font-semibold py-4'>Reports</span>
+                        <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700" />
+                        <SidebarItem
+                          icon={<FileSpreadsheet size={20} />}
+                          text="Daily Report"
+                          alert
+                          component={Link}
+                          to="/daily-report"
+                          isActive={isActive('/daily-report')}
+                        />
+                        <SidebarItem
+                          icon={<CombineIcon size={20} />}
+                          text="Batch Report"
+                          alert
+                          component={Link}
+                          to="/batchreport"
+                          isActive={isActive('/batchreport')}
+                        />
+                        {/* <SidebarItem
                         icon={<CombineIcon size={20} />}
                         text="Loans"
                         alert
                         component={Link}
                         to="/loans"
                       /> */}
-                    </>
-                  ) : (
-                    <>
-                    <SidebarItem
-                      icon={<Home size={20} />}
-                      text="Dashboard"
-                      alert
-                      component={Link}
-                      to="/"
-                      isActive={isActive('/')}
-                    />
-                    <SidebarItem
-                        icon={<FileInput size={20} />}
-                        text="All Transactions"
-                        alert
-                        component={Link}
-                        to="/alltransactions"
-                        isActive={isActive('/alltransactions')}
-                      />
-                       <SidebarItem
-                        icon={<FileInput size={20} />}
-                        text="Farmers"
-                        alert
-                        component={Link}
-                        to="/all-farmers"
-                        isActive={isActive('/upload-farmer')}
-                      />
-                      <SidebarItem
-                        icon={<FileInput size={20} />}
-                        text="Upload Farmer"
-                        alert
-                        component={Link}
-                        to="/upload-farmer"
-                        isActive={isActive('/upload-farmer')}
-                      />
-                      <SidebarItem
-                        icon={<CoinsIcon className='' size={20} />}
-                        text="Station Pricing"
-                        component={Link}
-                        to="/price"
-                        isActive={isActive('/price')}
-                      />
-                      <SidebarItem
-                        icon={<CoinsIcon className='' size={20} />}
-                        text="Pricing Info"
-                        component={Link}
-                        to="/price-info"
-                        isActive={isActive('/price-info')}
-                      />
-                      <span className='font-semibold pl-2 m-2 pt-2'>Reports</span>
-                      <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700"/>
-                      <SidebarItem
-                        icon={<FileSpreadsheet size={20} />}
-                        text="Daily Report"
-                        alert
-                        component={Link}
-                        to="/daily-report"
-                        isActive={isActive('/daily-report')}
-                      />
-                      {/* <SidebarItem
-                        icon={<FileSpreadsheet size={20} />}
-                        text="Daily Purchase Validation"
-                        alert
-                        component={Link}
-                        to="/daily-purchase-validation"
-                      /> */}
-                      <SidebarItem
-                        icon={<FileArchive size={20} />}
-                        text="DPR"
-                        alert
-                        component={Link}
-                        to="/dpr"
-                        isActive={isActive('/dpr')}
-                        
-                      />
-                      {/* <SidebarItem
+                      </>
+                      );
+                    } else if (role === 'Data analyst' || (profile.jobTitle.includes('Data') && profile.jobTitle.includes('Analyst'))) {
+                      return (
+                      <>
+                        <SidebarItem
+                          icon={<Home size={20} />}
+                          text="Dashboard"
+                          alert
+                          component={Link}
+                          to="/"
+                          isActive={isActive('/')}
+                        />
+                        <SidebarItem
+                          icon={<NotebookPen size={20} />}
+                          text="Add Transactions"
+                          alert
+                          component={Link}
+                          to="/add-transaction-admin"
+                          isActive={isActive('/add-transaction-admin')}
+                        />
+                        <SidebarItem
+                          icon={<FileInput size={20} />}
+                          text="All Transactions"
+                          alert
+                          component={Link}
+                          to="/alltransactions"
+                          isActive={isActive('/alltransactions')}
+                        />
+                        <SidebarItem
+                          icon={<BoxIcon size={20} />}
+                          text="Receive Harvest"
+                          alert
+                          component={Link}
+                          to="/receive-harvest"
+                          isActive={isActive('/receive-harvest')}
+                        />
+                        <SidebarItem
+                          icon={<Home size={20} />}
+                          text="Processing"
+                          alert
+                          component={Link}
+                          to="/processing"
+                          isActive={isActive('/processing')}
+                        />
+                        <SidebarItem
+                          icon={<Briefcase size={20} />}
+                          text="Bagging Off"
+                          alert
+                          component={Link}
+                          to="/bag-off"
+                          isActive={isActive('/bag-off')}
+                        />
+                        <SidebarItem
+                          icon={<FileInput size={20} />}
+                          text="Farmers"
+                          alert
+                          component={Link}
+                          to="/all-farmers"
+                          isActive={isActive('/all-farmers')}
+                        />
+                        <SidebarItem
+                          icon={<FileInput size={20} />}
+                          text="Upload Farmer"
+                          alert
+                          component={Link}
+                          to="/upload-farmer"
+                          isActive={isActive('/upload-farmer')}
+                        />
+                        <SidebarItem
+                          icon={<CoinsIcon className='' size={20} />}
+                          text="Station Pricing"
+                          component={Link}
+                          to="/price"
+                          isActive={isActive('/price')}
+                        />
+                        <SidebarItem
+                          icon={<CoinsIcon className='' size={20} />}
+                          text="Pricing Info"
+                          component={Link}
+                          to="/price-info"
+                          isActive={isActive('/price-info')}
+                        />
+                        <span className='font-semibold pl-2 m-2 pt-2'>Reports</span>
+                        <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700" />
+                        <SidebarItem
+                          icon={<FileSpreadsheet size={20} />}
+                          text="Daily Report"
+                          alert
+                          component={Link}
+                          to="/daily-report"
+                          isActive={isActive('/daily-report')}
+                        />
+                          <SidebarItem
+                          icon={<CombineIcon size={20} />}
+                          text="Batch Report"
+                          alert
+                          component={Link}
+                          to="/batchreport"
+                          isActive={isActive('/batchreport')}
+                        />
+                        <SidebarItem
+                          icon={<FileArchive size={20} />}
+                          text="DPR"
+                          alert
+                          component={Link}
+                          to="/dpr"
+                          isActive={isActive('/dpr')}
+
+                        />
+                        {/* <SidebarItem
                         icon={<FileArchive size={20} />}
                         text="Loans"
                         alert
@@ -361,74 +398,180 @@ function AppContent() {
                         component={Link}
                         to="/register-user"
                       /> */}
-                    
-                    
-                </>
-                  )}
-                  <div className="bg-slate-400 mt-9 text-white rounded-lg">
-                    <SidebarItem
-                      icon={<CircleUserRound size={20} />}
-                      text="Logout"
-                      alert
-                      component={Link}
-                      to="/logout"
-                      isActive={isActive('/logout')}
-                    />
-                  </div>
-                  
-                </div>
-                
-              </Sidebar>
-            </div>
-            {/* )} */}
-  
-            <div className="container-2 p-0 mx-auto w-100">
-              <div className='card p-2 bg-slate-300 text-right font-bold'>
-                  <p>Welcome <span className='text-teal-600'>{profile.displayName}</span></p>
+
+
+                      </>
+                    )
+                  } else {
+                    return (
+                      <>
+                        <SidebarItem
+                          icon={<Home size={20} />}
+                          text="Dashboard"
+                          alert
+                          component={Link}
+                          to="/"
+                          isActive={isActive('/')}
+                        />
+                        <SidebarItem
+                          icon={<FileInput size={20} />}
+                          text="All Transactions"
+                          alert
+                          component={Link}
+                          to="/alltransactions"
+                          isActive={isActive('/alltransactions')}
+                        />
+                        <SidebarItem
+                          icon={<FileInput size={20} />}
+                          text="Farmers"
+                          alert
+                          component={Link}
+                          to="/all-farmers"
+                          isActive={isActive('/upload-farmer')}
+                        />
+                        <SidebarItem
+                          icon={<FileInput size={20} />}
+                          text="Upload Farmer"
+                          alert
+                          component={Link}
+                          to="/upload-farmer"
+                          isActive={isActive('/upload-farmer')}
+                        />
+                        <SidebarItem
+                          icon={<CoinsIcon className='' size={20} />}
+                          text="Station Pricing"
+                          component={Link}
+                          to="/price"
+                          isActive={isActive('/price')}
+                        />
+                        <SidebarItem
+                          icon={<CoinsIcon className='' size={20} />}
+                          text="Pricing Info"
+                          component={Link}
+                          to="/price-info"
+                          isActive={isActive('/price-info')}
+                        />
+                        <br/>
+                        <span className='font-semibold py-4'>Reports</span>
+                        <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700" />
+                        <SidebarItem
+                          icon={<FileSpreadsheet size={20} />}
+                          text="Daily Report"
+                          alert
+                          component={Link}
+                          to="/daily-report"
+                          isActive={isActive('/daily-report')}
+                        />
+                        {/* <SidebarItem
+                        icon={<FileSpreadsheet size={20} />}
+                        text="Daily Purchase Validation"
+                        alert
+                        component={Link}
+                        to="/daily-purchase-validation"
+                      /> */}
+                        <SidebarItem
+                          icon={<FileArchive size={20} />}
+                          text="DPR"
+                          alert
+                          component={Link}
+                          to="/dpr"
+                          isActive={isActive('/dpr')}
+
+                        />
+                        {/* <SidebarItem
+                        icon={<FileArchive size={20} />}
+                        text="Loans"
+                        alert
+                        component={Link}
+                        to="/loan-requests"
+                      />
+                      <SidebarItem
+                        icon={<BookUser className='' size={20} />}
+                        text="Register User"
+                        component={Link}
+                        to="/register-user"
+                      /> */}
+
+
+                      </>
+                   );
+                  }
+                })()}
+                {/* <div className="bg-slate-400 mt-9 text-white rounded-lg">
+                  <SidebarItem
+                    icon={<CircleUserRound size={20} />}
+                    text="Logout"
+                    alert
+                    component={Link}
+                    to="/logout"
+                    isActive={isActive('/logout')}
+                  />
+                </div> */}
+
               </div>
-              <Outlet />
-              <Routes>
-                
-                <Route path="/" element={<NewDashboard />} />
-                <Route path="/upload-farmer" element={<UploadFarmers />} />
-                <Route path="/all-farmers" element={<AllFarmers />} />
-                <Route path="/add-transaction" element={<AddTransaction profile={profile} token={token} setToken={setToken} refreshtoken={refreshtoken} role={role} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} />} />
-                <Route path="/alltransactions" element={<AllTransactions token={token}/>} />
-                <Route path="/daily-purchase" element={<DailyPurchaseValidation token={token}/>} />
-                <Route path="/daily-report" element={<FinancialReportContainer token={token}/>} />
-                <Route path="/dpr" element={<DprContainer />} />
-                <Route path='/register-user' element={<RegisterUsers token={token} />} />
-                <Route path='/price' element={<Price token={token} />} />
-                <Route path="/login" element={<NewDashboard />} />
-                <Route path='/price-info' element={<PricingInfo token={token} />} />
-                <Route path='/receive-harvest' element={<ReceiveHarvest token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} profile={profile}/>} />
-                <Route path='/receive-harvest-form' element={<ReceiveHarvestForm profile={profile}/>} />
-                <Route path='/start-processing-form' element={<StartProcessingForm/>} />
-                <Route path='/bag-off-form' element={<BagOffForm/>} />
-                <Route path="/logout" element={<Logout token={token} setToken={setToken} refreshtoken={refreshtoken} role={role} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} profile={profile} setProfile={setProfile} />} />
-                <Route path='/processing' element={<ReceivedHarvest token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
-                <Route path='/bag-off' element={<BagOff token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
-                <Route path='/daily-purchase-validation' element={<DailyPurchaseValidationReport token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
-                <Route path='/transfer' element={<Transfer token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
-                <Route path='/batchreport' element={<BatchReport token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
-                <Route path='/loans' element={<Loans token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
-                <Route path='/loan-requests' element={<LoanRequests token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws}/>} />
-                <Route path='/request-loan-form' element={<RequestLoanForm/>} />
-              </Routes>
-            </div>
+
+            </Sidebar>
           </div>
+          {/* )} */}
+
+          <div className="container-2 p-0 mx-auto w-100">
+            <div className='card gap-2 bg-slate-300 font-bold flex flex-row' style={{justifyContent:"right"}}>
+               <CircleUserRound/> <p className='pt-2 '>Welcome</p><span className='text-teal-600 pt-2'>{profile.displayName}</span>
+               <div className="bg-slate-300 p-1 text-white rounded-lg">
+                  <SidebarItem
+                    icon={<Power size={20} />}
+                    text="Logout"
+                    alert
+                    component={Link}
+                    to="/logout"
+                    isActive={isActive('/logout')}
+                  />
+                </div>
+            </div>
+            <Outlet />
+            <Routes>
+
+              <Route path="/" element={<NewDashboard />} />
+              <Route path="/upload-farmer" element={<UploadFarmers />} />
+              <Route path="/all-farmers" element={<AllFarmers />} />
+              <Route path="/add-transaction" element={<AddTransaction profile={profile} token={token} setToken={setToken} refreshtoken={refreshtoken} role={role} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} />} />
+              <Route path="/add-transaction-admin" element={<AddTransactionAdmin profile={profile} token={token} setToken={setToken} refreshtoken={refreshtoken} role={role} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} />} />
+              <Route path="/alltransactions" element={<AllTransactions token={token} />} />
+              <Route path="/daily-purchase" element={<DailyPurchaseValidation token={token} />} />
+              <Route path="/daily-report" element={<FinancialReportContainer token={token} />} />
+              <Route path="/dpr" element={<DprContainer />} />
+              <Route path='/register-user' element={<RegisterUsers token={token} />} />
+              <Route path='/price' element={<Price token={token} />} />
+              <Route path="/login" element={<NewDashboard />} />
+              <Route path='/price-info' element={<PricingInfo token={token} />} />
+              <Route path='/receive-harvest' element={<ReceiveHarvest token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} profile={profile} />} />
+              <Route path='/receive-harvest-form' element={<ReceiveHarvestForm profile={profile} />} />
+              <Route path='/start-processing-form' element={<StartProcessingForm profile={profile} />} />
+              <Route path='/bag-off-form' element={<BagOffForm profile={profile} />} />
+              <Route path="/logout" element={<Logout token={token} setToken={setToken} refreshtoken={refreshtoken} role={role} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} profile={profile} setProfile={setProfile} />} />
+              <Route path='/processing' element={<ReceivedHarvest token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} />} />
+              <Route path='/bag-off' element={<BagOff token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} profile={profile} />} />
+              <Route path='/daily-purchase-validation' element={<DailyPurchaseValidationReport token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} />} />
+              <Route path='/transfer' element={<Transfer token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} profile={profile} />} />
+              <Route path='/batchreport' element={<BatchReport token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} />} />
+              <Route path='/loans' element={<Loans token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} />} />
+              <Route path='/loan-requests' element={<LoanRequests token={token} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} />} />
+              <Route path='/request-loan-form' element={<RequestLoanForm />} />
+            </Routes>
+          </div>
+        </div>
         {/* </Router> */}
       </div>
     );
-   
+
   }
-  else{
-      return (
-    <div>
-      <h4>Loading...</h4>
-      {/* <Login token={token} setToken={setToken} refreshtoken={refreshtoken} setRefreshtoken={setRefreshtoken} role={role} setRole={setRole} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} setCws={setCws}/> */}
-    </div>
-  );
+  else {
+    return (
+      <div>
+        <h4>Loading...</h4>
+        {/* <Login token={token} setToken={setToken} refreshtoken={refreshtoken} setRefreshtoken={setRefreshtoken} role={role} setRole={setRole} cwsname={cwsname} setCwscode={setCwscode} setCwsname={setCwsname} cwscode={cwscode} cws={cws} setCws={setCws}/> */}
+      </div>
+    );
   }
 
 
@@ -438,7 +581,7 @@ function App() {
   return (
     <Router>
       {/* <Suspense fallback={<div>Loading...</div>}> */}
-        <AppContent />
+      <AppContent />
       {/* </Suspense> */}
     </Router>
   );
@@ -453,7 +596,7 @@ export default App;
 // import Cookies from 'js-cookie';
 // import { Sidebar as FlowbiteSidebar } from 'flowbite-react';
 // import './App.css';
-// import 'flowbite/dist/flowbite.css'; 
+// import 'flowbite/dist/flowbite.css';
 
 // // Lazy loaded components
 // const AddTransaction = lazy(() => import('./components/Transactions/AddTransaction'));

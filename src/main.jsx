@@ -1,26 +1,25 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
-import './index.css'
 import { ThemeProvider } from "@material-tailwind/react";
 import { PrimeReactProvider } from 'primereact/api';
-import 'primeicons/primeicons.css';
-// import { PrimeReactProvider } from 'primereact/api';
-import 'primeflex/primeflex.css';  
-import 'primereact/resources/primereact.css';
-import 'primereact/resources/themes/lara-light-indigo/theme.css';
+
+// PrimeReact and PrimeFlex styles
+import 'primereact/resources/themes/lara-light-blue/theme.css';  // theme
+import 'primereact/resources/primereact.min.css';                  // core css
+import 'primeicons/primeicons.css';                                // icons
+import 'primeflex/primeflex.css';                                  // primeflex
+
+// Your custom styles
 import './index.css';
 import './flags.css';
-// import * as serviceWorkerRegistration from './serviceWorkerRegistration';
-
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <PrimeReactProvider>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </PrimeReactProvider>
-  </React.StrictMode>,
+  </React.StrictMode>
 )
-// serviceWorkerRegistration.register();

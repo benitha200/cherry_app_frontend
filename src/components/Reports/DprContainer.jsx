@@ -17,7 +17,7 @@
 //         return startdateofmonth.toISOString().split('T')[0];
 //         // return new Date(now.getFullYear(), now.getMonth(), 1);
 //       };
-    
+
 //       // Function to get the last day of the current month
 //       const getLastDayOfMonth = () => {
 //         const now = new Date();
@@ -52,8 +52,8 @@
 //     { label: 'Transport', key: 'transport' },
 //     { label: 'GRN No', key: 'grn_no' },
 //     { label: 'Batch No', key: 'batch_no' },
-    
-    
+
+
 //   ];
 
 
@@ -67,7 +67,7 @@
 //     setGlobalFilterValue(value);
 // };
 
-  
+
 //   const [globalFilterValue, setGlobalFilterValue] = useState('');
 
 //   const initFilters = () => {
@@ -166,7 +166,7 @@
 //         "start_date": startdate,
 //         "end_date": enddate
 //       });
-      
+
 
 //       const requestOptions = {
 //         method: 'POST',
@@ -231,7 +231,7 @@
 //           </div>
 
 //       </div>
-      
+
 //       <div className="card">
 //       <div className="flex justify-content-end m-3">
 //                 {customers && (
@@ -477,6 +477,13 @@ const DprContainer = () => {
                 <DataTable value={customers} paginator showGridlines rows={10} dataKey="id"
                     filters={filters} globalFilterFields={['cws_name', 'farmer_name', 'cherry_grade', 'price', 'grn_no', 'transport', 'batch_no']} header={header}
                     emptyMessage="No Transactions found.">
+                    <Column
+                        header="No."
+                        frozen
+                        alignFrozen="left"
+                        headerStyle={{ width: '3rem' }}
+                        body={(data, options) => options.rowIndex + 1}
+                    />
                     <Column field="cws_name" sortable header="CWS Name" filter filterPlaceholder="Search by CWS Name" style={{ minWidth: '12rem' }} />
                     <Column field="farmer_name" sortable header="Farmer Name" filter filterPlaceholder="Search by Farmer Name" style={{ minWidth: '12rem' }} />
                     <Column field="purchase_date" sortable header="Purchase Date" style={{ minWidth: '10rem' }} />

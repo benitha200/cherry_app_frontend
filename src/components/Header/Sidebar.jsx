@@ -64,7 +64,7 @@ export const SidebarItem = ({ icon, text, to, isActive }) => {
     <Link
       to={to}
       className={`
-        flex items-center p-3 rounded-lg transition-all duration-200 ease-in-out
+        flex items-center p-2 rounded-lg transition-all duration-200 ease-in-out
         ${isActive 
           ? 'bg-teal-600 text-white shadow-md' 
           : 'text-gray-700 hover:bg-gray-100'
