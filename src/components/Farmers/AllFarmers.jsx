@@ -175,11 +175,7 @@ const AllFarmers = ({ token, cwsname, cwscode, cws }) => {
       try {
         setLoading(true);
 
-<<<<<<< HEAD
-        const response =await fetch("https://cherryapp.sucafina.com:8000/api/allfarmers/", requestOptions)
-=======
         const response = await fetch("http://192.168.81.68:8000/api/allfarmers/", requestOptions)
->>>>>>> 381ca6c2acbfbbcec4bdab651211ea8126451968
         const data = await response.json();
 
         console.log(data);
