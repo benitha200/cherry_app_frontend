@@ -177,6 +177,7 @@ const ReceiveHarvest = ({ token, cwscode, cws, profile }) => {
       }
 
     }
+  }
   };
 
   React.useEffect(() => {

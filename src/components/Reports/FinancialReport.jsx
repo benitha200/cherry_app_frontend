@@ -107,11 +107,7 @@ const mapApiResponseToCustomers = (data) => {
       
         const response = await fetch("https://cherryapp.sucafina.com:8000/api/getfinancialreport/", requestOptions);
       
-        // if(response.status === 401) {
-        //   localStorage.setItem('token','')
-        //   window.location.href = "/";
-        //   return;
-        // }
+ 
       
         const data = await response.json();
       

@@ -5,8 +5,6 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { CSVLink } from 'react-csv';
-import { Link } from 'react-router-dom';
 import { Edit, Edit2 } from 'lucide-react';
 
 

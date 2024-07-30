@@ -87,14 +87,7 @@ const BagOffForm = ({profile}) => {
       redirect: 'follow'
     };
 
-    fetch("http://192.168.81.68:8000/api/inventoryoutput/", requestOptions)
-      .then(response => response.json())
-      .then(result => {
-        console.log(result)
-        setOptions(result)
-      })
-      .catch(error => console.log('error', error));
-  }
+  
     fetch("https://cherryapp.sucafina.com:8000/api/inventoryoutput/", requestOptions)
     .then(response => response.json())
     .then(result =>{

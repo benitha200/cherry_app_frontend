@@ -16,7 +16,6 @@ const DailyPurchaseValidationReport = ({ token, cwsname, cwscode, cws }) => {
         const now = new Date();
         const startdateofmonth = new Date(now.getFullYear(), now.getMonth(), 1);
         return startdateofmonth.toISOString().split('T')[0];
-        // return new Date(now.getFullYear(), now.getMonth(), 1);
     };
 
     // Function to get the last day of the current month
