@@ -9,24 +9,24 @@ import { CSVLink } from 'react-csv';
 import { Link } from 'react-router-dom';
 import { Dropdown } from 'primereact/dropdown';
 
-const LoanRequests = ({token,cwsname,cwscode,cws}) => {
+const LoanRequests = ({ token, cwsname, cwscode, cws }) => {
 
   const [customers, setCustomers] = useState([]);
-  const [batch,setBatch]=useState([]);
-  const [loading, setLoading] = useState(false); 
+  const [batch, setBatch] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState(null);
   const [exportData, setExportData] = useState(null);
   const [status, setStatus] = useState("all");
 
-  const [selectedOption,setSelectedOption]=useState("all")
-  const options=[
-    {name:"All",code:"all"},
-    {name:"Pending",code:"pending"},
-    {name:"Approved",code:"approved"}
-    
+  const [selectedOption, setSelectedOption] = useState("all")
+  const options = [
+    { name: "All", code: "all" },
+    { name: "Pending", code: "pending" },
+    { name: "Approved", code: "approved" }
+
   ]
   const exportCSV = () => {
-      setExportData(customers);
+    setExportData(customers);
   };
 
   const csvHeaders = [
@@ -41,8 +41,8 @@ const LoanRequests = ({token,cwsname,cwscode,cws}) => {
     { label: 'Transport', key: 'transport' },
     { label: 'GRN No', key: 'grn_no' },
     { label: 'Batch No', key: 'batch_no' },
-    
-    
+
+
   ];
 
 
@@ -54,97 +54,98 @@ const LoanRequests = ({token,cwsname,cwscode,cws}) => {
 
     setFilters(_filters);
     setGlobalFilterValue(value);
-};
+  };
 
-  
+
   const [globalFilterValue, setGlobalFilterValue] = useState('');
 
   const initFilters = () => {
     setFilters({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-        'country.name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-        representative: { value: null, matchMode: FilterMatchMode.IN },
-        balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-        status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-        activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
-        verified: { value: null, matchMode: FilterMatchMode.EQUALS }
+      global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+      'country.name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+      representative: { value: null, matchMode: FilterMatchMode.IN },
+      balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+      status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+      activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
+      verified: { value: null, matchMode: FilterMatchMode.EQUALS }
     });
     setGlobalFilterValue('');
-};
+  };
   const clearFilter = () => {
     initFilters();
-};
+  };
 
   const renderHeader = () => {
     return (
-        <div className="flex justify-content-between">
-            <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
-            <span className="p-input-icon-left">
-                {/* <i className="pi pi-search" /> */}
-                <InputText style={{width:'5rem'}} value={globalFilterValue} onChange={onGlobalFilterChange} className='w-full' placeholder="Search" />
-            </span>
-        </div>
+      <div className="flex justify-content-between">
+        <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
+        <span className="p-input-icon-left">
+          {/* <i className="pi pi-search" /> */}
+          <InputText style={{ width: '5rem' }} value={globalFilterValue} onChange={onGlobalFilterChange} className='w-full' placeholder="Search" />
+        </span>
+      </div>
     );
-};
+  };
 
   const header = renderHeader();
 
   const mapApiResponseToCustomers = (data) => {
     console.log(data);
     const mappedData = data.map((item) => {
-        return {
-            id:item.id,
-            farmer_code: item.farmer_code,
-            farmer_name: item.farmer_name,
-            loan_limit:item.loan_limit,
-            loan_amount:item.loan_amount,
-            is_approved:item.is_approved
+      return {
+        id: item.id,
+        farmer_code: item.farmer_code,
+        farmer_name: item.farmer_name,
+        loan_limit: item.loan_limit,
+        loan_amount: item.loan_amount,
+        is_approved: item.is_approved
 
-        };
+      };
     });
 
     return mappedData;
-};
+  };
 
-function generateReport(status){
+  function generateReport(status) {
     const requestOptions = {
-        method: "POST",
-        redirect: "follow"
-      };
-      
-      fetch(`http://192.168.81.68:8000/api/getloanrequests/${status}/`, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-                    const mappedData=mapApiResponseToCustomers(result)
-                    setBatch(mappedData)
-                    setLoading(false)
-                    console.log(result)})
-        .catch((error) => console.error(error));
-}
+      method: "POST",
+      redirect: "follow"
+    };
 
-    useEffect(() => {
+    fetch(`http://192.168.81.68:8000/api/getloanrequests/${status}/`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        const mappedData = mapApiResponseToCustomers(result)
+        setBatch(mappedData)
+        setLoading(false)
+        console.log(result)
+      })
+      .catch((error) => console.error(error));
+  }
+
+  useEffect(() => {
     generateReport();
-  },[]);
+  }, []);
 
-  function handleOptionChange(e){
+  function handleOptionChange(e) {
     setSelectedOption(e.target.value.code)
     console.log(e.target.value.code)
     generateReport(e.target.value.code)
   }
 
-  function handleApprove(id){
+  function handleApprove(id) {
     const requestOptions = {
       method: "POST",
       redirect: "follow"
     };
-    
+
     fetch(`http://192.168.81.68:8000/api/approveloan/${id}/`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
-        
+
         console.log(result)
-        if(result.id){
+        if (result.id) {
           generateReport();
         }
       })
@@ -154,22 +155,22 @@ function generateReport(status){
 
   const renderReceiveButton = (rowData) => {
     console.log(rowData.id)
-    
-    if(!rowData.is_approved){
-          return (
-      
-      <div>
-      
-          <button className='bg-cyan-500 text-white p-2 rounded-md' onClick={()=>handleApprove(rowData.id)}>
+
+    if (!rowData.is_approved) {
+      return (
+
+        <div>
+
+          <button className='bg-cyan-500 text-white p-2 rounded-md' onClick={() => handleApprove(rowData.id)}>
             Approve
           </button>
-        
-      </div>
-    );
-  };
-    }
 
-  
+        </div>
+      );
+    };
+  }
+
+
 
 
   return (
@@ -177,79 +178,86 @@ function generateReport(status){
       <div className='text-teal-600 text-pretty font-bold text-2xl'>LOAN INFO</div>
       <div className=' flex justify-left mt-4 mb-4'>
         <Dropdown value={selectedOption} onChange={handleOptionChange} options={options} optionLabel='name'
-        placeholder='All' className='w-full md:w-14rem justify-center'/>
+          placeholder='All' className='w-full md:w-14rem justify-center' />
       </div>
       <div className="card">
-      <div className="flex justify-content-end m-3">
-                
-            </div>
-            <DataTable
-                value={batch}
-                paginator
-                showGridlines
-                rows={10}
-                dataKey="batch_no"
-                filters={filters}
-                globalFilterFields={['batch_no', 'cws_name', 'total_kgs']}
-                header={header}
-                emptyMessage="No Transactions found ."
-                >
-                <Column
-                    field="farmer_code"
-                    sortable
-                    header="Farmer Code"
-                    filter
-                    filterPlaceholder="Search by Farmer Code"
-                    style={{ minWidth: '12rem' }}
-                />
-                <Column
-                    field="farmer_name"
-                    sortable
-                    header="Farmer Name"
-                    filter
-                    filterPlaceholder="Search by Farmer Name"
-                    style={{ minWidth: '12rem' }}
-                />
-                
-                <Column
-                    field="loan_limit"
-                    sortable
-                    header="Loan Limit"
-                    style={{ minWidth: '10rem' }}
-                />
-                <Column
-                    field="loan_amount"
-                    sortable
-                    header="Loan Amount"
-                    style={{ minWidth: '10rem' }}
-                />
-                
-                <Column
-                    header="Payment status"
-                    body={(rowData) => rowData.loan_limit <100000 ? 
-                    <p className='bg-green-400 p-2 text-slate-50'>Paid</p> 
-                    : 
-                    <p className='bg-slate-100 p-2 text-slate-900'>Pending</p> 
-                    
-                }
-                    />
-                    <Column
-                    header="Approval status"
-                    body={(rowData) => rowData.is_approved? 
-                    <p className='bg-green-200 p-2 text-slate-900'>Approved</p> 
-                    : 
-                    <p className='bg-slate-100 p-2 text-slate-900'>Pending</p> 
-                    
-                }
-                    />
-                <Column
-                    header="Action"
-                    style={{minWidth:'10rem'}}
-                    body={renderReceiveButton}
-                
-                />
-                </DataTable>
+        <div className="flex justify-content-end m-3">
+
         </div>
+        <DataTable
+          value={batch}
+          paginator
+          showGridlines
+          rows={10}
+          dataKey="batch_no"
+          filters={filters}
+          globalFilterFields={['batch_no', 'cws_name', 'total_kgs']}
+          header={header}
+          emptyMessage="No Transactions found ."
+        >
+          <Column
+            header="No."
+            frozen
+            alignFrozen="left"
+            headerStyle={{ width: '3rem' }}
+            body={(data, options) => options.rowIndex + 1}
+          />
+          <Column
+            field="farmer_code"
+            sortable
+            header="Farmer Code"
+            filter
+            filterPlaceholder="Search by Farmer Code"
+            style={{ minWidth: '12rem' }}
+          />
+          <Column
+            field="farmer_name"
+            sortable
+            header="Farmer Name"
+            filter
+            filterPlaceholder="Search by Farmer Name"
+            style={{ minWidth: '12rem' }}
+          />
+
+          <Column
+            field="loan_limit"
+            sortable
+            header="Loan Limit"
+            style={{ minWidth: '10rem' }}
+          />
+          <Column
+            field="loan_amount"
+            sortable
+            header="Loan Amount"
+            style={{ minWidth: '10rem' }}
+          />
+
+          <Column
+            header="Payment status"
+            body={(rowData) => rowData.loan_limit < 100000 ?
+              <p className='bg-green-400 p-2 text-slate-50'>Paid</p>
+              :
+              <p className='bg-slate-100 p-2 text-slate-900'>Pending</p>
+
+            }
+          />
+          <Column
+            header="Approval status"
+            body={(rowData) => rowData.is_approved ?
+              <p className='bg-green-200 p-2 text-slate-900'>Approved</p>
+              :
+              <p className='bg-slate-100 p-2 text-slate-900'>Pending</p>
+
+            }
+          />
+          <Column
+            header="Action"
+            style={{ minWidth: '10rem' }}
+            body={renderReceiveButton}
+
+          />
+        </DataTable>
+      </div>
     </div>
 
   );

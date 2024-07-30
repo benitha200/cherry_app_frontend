@@ -10,29 +10,29 @@ import { Link } from 'react-router-dom';
 import { Truck, TruckIcon } from 'lucide-react';
 
 
-const Transfer = ({token,cwsname,cwscode,cws}) => {
+const Transfer = ({ token, cwsname, cwscode, cws }) => {
 
 
-    const getFirstDayOfMonth = () => {
-        const now = new Date();
-        const startdateofmonth= new Date(now.getFullYear(), now.getMonth(), 1);
-        return startdateofmonth.toISOString().split('T')[0];
-        // return new Date(now.getFullYear(), now.getMonth(), 1);
-      };
-    
-      // Function to get the last day of the current month
-      const getLastDayOfMonth = () => {
-        const now = new Date();
-        const enddateofmonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-        return enddateofmonth.toISOString().split('T')[0];
-      };
+  const getFirstDayOfMonth = () => {
+    const now = new Date();
+    const startdateofmonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    return startdateofmonth.toISOString().split('T')[0];
+    // return new Date(now.getFullYear(), now.getMonth(), 1);
+  };
+
+  // Function to get the last day of the current month
+  const getLastDayOfMonth = () => {
+    const now = new Date();
+    const enddateofmonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    return enddateofmonth.toISOString().split('T')[0];
+  };
 
 
-  const [startdate,setStartdate]=useState(getFirstDayOfMonth());
-  const [enddate,setEnddate]=useState(getLastDayOfMonth());
+  const [startdate, setStartdate] = useState(getFirstDayOfMonth());
+  const [enddate, setEnddate] = useState(getLastDayOfMonth());
   const [customers, setCustomers] = useState([]);
-  const [batch,setBatch]=useState([]);
-  const [loading, setLoading] = useState(false); 
+  const [batch, setBatch] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState(null);
 
 
@@ -44,78 +44,78 @@ const Transfer = ({token,cwsname,cwscode,cws}) => {
 
     setFilters(_filters);
     setGlobalFilterValue(value);
-};
+  };
 
-  
+
   const [globalFilterValue, setGlobalFilterValue] = useState('');
 
   const initFilters = () => {
     setFilters({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-        'country.name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-        representative: { value: null, matchMode: FilterMatchMode.IN },
-        balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-        status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-        activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
-        verified: { value: null, matchMode: FilterMatchMode.EQUALS }
+      global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+      'country.name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+      representative: { value: null, matchMode: FilterMatchMode.IN },
+      balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+      status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+      activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
+      verified: { value: null, matchMode: FilterMatchMode.EQUALS }
     });
     setGlobalFilterValue('');
-};
+  };
   const clearFilter = () => {
     initFilters();
-};
+  };
 
-const getSeverity = (status) => {
+  const getSeverity = (status) => {
     switch (status) {
-        case 0:
-            return 'Not In Progress';
+      case 0:
+        return 'Not In Progress';
 
-        case 1:
-            return 'In Progress';
-        default:
-            return null;
+      case 1:
+        return 'In Progress';
+      default:
+        return null;
     }
-};
+  };
 
-const statusBodyTemplate = (status) => {
+  const statusBodyTemplate = (status) => {
     return <Tag value={status} severity={getSeverity(status)}></Tag>;
-};
+  };
 
   const renderHeader = () => {
     return (
-        <div className="flex justify-content-around">
-            <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
-            <span className="p-input-icon-left">
-                {/* <i className="pi pi-search" /> */}
-                <InputText style={{width:'5rem'}} value={globalFilterValue} onChange={onGlobalFilterChange} className='w-5' placeholder="Search" />
-            </span>
-        </div>
+      <div className="flex justify-content-around">
+        <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
+        <span className="p-input-icon-left">
+          {/* <i className="pi pi-search" /> */}
+          <InputText style={{ width: '5rem' }} value={globalFilterValue} onChange={onGlobalFilterChange} className='w-5' placeholder="Search" />
+        </span>
+      </div>
     );
-};
+  };
 
   const header = renderHeader();
 
   const mapApiResponseToCustomers = (data) => {
     console.log(data);
     const mappedData = data.map((item) => {
-        console.log(item.total_kgs);
-        // ,'cherry_grade','purchase_date'
+      console.log(item.total_kgs);
+      // ,'cherry_grade','purchase_date'
 
-        return {
-            batch_no: item.batch_no,  
-            process_type:item.process_type,
-            cherry_grade:item.cherry_grade,
-            received_cherry_kg:item.received_cherry_kg,
-            location_to:item.location_to,
-            status:item.status,
-            schedule_date:item.schedule_date,
+      return {
+        batch_no: item.batch_no,
+        process_type: item.process_type,
+        cherry_grade: item.cherry_grade,
+        received_cherry_kg: item.received_cherry_kg,
+        location_to: item.location_to,
+        status: item.status,
+        schedule_date: item.schedule_date,
 
-        };
+      };
     });
 
     return mappedData;
-};
+  };
 
 
   const generateReport = async () => {
@@ -129,15 +129,15 @@ const statusBodyTemplate = (status) => {
       const requestOptions = {
         method: 'GET',
         headers: {
-            "Authorization": `Bearer ${token}`
-          },
+          "Authorization": `Bearer ${token}`
+        },
         redirect: 'follow'
       };
 
       try {
         setLoading(true);
 
-        const response =await fetch("http://192.168.81.68:8000/api/retrievebaggedoffdata/", requestOptions)
+        const response = await fetch("http://192.168.81.68:8000/api/retrievebaggedoffdata/", requestOptions)
         const data = await response.json();
 
         console.log(data);
@@ -154,12 +154,12 @@ const statusBodyTemplate = (status) => {
 
   React.useEffect(() => {
     generateReport();
-  },[]);
+  }, []);
 
-  function handleReceive(batch_no,p_date,grade){
-        console.log(batch_no);
-        console.log(p_date);
-        console.log(grade)
+  function handleReceive(batch_no, p_date, grade) {
+    console.log(batch_no);
+    console.log(p_date);
+    console.log(grade)
   }
   const renderReceiveButton = (rowData) => {
     // Log the state values before passing them to the Link
@@ -167,17 +167,17 @@ const statusBodyTemplate = (status) => {
       batch_no: rowData.batch_no,
       schedule_date: rowData.schedule_date,
       cherry_grade: rowData.cherry_grade,
-      process_type:rowData.process_type,
+      process_type: rowData.process_type,
       cws,
       cwsname,
       cwscode,
       token,
     });
 
-    if(rowData.status){
-        return (
-            <div>
-              {/* <Link
+    if (rowData.status) {
+      return (
+        <div>
+          {/* <Link
                 to={{
                   pathname: "/bag-off-form",
                   search: `?cwsname=${cwsname}&token=${token}&batch_no=${rowData.batch_no}
@@ -196,18 +196,18 @@ const statusBodyTemplate = (status) => {
                   },
                 }}
               > */}
-                <button className='bg-green-500 text-white p-3 rounded-md'>
-                  <TruckIcon/>
-                </button>
-              {/* </Link> */}
-        
-            </div>
-          );
+          <button className='bg-green-500 text-white p-3 rounded-md'>
+            <TruckIcon />
+          </button>
+          {/* </Link> */}
+
+        </div>
+      );
     }
-    else{
-       return (
-      <div>
-        {/* <Link
+    else {
+      return (
+        <div>
+          {/* <Link
           to={{
             pathname: "/bag-off-form",
             search: `?cwsname=${cwsname}&token=${token}&batch_no=${rowData.batch_no}
@@ -227,83 +227,90 @@ const statusBodyTemplate = (status) => {
           }}
         > */}
           <button className='bg-cyan-500 text-white p-2 rounded-md'>
-            <Truck/>
+            <Truck />
           </button>
-        {/* </Link> */}
-      </div>
-    ); 
+          {/* </Link> */}
+        </div>
+      );
     }
-  
-    
+
+
   };
-  
+
 
 
   return (
     <div>
       <div className='text-teal-600 text-pretty font-bold text-2xl'>Ready to Transfer</div>
-      
+
       <div className="card">
-      <div className="flex justify-content-end m-3">
-                
-            </div>
-            <DataTable
-                value={batch}
-                paginator
-                showGridlines
-                rows={10}
-                dataKey="batch_no"
-                filters={filters}
-                globalFilterFields={['batch_no', 'cws_name', 'total_kgs','status']}
-                header={header}
-                emptyMessage="No Transactions found ."
-                >   
-                <Column
-                    field="batch_no"
-                    sortable
-                    header="Process Name"
-                    filter
-                    filterPlaceholder="Search by CWS Name"
-                    style={{ minWidth: '12rem' }}
-                />
-                 <Column
-                    field="process_type"
-                    sortable
-                    header="Process Type"
-                    filter
-                    filterPlaceholder='search by Process Type'
-                    style={{ minWidth: '10rem' }}
-                />
-                <Column
-                    field="cherry_grade"
-                    sortable
-                    header="Cherry Grade"
-                    filter
-                    filterPlaceholder="search by cherry Grade"
-                    style={{ minWidth: '10rem' }}
-                />
-                <Column
-                    field="received_cherry_kg"
-                    sortable
-                    header="Received KGS"
-                    filter
-                    filterPlaceholder='Search by received kgs'
-                    style={{ minWidth: '10rem' }}
-                />
-                <Column
-                    field="location_to"
-                    sortable
-                    header="Location"
-                    style={{ minWidth: '10rem' }}
-                />
-                {/* <Column
+        <div className="flex justify-content-end m-3">
+
+        </div>
+        <DataTable
+          value={batch}
+          paginator
+          showGridlines
+          rows={10}
+          dataKey="batch_no"
+          filters={filters}
+          globalFilterFields={['batch_no', 'cws_name', 'total_kgs', 'status']}
+          header={header}
+          emptyMessage="No Transactions found ."
+        >
+          <Column
+            header="No."
+            frozen
+            alignFrozen="left"
+            headerStyle={{ width: '3rem' }}
+            body={(data, options) => options.rowIndex + 1}
+          />
+          <Column
+            field="batch_no"
+            sortable
+            header="Process Name"
+            filter
+            filterPlaceholder="Search by CWS Name"
+            style={{ minWidth: '12rem' }}
+          />
+          <Column
+            field="process_type"
+            sortable
+            header="Process Type"
+            filter
+            filterPlaceholder='search by Process Type'
+            style={{ minWidth: '10rem' }}
+          />
+          <Column
+            field="cherry_grade"
+            sortable
+            header="Cherry Grade"
+            filter
+            filterPlaceholder="search by cherry Grade"
+            style={{ minWidth: '10rem' }}
+          />
+          <Column
+            field="received_cherry_kg"
+            sortable
+            header="Received KGS"
+            filter
+            filterPlaceholder='Search by received kgs'
+            style={{ minWidth: '10rem' }}
+          />
+          <Column
+            field="location_to"
+            sortable
+            header="Location"
+            style={{ minWidth: '10rem' }}
+          />
+          {/* <Column
                     header="Actions"
                     style={{minWidth:'10rem'}}
                     body={renderReceiveButton}
                     // sortable
                 /> */}
-                </DataTable>
-        </div>
+        </DataTable>
+      </div>
     </div>
 
   );

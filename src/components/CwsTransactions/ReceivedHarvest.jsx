@@ -10,29 +10,28 @@ import { CSVLink } from 'react-csv';
 import { Link } from 'react-router-dom';
 
 
-const ReceivedHarvest = ({token,cwsname,cwscode,cws}) => {
+const ReceivedHarvest = ({ token, cwsname, cwscode, cws }) => {
 
 
-    const getFirstDayOfMonth = () => {
-        const now = new Date();
-        const startdateofmonth= new Date(now.getFullYear(), now.getMonth(), 1);
-        return startdateofmonth.toISOString().split('T')[0];
-        // return new Date(now.getFullYear(), now.getMonth(), 1);
-      };
-    
-      // Function to get the last day of the current month
-      const getLastDayOfMonth = () => {
-        const now = new Date();
-        const enddateofmonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-        return enddateofmonth.toISOString().split('T')[0];
-      };
+  const getFirstDayOfMonth = () => {
+    const now = new Date();
+    const startdateofmonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    return startdateofmonth.toISOString().split('T')[0];
+    // return new Date(now.getFullYear(), now.getMonth(), 1);
+  };
+
+  // Function to get the last day of the current month
+  const getLastDayOfMonth = () => {
+    const now = new Date();
+    const enddateofmonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    return enddateofmonth.toISOString().split('T')[0];
+  };
 
 
-  const [startdate,setStartdate]=useState(getFirstDayOfMonth());
-  const [enddate,setEnddate]=useState(getLastDayOfMonth());
-  const [customers, setCustomers] = useState([]);
-  const [batch,setBatch]=useState([]);
-  const [loading, setLoading] = useState(false); 
+  const [startdate, setStartdate] = useState(getFirstDayOfMonth());
+  const [enddate, setEnddate] = useState(getLastDayOfMonth());
+  const [batch, setBatch] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState(null);
 
 
@@ -44,78 +43,66 @@ const ReceivedHarvest = ({token,cwsname,cwscode,cws}) => {
 
     setFilters(_filters);
     setGlobalFilterValue(value);
-};
+  };
 
-  
+
   const [globalFilterValue, setGlobalFilterValue] = useState('');
 
   const initFilters = () => {
     setFilters({
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-        name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-        'country.name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
-        representative: { value: null, matchMode: FilterMatchMode.IN },
-        balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-        status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
-        activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
-        verified: { value: null, matchMode: FilterMatchMode.EQUALS }
+      global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+      name: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+      'country.name': { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.STARTS_WITH }] },
+      representative: { value: null, matchMode: FilterMatchMode.IN },
+      balance: { operator: FilterOperator.AND, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+      status: { operator: FilterOperator.OR, constraints: [{ value: null, matchMode: FilterMatchMode.EQUALS }] },
+      activity: { value: null, matchMode: FilterMatchMode.BETWEEN },
+      verified: { value: null, matchMode: FilterMatchMode.EQUALS }
     });
     setGlobalFilterValue('');
-};
+  };
   const clearFilter = () => {
     initFilters();
-};
+  };
 
-const getSeverity = (status) => {
-    switch (status) {
-        case 0:
-            return 'Not In Progress';
 
-        case 1:
-            return 'In Progress';
-        default:
-            return null;
-    }
-};
 
-const statusBodyTemplate = (status) => {
-    return <Tag value={status} severity={getSeverity(status)}></Tag>;
-};
 
   const renderHeader = () => {
     return (
-        <div className="flex justify-content-between">
-            <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
-            <span className="p-input-icon-left">
-                {/* <i className="pi pi-search" /> */}
-                <InputText style={{width:'5rem'}} value={globalFilterValue} onChange={onGlobalFilterChange} className='w-full' placeholder="Search" />
-            </span>
-        </div>
+      <div className="flex justify-content-between">
+        <Button type="button" icon="pi pi-filter-slash" label="Clear" outlined onClick={clearFilter} />
+        <span className="p-input-icon-left">
+          {/* <i className="pi pi-search" /> */}
+          <InputText style={{ width: '5rem' }} value={globalFilterValue} onChange={onGlobalFilterChange} className='w-full' placeholder="Search" />
+        </span>
+      </div>
     );
-};
+  };
 
   const header = renderHeader();
 
   const mapApiResponseToCustomers = (data) => {
     console.log(data);
     const mappedData = data.map((item) => {
-        console.log(item.total_kgs);
-        // ,'cherry_grade','purchase_date'
+      console.log(item.total_kgs);
+      // ,'cherry_grade','purchase_date'
 
-        return {
-            batch_no: item.batch_no,
-            cherry_grade:item.cherry_grade,
-            harvest_cherry_kg:item.harvest_cherry_kg,
-            received_cherry_kg:item.received_cherry_kg,
-            location_to:item.location_to,
-            status:item.status,
-            batch_creation_date:item.batch_creation_date,
+      return {
+        batch_no: item.batch_no,
+        cherry_grade: item.cherry_grade,
+        harvest_cherry_kg: item.harvest_cherry_kg,
+        received_cherry_kg: item.received_cherry_kg,
+        location_to: item.location_to,
+        status: item.status,
+        batch_creation_date: item.batch_creation_date,
+        created_by:item.created_by
 
-        };
+      };
     });
 
     return mappedData;
-};
+  };
 
 
   const generateReport = async () => {
@@ -129,15 +116,15 @@ const statusBodyTemplate = (status) => {
       const requestOptions = {
         method: 'GET',
         headers: {
-            "Authorization": `Bearer ${token}`
-          },
+          "Authorization": `Bearer ${token}`
+        },
         redirect: 'follow'
       };
 
       try {
         setLoading(true);
 
-        const response =await fetch("http://192.168.81.68:8000/api/receivedharvest/", requestOptions)
+        const response = await fetch("http://192.168.81.68:8000/api/receivedharvest/", requestOptions)
         const data = await response.json();
 
         console.log(data);
@@ -154,12 +141,12 @@ const statusBodyTemplate = (status) => {
 
   React.useEffect(() => {
     generateReport();
-  },[]);
+  }, []);
 
-  function handleReceive(batch_no,p_date,grade){
-        console.log(batch_no);
-        console.log(p_date);
-        console.log(grade)
+  function handleReceive(batch_no, p_date, grade) {
+    console.log(batch_no);
+    console.log(p_date);
+    console.log(grade)
   }
   const renderReceiveButton = (rowData) => {
     // Log the state values before passing them to the Link
@@ -168,15 +155,15 @@ const statusBodyTemplate = (status) => {
       purchase_date: rowData.purchase_date,
       cherry_grade: rowData.cherry_grade,
       cws,
-      cwsname:rowData.location_to,
+      cwsname: rowData.location_to,
       cwscode,
       token,
     });
 
-    if(rowData.status){
-        return (
-            <div>
-              {/* <Link
+    if (rowData.status) {
+      return (
+        <div>
+          {/* <Link
                 to={{
                   pathname: "/start-processing-form",
                   search: `?cwsname=${cwsname}&token=${token}&batch_no=${rowData.batch_no}
@@ -198,60 +185,60 @@ const statusBodyTemplate = (status) => {
                   Bag Off
                 </button>
               </Link> */}
-               <button className='bg-green-500 text-white p-2 rounded-md w-8' title='go ahead and bag off if it is done'>
-                  Started
-                </button>
-        
-            </div>
-          );
+          <button className='bg-green-500 text-white p-2 rounded-md w-8' title='go ahead and bag off if it is done'>
+            Started
+          </button>
+
+        </div>
+      );
     }
-    else{
-       return (
-      <div>
-        <Link
-          to={{
-            pathname: "/start-processing-form",
-            search: `?cwsname=${rowData.location_to}&token=${token}&batch_no=${rowData.batch_no}
+    else {
+      return (
+        <div>
+          <Link
+            to={{
+              pathname: "/start-processing-form",
+              search: `?cwsname=${rowData.location_to}&token=${token}&batch_no=${rowData.batch_no}
                         &purchase_date=${rowData.purchase_date}&cherry_grade=${rowData.cherry_grade}
                         &cwscode=${cwscode}&harvest_kgs=${rowData.total_kgs}`,
-            state: {
-              batch_no: rowData.batch_no,
-              purchase_date: rowData.purchase_date,
-              cherry_grade: rowData.cherry_grade,
-              harvest_kgs: rowData.total_kgs,
-              cws,
-              cwsname:rowData.location_to,
-              cwscode,
-              token,
-            },
-          }}
-        >
-          <button className='bg-cyan-500 text-white p-2 rounded-md w-8'>
-            Start
-          </button>
-        </Link>
-  
-        {/* <button
+              state: {
+                batch_no: rowData.batch_no,
+                purchase_date: rowData.purchase_date,
+                cherry_grade: rowData.cherry_grade,
+                harvest_kgs: rowData.total_kgs,
+                cws,
+                cwsname: rowData.location_to,
+                cwscode,
+                token,
+              },
+            }}
+          >
+            <button className='bg-cyan-500 text-white p-2 rounded-md w-8'>
+              Start
+            </button>
+          </Link>
+
+          {/* <button
           className='bg-teal-500 text-white p-2 rounded-md ml-2'
           // onClick={() => handleReceive(rowData.batch_no,rowData.purchase_date,rowData.cherry_grade)}
         >
           Start
         </button> */}
-      </div>
-    ); 
+        </div>
+      );
     }
-  
-    
+
+
   };
-  
+
 
 
   return (
     <div className="bg-white shadow-lg rounded-lg overflow-hidden max-w-full mx-auto my-8 border-2">
       <div className="bg-gradient-to-r from-teal-600 to-teal-700 p-3 ">
-            <h2 className="text-2xl font-bold text-white"> Start Processing</h2>
-          </div>
-      
+        <h2 className="text-2xl font-bold text-white"> Start Processing</h2>
+      </div>
+
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
         <div className="p-4 sm:p-0 md:mt-4">
           <DataTable
@@ -268,6 +255,13 @@ const statusBodyTemplate = (status) => {
             className="p-datatable-sm"
             responsiveLayout="scroll"
           >
+            <Column
+              header="No."
+              frozen
+              alignFrozen="left"
+              headerStyle={{ width: '3rem' }}
+              body={(data, options) => options.rowIndex + 1}
+            />
             <Column
               field="batch_no"
               header="Batch No"
@@ -300,6 +294,9 @@ const statusBodyTemplate = (status) => {
               filter
               filterPlaceholder="Search Harvest KGS"
               style={{ minWidth: '10rem' }}
+              body={(rowData) => (
+                <span>{Math.floor(rowData.harvest_cherry_kg).toLocaleString()}</span>
+              )}
             />
             <Column
               field="received_cherry_kg"
@@ -308,10 +305,19 @@ const statusBodyTemplate = (status) => {
               filter
               filterPlaceholder="Search Received KGS"
               style={{ minWidth: '10rem' }}
+              body={(rowData) => (
+                <span>{Math.floor(rowData.received_cherry_kg).toLocaleString()}</span>
+              )}
             />
             <Column
               field="location_to"
               header="Location"
+              sortable
+              style={{ minWidth: '10rem' }}
+            />
+            <Column
+              field="created_by"
+              header="Received By"
               sortable
               style={{ minWidth: '10rem' }}
             />

@@ -506,24 +506,37 @@ export default function AllTransactions({ dailytotal }) {
             <div className="flex items-center space-x-2 mb-2 sm:mb-0">
               <span className="font-semibold text-gray-700">Total Cherry Kg:</span>
               <span className="bg-green-500 text-white px-2 py-1 rounded-full">
-                {totalCherryKg.toFixed(2)}
+                {totalCherryKg.toFixed(0)}
               </span>
             </div>
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 mb-2 sm:mb-0">
               <span className="font-semibold text-gray-700">Total Amount:</span>
               <span className="bg-purple-500 text-white px-2 py-1 rounded-full">
                 {totalAmount.toLocaleString('en-US', { style: 'currency', currency: 'RWF' })}
+              </span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="font-semibold text-gray-700">Average Price:</span>
+              <span className="bg-orange-500 text-white px-2 py-1 rounded-full">
+                {(totalAmount / totalCherryKg).toLocaleString('en-US', { style: 'currency', currency: 'RWF', minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </span>
             </div>
           </div>
           : undefined
         }
       >
-        <Column 
+         <Column 
           selectionMode="multiple" 
           headerStyle={{ width: '3rem' }}
           frozen 
           alignFrozen="left"
+        />
+        <Column
+          header="No."
+          frozen
+          alignFrozen="left"
+          headerStyle={{ width: '3rem' }}
+          body={(data, options) => options.rowIndex + 1}
         />
         <Column field="batch_no" header="Batch Number" filter style={{ minWidth: '8rem' }} frozen alignFrozen='left'/>
         <Column field="id" sortable header="Transaction Id" filter filterPlaceholder="Transaction Id" hidden style={{ minWidth: '2rem' }} />
@@ -536,6 +549,7 @@ export default function AllTransactions({ dailytotal }) {
         <Column field="cherry_kg" header="Cherry Kg" style={{ minWidth: '5rem' }} editor={(options) => textEditor(options)} />
         <Column field="is_paid" header="Paid" filter sortable style={{ minWidth: '8rem' }} body={(rowData) => rowData.is_paid === 1 ? <CheckBadgeIcon className="h-6 w-6 text-green-500" /> : <XCircleIcon className="h-6 w-6 text-red-500" />} />
         <Column field="price" header="Price" style={{ minWidth: '5rem' }} />
+        
         <Column 
           field="total" 
           header="Total (RWF)" 
@@ -547,8 +561,9 @@ export default function AllTransactions({ dailytotal }) {
         />
         <Column field="grn_no" header="Transaction No" style={{ minWidth: '8rem' }} />
         <Column field="transport" header="Transport" style={{ minWidth: '5rem' }} editor={(options) => textEditor(options)} />
-        
+        <Column field="created_by" header="Created By" style={{ minWidth: '10rem' }} />
         <Column rowEditor headerStyle={{ width: '10%', minWidth: '5rem' }} bodyStyle={{ textAlign: 'center' }}></Column>
+        
         <Column header="Payment status" body={(rowData) => rowData.is_paid === 1 ? 
           <span className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Paid</span> 
           : 
