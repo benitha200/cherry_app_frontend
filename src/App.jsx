@@ -44,8 +44,9 @@ function AppContent() {
   const [cwsname, setCwsname] = useState(null);
   const [cwscode, setCwscode] = useState(null);
   const [cws, setCws] = useState(null);
-  const [profile, setProfile] = useState(others_profile);
-  Cookies.set("profile", JSON.stringify(others_profile));
+  // const [profile, setProfile] = useState(others_profile);
+  // Cookies.set("profile", JSON.stringify(others_profile));
+  const [profile,setProfile]=useState();
 
   const location = useLocation();
   const currentPath = location.pathname;
