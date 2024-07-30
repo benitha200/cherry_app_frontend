@@ -28,35 +28,9 @@ const PricingInfo = ({ token, cwsname, cwscode, cws }) => {
 
   const [startdate, setStartdate] = useState(getFirstDayOfMonth());
   const [enddate, setEnddate] = useState(getLastDayOfMonth());
-  const [customers, setCustomers] = useState([]);
-  const [batch, setBatch] = useState([]);
   const [settings, setSettings] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState(null);
-  const [exportData, setExportData] = useState(null);
-  const [dailytotal, setDailytotal] = useState();
-  const [totalcherrya, setTotalcherrya] = useState();
-  const [totalcherryb, setTotalcherryb] = useState();
-
-  const exportCSV = () => {
-    setExportData(customers);
-  };
-
-  const csvHeaders = [
-    { label: 'CWS Name', key: 'cws_name' },
-    { label: 'Farmer Name', key: 'farmer_name' },
-    { label: 'Farmer Code', key: 'farmer_code' },
-    { label: 'Purchase Date', key: 'purchase_date' },
-    { label: 'Has Card', key: 'has_card' },
-    { label: 'Cherry Grade', key: 'cherry_grade' },
-    { label: 'Cherry Kg', key: 'cherry_kg' },
-    { label: 'Price', key: 'price' },
-    { label: 'Transport', key: 'transport' },
-    { label: 'GRN No', key: 'grn_no' },
-    { label: 'Batch No', key: 'batch_no' },
-
-
-  ];
 
 
   const onGlobalFilterChange = (e) => {
@@ -161,27 +135,6 @@ const PricingInfo = ({ token, cwsname, cwscode, cws }) => {
     generateReport();
   }, []);
 
-  function handleReceive(batch_no, p_date, grade) {
-    console.log(batch_no);
-    console.log(p_date);
-    console.log(grade)
-  }
-
-  const renderEditButton = (rowData) => {
-    return (
-      <div>
-        <button
-          className='bg-teal-500 text-white p-2 rounded-md'
-          onClick={() => {
-            // Implement your receive logic here
-            console.log('Receive button clicked for:', rowData);
-          }}
-        >
-          <Edit2 />
-        </button>
-      </div>
-    );
-  };
 
   return (
     <div className="bg-white shadow-2xl rounded-lg overflow-hidden max-w-9xl mx-auto border-2 border-slate-200 transition-all duration-300 hover:shadow-3xl">

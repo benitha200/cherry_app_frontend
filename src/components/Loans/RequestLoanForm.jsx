@@ -5,19 +5,10 @@ import {openDB} from 'idb';
 import { useSearchParams } from 'react-router-dom';
 
 
-const initializeIndexedDB=async()=>{
-    const db=await openDB('offlineTransactions',1,{
-        upgrade(db){
-            db.createObjectStore('transactions',{keyPath:'id',autoIncrement:true});
-        },
-    });
-    return db;
-}
 const RequestLoanForm = () => {        
     const [searchParams] = useSearchParams();
     const [loanAmount,setLoanAmount]=useState();
     const [loading,setLoading]=useState(false)
-    const [responsemessage,setResponsemessage]=useState()
   
     // Access query parameters using get method
     const farmer_code = searchParams.get('farmer_code');
@@ -33,29 +24,9 @@ const RequestLoanForm = () => {
     console.log("farmer_name:", farmer_name);
     console.log("loan_limit:", loan_limit);
 
-    const occupations = [
-        {name: 'Select Occupation'},
-        { name: 'Site Collector', code: 'Site Collector' },
-        { name: 'Farmer', code: 'Farmer' },
-    ];
-    const grades = [
-        {name: 'Select Grade'},
-        { name: 'CA', value: 'CA' },
-        { name: 'CB', value: 'CB' },
-        { name: 'NA', value: 'NA' },
-        { name: 'NB', value: 'NB' },
-    ];
+   
     const [price,setPrice]=useState(410)
     const toast = useRef(null);
-    const [receivedqty, setReceivedqty] = useState();
-    // const [grade, setGrade] = useState(defaultGrade);
-    const [grade, setGrade] = useState([
-      { name: 'CA', value: 'CA' },
-      { name: 'CB', value: 'CB' },
-      { name: 'NA', value: 'NA' },
-      { name: 'NB', value: 'NB' },
-    ]);
- 
 
 
     const [formData, setFormData] = useState({
@@ -176,28 +147,6 @@ const handleInputChange = (e) => {
           } finally {
             setLoading(false);
           }
-
-        // const myHeaders = new Headers();
-        // myHeaders.append("Content-Type", "application/json");
-
-        // const raw = JSON.stringify({
-        // "farmer_code": "RW-MAC-0103",
-        // "farmer_name": "ZACHEE KANEZA",
-        // "loan_limit": 4124784,
-        // "loan_amount": 500000
-        // });
-
-        // const requestOptions = {
-        // method: "POST",
-        // headers: myHeaders,
-        // body: raw,
-        // redirect: "follow"
-        // };
-
-        // fetch("https://cherryapp.sucafina.com:8000/api/requetloan/", requestOptions)
-        // .then((response) => response.text())
-        // .then((result) => console.log(result))
-        // .catch((error) => console.error(error));
           
      
         }

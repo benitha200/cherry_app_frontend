@@ -36,10 +36,6 @@ const BatchReport = () => {
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState(null);
   const [exportData, setExportData] = useState(null);
-  const [dailytotal, setDailytotal] = useState();
-  const [totalcherrya, setTotalcherrya] = useState();
-  const [totalcherryb, setTotalcherryb] = useState();
-
   const exportCSV = () => {
     setExportData(customers);
   };

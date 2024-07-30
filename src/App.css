@@ -14,16 +14,9 @@
     justify-content: space-around;
     padding: 5rem;
 }
-/* .p-datatable-gridlines{
 
-    display: flex;
-    flex-direction: row;
-} */
 
 .p-inputtext {
-    /* width: 35rem;
-    padding: .8rem;
-    border: 1px solid darkslategray; */
     cursor: text;
     color: #000000;
     width: 35rem;

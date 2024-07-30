@@ -157,9 +157,7 @@ export default function AllTransactions({ dailytotal }) {
   }
 
 
-  const exportCSV = () => {
-    setExportData(customers);
-  };
+
 
   const csvHeaders = [
     { label: 'CWS Name', key: 'cws_name' },
@@ -191,9 +189,7 @@ export default function AllTransactions({ dailytotal }) {
         return null;
     }
   };
-  const handlePay=(e)=>{
-    e.preventDefault();
-  }
+
 
   const onRowEditComplete = (e) => {
     const editedRow = e.newData; // Extract the edited row data
@@ -258,19 +254,7 @@ export default function AllTransactions({ dailytotal }) {
     );
   };
 
-  const GradeEditor = (options) => {
-    return (
-      <Dropdown
-        value={options.value}
-        options={grades}
-        onChange={(e) => options.editorCallback(e.value)}
-        placeholder="Select a Grade"
-        itemTemplate={(option) => {
-          return <Tag value={option} severity={getSeverity(option)}></Tag>;
-        }}
-      />
-    );
-  };
+
   const handleStatusChange = (e) => {
     const status = e.target.value;
     if (status === 'Pending') {
@@ -324,16 +308,6 @@ export default function AllTransactions({ dailytotal }) {
     setGlobalFilterValue('');
   };
 
-  // const handleApprove = () => {
-  //   if (selectedData && selectedData.length > 0) {
-  //     const selectedIds = selectedData.map(item => item.id);
-  //     console.log('Selected IDs:', selectedIds);
-  //     // Add your approval logic here
-  //     toast.current.show({ severity: 'success', summary: 'Approved', detail: 'Selected items have been approved' });
-  //   } else {
-  //     toast.current.show({ severity: 'warn', summary: 'No selection', detail: 'Please select items to approve' });
-  //   }
-  // };
   const handleApprove = async () => {
     if (selectedData && selectedData.length > 0) {
           const selectedIds = selectedData.map(item => item.id);

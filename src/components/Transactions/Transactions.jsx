@@ -5,24 +5,18 @@ import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { CSVLink } from 'react-csv';
-import { Tag } from 'primereact/tag';
-import { Dropdown } from 'primereact/dropdown';
 import { CheckBadgeIcon, XCircleIcon } from '@heroicons/react/24/outline';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
-import { InputSwitch } from 'primereact/inputswitch';
 import "./Formpage.css"
 
 export default function Transactions({ customers, dailytotal }) {
   const [filters, setFilters] = useState(null);
   const [loading, setLoading] = useState(false);
   const [globalFilterValue, setGlobalFilterValue] = useState('');
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [exportData, setExportData] = useState(null);
   const [grades] = useState(['CA', 'CB', 'NA', 'NB']);
   const [visible, setVisible] = useState(false);
   const [selectedData, setSelectedData] = useState(customers);
-  const [rowClick, setRowClick] = useState(true);
 
   const toast = useRef(null);
 
@@ -42,17 +36,6 @@ export default function Transactions({ customers, dailytotal }) {
     setSelectedData(selectedRows);
     calculateTotalOfSelected(selectedRows);
   };
-
-  // // Example function for handling payment confirmation
-  // const accept = (id) => {
-  //   toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'Payment confirmed', life: 3000 });
-
-  // };
-
-  // const reject = () => {
-  //   toast.current.show({ severity: 'warn', summary: 'Rejected', detail: 'Payment not confirmed', life: 3000 });
-  // };
-
 
 
   const accept = (id) => {
@@ -83,10 +66,6 @@ export default function Transactions({ customers, dailytotal }) {
   }
 
 
-  const exportCSV = () => {
-    setExportData(customers);
-  };
-
   const csvHeaders = [
     { label: 'CWS Name', key: 'cws_name' },
     { label: 'Farmer Name', key: 'farmer_name' },
@@ -101,25 +80,8 @@ export default function Transactions({ customers, dailytotal }) {
     { label: 'Batch No', key: 'batch_no' },
   ];
 
-  const getSeverity = (value) => {
-    switch (value) {
-      case 'CA':
-        return 'success';
 
-      case 'CB':
-        return 'success';
 
-      case 'NA':
-      case 'NB':
-        return 'primary';
-
-      default:
-        return null;
-    }
-  };
-  const handlePay = (e) => {
-    e.preventDefault();
-  }
 
   const onRowEditComplete = (e) => {
     const editedRow = e.newData; // Extract the edited row data
@@ -181,25 +143,6 @@ export default function Transactions({ customers, dailytotal }) {
     );
   };
 
-  const GradeEditor = (options) => {
-    return (
-      <Dropdown
-        value={options.value}
-        options={grades}
-        onChange={(e) => options.editorCallback(e.value)}
-        placeholder="Select a Grade"
-        itemTemplate={(option) => {
-          return <Tag value={option} severity={getSeverity(option)}></Tag>;
-        }}
-      />
-    );
-  };
-
-  const allowEdit = (rowData) => {
-    // Adjust the condition based on your requirement
-    return rowData.name !== 'Blue Band';
-  };
-
   useEffect(() => {
     initFilters();
   }, []);
@@ -244,42 +187,7 @@ export default function Transactions({ customers, dailytotal }) {
     setGlobalFilterValue('');
   };
 
-  // const handleApprove = () => {
-  //   if (selectedData && selectedData.length > 0) {
-  //     const selectedIds = selectedData.map(item => item.id);
-  //     console.log('Selected IDs:', selectedIds);
-  //     // Add your approval logic here
-  //     toast.current.show({ severity: 'success', summary: 'Approved', detail: 'Selected items have been approved' });
-  //   } else {
-  //     toast.current.show({ severity: 'warn', summary: 'No selection', detail: 'Please select items to approve' });
-  //   }
-  // };
-  const handleApprove = async () => {
-    if (selectedData && selectedData.length > 0) {
-          const selectedIds = selectedData.map(item => item.id);
-          console.log('Selected IDs:', selectedIds);
-    try {
-      const response = await fetch('http://192.168.81.68:8000/api/approvetransactions/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ ids: selectedIds }),
-      });
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data.message); // Handle success
-        } else {
-          const errorData = await response.json();
-          console.error('Error:', errorData.error); // Handle error
-        }
-      } catch (error) {
-        console.error('Error:', error); // Handle network errors
-      }
-    }
-  }
-    ;
 
   const renderHeader = () => {
     return (
@@ -292,12 +200,7 @@ export default function Transactions({ customers, dailytotal }) {
             outlined
             onClick={clearFilter}
           />
-          {/* <Button className='bg-green-500 text-white p-3' onClick={handleApprove}>
-            Approve
-          </Button>
-          <Button className='bg-slate-500 text-white p-3'>
-            Reject
-          </Button> */}
+      
         </div>
         <span className="p-input-icon-left">
           <InputText

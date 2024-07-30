@@ -11,34 +11,10 @@ import { Link } from 'react-router-dom';
 
 const Loans = ({ token, cwsname, cwscode, cws }) => {
 
-
-  const [customers, setCustomers] = useState([]);
   const [batch, setBatch] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filters, setFilters] = useState(null);
-  const [exportData, setExportData] = useState(null);
 
-
-
-  const exportCSV = () => {
-    setExportData(customers);
-  };
-
-  const csvHeaders = [
-    { label: 'CWS Name', key: 'cws_name' },
-    { label: 'Farmer Name', key: 'farmer_name' },
-    { label: 'Farmer Code', key: 'farmer_code' },
-    { label: 'Purchase Date', key: 'purchase_date' },
-    { label: 'Has Card', key: 'has_card' },
-    { label: 'Cherry Grade', key: 'cherry_grade' },
-    { label: 'Cherry Kg', key: 'cherry_kg' },
-    { label: 'Price', key: 'price' },
-    { label: 'Transport', key: 'transport' },
-    { label: 'GRN No', key: 'grn_no' },
-    { label: 'Batch No', key: 'batch_no' },
-
-
-  ];
 
 
   const onGlobalFilterChange = (e) => {
@@ -88,8 +64,6 @@ const Loans = ({ token, cwsname, cwscode, cws }) => {
   const mapApiResponseToCustomers = (data) => {
     console.log(data);
     const mappedData = data.map((item) => {
-      // console.log(item.total_kgs);
-      // ,'cherry_grade','purchase_date'
 
       return {
         farmer_code: item.farmer_code,
@@ -156,12 +130,7 @@ const Loans = ({ token, cwsname, cwscode, cws }) => {
             <p className='bg-slate-200 p-2 text-slate-600'>Not Allowed</p>
           )}
 
-        {/* <button
-          className='bg-gray-500 text-white p-2 rounded-md ml-2'
-          // onClick={() => handleReceive(rowData.batch_no,rowData.purchase_date,rowData.cherry_grade)}
-        >
-          Contributors
-        </button> */}
+
       </div>
     );
   };

@@ -24,11 +24,6 @@ const ReceiveHarvestForm = ({profile}) => {
     console.log("cherry_grade:", cherry_grade);
     console.log("harvest_kgs:", harvest_kgs);
 
-    const occupations = [
-        {name: 'Select Occupation'},
-        { name: 'Site Collector', code: 'Site Collector' },
-        { name: 'Farmer', code: 'Farmer' },
-    ];
     const grades = [
         {name: 'Select Grade'},
         { name: 'CA', value: 'CA' },
@@ -40,54 +35,12 @@ const ReceiveHarvestForm = ({profile}) => {
     const [loading,setLoading]=useState(false)
     const [responsemessage,setResponsemessage]=useState()
     const [receivedqty, setReceivedqty] = useState();
-    const [grade, setGrade] = useState([
-      { name: 'CA', value: 'CA' },
-      { name: 'CB', value: 'CB' },
-      { name: 'NA', value: 'NA' },
-      { name: 'NB', value: 'NB' },
-    ]);
-    const [selectedGradePrice,setSelectedGradePrice ]=useState()
-    const [selectedGradeLimit,setSelectedGradeLimit]=useState()
     
 
     console.log(cwsname)    
    
-    function get_farmers(){
-        var requestOptions = {
-        method: 'GET',
-        headers: {
-            "Authorization":`Bearer ${token}`
-        },
-        redirect: 'follow',
-        };
-
-        fetch("https://cherryapp.sucafina.com:8000/api/farmers/", requestOptions)
-        .then(response => response.json())
-        .then(result => setFarmers(result))
-        .catch(error => console.log('error', error));
-    }
-    const farmerOptionTemplate = (option) => {
-        return (
-            <div className="flex align-items-center">
-                <div>{option.farmer_code} - {option.farmer_name}</div>
-            </div>
-        );
-    };
-    const [formData, setFormData] = useState({
-        date: new Date().toISOString().split('T')[0],
-        // date:'',
-        lastTwoDigitsOfYear: '',
-        formattedMonth: '',
-        formattedDay: '',
-        farmerName: '',
-        hasCard: false,
-        pricePerKg: '',
-        transportPerKg: '',
-        cherryGrade: '',
-        prebatch: '',
-        batchNumber: '',
-      });
-
+  
+  
     
 
     useEffect(() => {

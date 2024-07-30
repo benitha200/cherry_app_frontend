@@ -27,20 +27,6 @@ const StartProcessingForm = ({profile}) => {
     console.log("cherry_grade:", cherry_grade);
     console.log("harvest_kgs:", harvest_kgs);
 
-    const occupations = [
-        {name: 'Select Occupation'},
-        { name: 'Site Collector', code: 'Site Collector' },
-        { name: 'Farmer', code: 'Farmer' },
-    ];
-    const grades = [
-        {name: 'Select Grade'},
-        { name: 'CA', value: 'CA' },
-        { name: 'CB', value: 'CB' },
-        { name: 'NA', value: 'NA' },
-        { name: 'NB', value: 'NB' },
-    ];
-    // const defaultGrade=grades[0]
-    // const defaultOccupation = occupations[0];
     const [loading,setLoading]=useState(false)
     const [scheduledate,setScheduledate]=useState();
     const toast = useRef(null);
@@ -50,20 +36,6 @@ const StartProcessingForm = ({profile}) => {
    
 
 
-    const [formData, setFormData] = useState({
-        date: new Date().toISOString().split('T')[0],
-        // date:'',
-        lastTwoDigitsOfYear: '',
-        formattedMonth: '',
-        formattedDay: '',
-        farmerName: '',
-        hasCard: false,
-        pricePerKg: '',
-        transportPerKg: '',
-        cherryGrade: '',
-        prebatch: '',
-        batchNumber: '',
-      });
 
 
   

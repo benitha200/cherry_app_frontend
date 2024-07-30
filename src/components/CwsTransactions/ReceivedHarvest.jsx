@@ -197,12 +197,6 @@ const ReceivedHarvest = ({ token, cwsname, cwscode, cws }) => {
             </button>
           </Link>
 
-          {/* <button
-          className='bg-teal-500 text-white p-2 rounded-md ml-2'
-          // onClick={() => handleReceive(rowData.batch_no,rowData.purchase_date,rowData.cherry_grade)}
-        >
-          Start
-        </button> */}
         </div>
       );
     }

@@ -300,8 +300,6 @@ const AddTransactionAdmin = ({ token, setToken, role, cwscode, profile }) => {
     var newPurchaseDate = purchaseDate.toISOString().split('T')[0];
     const rawPayload = {
       "cws_name": selectedcws.cws_name,
-      // "purchase_date": formData.date.toISOString().split('T')[0],
-      // "purchase_date":"2024-04-19",
       "purchase_date": newPurchaseDate,
       "farmer_code": selectedFarmer?.farmer_code || "",
       "farmer_name": selectedFarmer?.farmer_name || "",
@@ -758,27 +756,11 @@ const AddTransactionAdmin = ({ token, setToken, role, cwscode, profile }) => {
 
           </div>
           
-          {/* <div className="input_container flex flex-row">
-              <label className="input_label" htmlFor="customFarmerName">Add Loan Payment</label>
-              <div className="flex">
-                  <div className="flex flex-wrap gap-3">
-                      <div className="flex align-items-center">
-                          <input type="radio" id="paid1" name="paid" value="1" onChange={()=>handleLoanCHange()} checked={loanPayment === '1'} />
-                          <label htmlFor="paid1" className="ml-2">Yes</label>
-                      </div>
-                      <div className="flex align-items-center">
-                          <input type="radio" id="paid0" name="paid" value="0" onChange={(e) => setLoanPayment(e.target.value)} checked={loanPayment === '0'} />
-                          <label htmlFor="paid0" className="ml-2">No</label>
-                      </div>
-                  </div>
-              </div>
-          </div> */}
+      
           {loanPayment === '1' && (
             <div className="additional-fields">
               {/* Additional fields go here */}
               <input type="text" placeholder="Loan Paid" />
-              {/* <input type="text" placeholder="Additional Field 2" /> */}
-              {/* Add more additional fields as needed */}
             </div>
           )}
 

@@ -5,31 +5,11 @@ import { Tag } from 'primereact/tag';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { CSVLink } from 'react-csv';
-import { Link } from 'react-router-dom';
-
 
 const DailyPurchaseValidationReport = ({ token, cwsname, cwscode, cws }) => {
 
 
-    const getFirstDayOfMonth = () => {
-        const now = new Date();
-        const startdateofmonth = new Date(now.getFullYear(), now.getMonth(), 1);
-        return startdateofmonth.toISOString().split('T')[0];
-    };
-
-    // Function to get the last day of the current month
-    const getLastDayOfMonth = () => {
-        const now = new Date();
-        const enddateofmonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-        return enddateofmonth.toISOString().split('T')[0];
-    };
-
-
-    const [startdate, setStartdate] = useState(getFirstDayOfMonth());
-    const [enddate, setEnddate] = useState(getLastDayOfMonth());
     const [batch, setBatch] = useState([]);
-    const [loading, setLoading] = useState(false);
     const [filters, setFilters] = useState(null);
 
 
@@ -75,9 +55,7 @@ const DailyPurchaseValidationReport = ({ token, cwsname, cwscode, cws }) => {
         }
     };
 
-    const statusBodyTemplate = (status) => {
-        return <Tag value={status} severity={getSeverity(status)}></Tag>;
-    };
+ 
 
     const renderHeader = () => {
         return (

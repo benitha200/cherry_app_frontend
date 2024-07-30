@@ -13,9 +13,7 @@ import { Calendar } from 'primereact/calendar';
 const BagOffForm = ({profile}) => {
   const [searchParams] = useSearchParams();
   const [options, setOptions] = useState();
-  const [processtype, setProcesstype] = useState(1);
   const [quantity, setQuantity] = useState(1);
-  const [responsemessage, setResponseMessage] = useState()
   const [batch, setBatch] = useState()
   const [outTurn, setOutTurn] = useState(0)
 

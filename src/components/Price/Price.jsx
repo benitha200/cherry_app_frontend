@@ -1,8 +1,6 @@
 import React, { useState, useEffect,useRef } from 'react';
-// import './RegisterPage.css';
 import { Dropdown } from 'primereact/dropdown';
 import { Toast } from 'primereact/toast';
-import { InputMask } from "primereact/inputmask";
 
 const Price = ({ token }) => {
     const [grade, setGrade] = useState(null);
@@ -67,10 +65,10 @@ const Price = ({ token }) => {
       const result = await response.json();
       console.log(result);
   
-      // Clear the form fields after a successful submission
-      setGrade("");  // Reset to the initial value for grade
-      setPrice("");  // Reset to the initial value for price
-      setTransport("");  // Reset to the initial value for transport
+
+      setGrade("");  
+      setPrice(""); 
+      setTransport("");  
   
       toast.current.show({ severity: 'success', summary: 'Success', detail: 'Price is set successfully' });
     } catch (error) {
@@ -79,34 +77,7 @@ const Price = ({ token }) => {
   };
   
 
-//   const handleRegister = async (e) => {
-//     e.preventDefault();
 
-//     var myHeaders = new Headers();
-//     myHeaders.append("Content-Type", "application/json");
-
-//     var raw = JSON.stringify({
-//     "cws": selectedcws?.id || "",
-//     "grade": grade,
-//     "price_per_kg": price,
-//     "transport_limit": transport
-//     });
-
-//     var requestOptions = {
-//     method: 'PUT',
-//     headers: myHeaders,
-//     body: raw,
-//     redirect: 'follow'
-//     };
-
-//     fetch(`https://cherryapp.sucafina.com:8000/api/station-settings/${selectedcws?.cws_code || ''}/`, requestOptions)
-//     .then(response => response.json())
-//     .then(result =>{
-//         console.log(result);
-//         toast.current.show({ severity: 'success', summary: 'Success', detail: 'Price is set successfully' });
-//     })
-//     .catch(error => console.log('error', error));
-//     };
     const gradeOptions = [
         { label: 'Cherry A', value: 'A' },
         { label: 'Cherry B', value: 'B' },

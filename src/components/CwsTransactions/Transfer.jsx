@@ -156,87 +156,6 @@ const Transfer = ({ token, cwsname, cwscode, cws }) => {
     generateReport();
   }, []);
 
-  function handleReceive(batch_no, p_date, grade) {
-    console.log(batch_no);
-    console.log(p_date);
-    console.log(grade)
-  }
-  const renderReceiveButton = (rowData) => {
-    // Log the state values before passing them to the Link
-    console.log("State values before Link:", {
-      batch_no: rowData.batch_no,
-      schedule_date: rowData.schedule_date,
-      cherry_grade: rowData.cherry_grade,
-      process_type: rowData.process_type,
-      cws,
-      cwsname,
-      cwscode,
-      token,
-    });
-
-    if (rowData.status) {
-      return (
-        <div>
-          {/* <Link
-                to={{
-                  pathname: "/bag-off-form",
-                  search: `?cwsname=${cwsname}&token=${token}&batch_no=${rowData.batch_no}
-                              &schedule_date=${rowData.schedule_date}&cherry_grade=${rowData.cherry_grade}
-                              &cwsname=${cwsname}&cwscode=${cwscode}&harvest_kgs=${rowData.total_kgs}&process_type=${rowData.process_type}`,
-                  state: {
-                    batch_no: rowData.batch_no,
-                    purchase_date: rowData.purchase_date,
-                    cherry_grade: rowData.cherry_grade,
-                    harvest_kgs: rowData.total_kgs,
-                    process_type:rowData.process_type,
-                    cws,
-                    cwsname,
-                    cwscode,
-                    token,
-                  },
-                }}
-              > */}
-          <button className='bg-green-500 text-white p-3 rounded-md'>
-            <TruckIcon />
-          </button>
-          {/* </Link> */}
-
-        </div>
-      );
-    }
-    else {
-      return (
-        <div>
-          {/* <Link
-          to={{
-            pathname: "/bag-off-form",
-            search: `?cwsname=${cwsname}&token=${token}&batch_no=${rowData.batch_no}
-                        &purchase_date=${rowData.purchase_date}&cherry_grade=${rowData.cherry_grade}
-                        &cwsname=${cwsname}&cwscode=${cwscode}&harvest_kgs=${rowData.total_kgs}$process_type=${rowData.process_type}`,
-            state: {
-              batch_no: rowData.batch_no,
-              purchase_date: rowData.purchase_date,
-              cherry_grade: rowData.cherry_grade,
-              harvest_kgs: rowData.total_kgs,
-              process_type:rowData.process_type,
-              cws,
-              cwsname,
-              cwscode,
-              token,
-            },
-          }}
-        > */}
-          <button className='bg-cyan-500 text-white p-2 rounded-md'>
-            <Truck />
-          </button>
-          {/* </Link> */}
-        </div>
-      );
-    }
-
-
-  };
-
 
 
   return (
@@ -303,12 +222,7 @@ const Transfer = ({ token, cwsname, cwscode, cws }) => {
             header="Location"
             style={{ minWidth: '10rem' }}
           />
-          {/* <Column
-                    header="Actions"
-                    style={{minWidth:'10rem'}}
-                    body={renderReceiveButton}
-                    // sortable
-                /> */}
+      
         </DataTable>
       </div>
     </div>

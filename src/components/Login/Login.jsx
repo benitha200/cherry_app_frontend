@@ -2,14 +2,13 @@ import React, { useState,useEffect } from 'react';
 import './Login.css';
 import Cookies from 'js-cookie'; 
 import VerifyOTP from './verifyOTP';
-import { useNavigate } from 'react-router-dom';
 
 const Login = ({setToken, token, setRefreshtoken, refreshtoken, setRole, role, setCwsname, setCwscode, cwsname, cwscode, setCws, cws}) => {
   const [responseMessage, setResponseMessage] = useState(null);
   const [username,setUsername]=useState()
   const [password,setPassword]=useState()
   const [profile, setProfile] = useState(null);
-  const navigate = useNavigate();
+
 
 
 

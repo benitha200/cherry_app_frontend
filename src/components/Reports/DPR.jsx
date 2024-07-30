@@ -30,14 +30,11 @@ const DPR = () => {
     console.log('Generate report for date:', date);
 
     if (date) {
-      // const formattedDate = date.toISOString().split('T')[0]; // Format date to 'YYYY-MM-DD'
       const formattedDate = date;
       const myHeaders = new Headers();
       myHeaders.append("Content-Type", "application/json");
 
-    //   const raw = JSON.stringify({
-    //     "date": formattedDate
-    //   });
+  
     var raw = JSON.stringify({
         "start_date": "2024-01-01",
         "end_date": "2024-01-31"
