@@ -163,28 +163,7 @@ const ReceivedHarvest = ({ token, cwsname, cwscode, cws }) => {
     if (rowData.status) {
       return (
         <div>
-          {/* <Link
-                to={{
-                  pathname: "/start-processing-form",
-                  search: `?cwsname=${cwsname}&token=${token}&batch_no=${rowData.batch_no}
-                              &purchase_date=${rowData.purchase_date}&cherry_grade=${rowData.cherry_grade}
-                              &cwsname=${cwsname}&cwscode=${cwscode}&harvest_kgs=${rowData.total_kgs}`,
-                  state: {
-                    batch_no: rowData.batch_no,
-                    purchase_date: rowData.purchase_date,
-                    cherry_grade: rowData.cherry_grade,
-                    harvest_kgs: rowData.total_kgs,
-                    cws,
-                    cwsname,
-                    cwscode,
-                    token,
-                  },
-                }}
-              >
-                <button className='bg-green-500 text-white p-2 rounded-md w-8'>
-                  Bag Off
-                </button>
-              </Link> */}
+        
           <button className='bg-green-500 text-white p-2 rounded-md w-8' title='go ahead and bag off if it is done'>
             Started
           </button>
