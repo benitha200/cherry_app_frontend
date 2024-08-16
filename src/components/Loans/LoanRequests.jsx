@@ -113,7 +113,7 @@ const LoanRequests = ({ token, cwsname, cwscode, cws }) => {
         redirect: "follow"
       };
       
-      fetch(`https://cherryapp.sucafina.com:8000/api/getloanrequests/${status}/`, requestOptions)
+      fetch(`http://192.168.82.127:8000/api/getloanrequests/${status}/`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
                     const mappedData=mapApiResponseToCustomers(result)
@@ -139,7 +139,7 @@ const LoanRequests = ({ token, cwsname, cwscode, cws }) => {
       redirect: "follow"
     };
     
-    fetch(`https://cherryapp.sucafina.com:8000/api/approveloan/${id}/`, requestOptions)
+    fetch(`http://192.168.82.127:8000/api/approveloan/${id}/`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
 

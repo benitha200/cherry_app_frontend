@@ -19,7 +19,7 @@ const Price = ({ token }) => {
       redirect: 'follow',
     };
 
-    fetch("https://cherryapp.sucafina.com:8000/api/cws/", requestOptions)
+    fetch("http://192.168.82.127:8000/api/cws/", requestOptions)
       .then(response => response.json())
       .then(result => {
         setCws(result);
@@ -61,7 +61,7 @@ const Price = ({ token }) => {
     };
   
     try {
-      const response = await fetch(`https://cherryapp.sucafina.com:8000/api/station-settings/${selectedcws?.cws_code || ''}/`, requestOptions);
+      const response = await fetch(`http://192.168.82.127:8000/api/station-settings/${selectedcws?.cws_code || ''}/`, requestOptions);
       const result = await response.json();
       console.log(result);
   

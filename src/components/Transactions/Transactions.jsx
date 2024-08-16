@@ -46,7 +46,7 @@ export default function Transactions({ customers, dailytotal }) {
           redirect: "follow"
         };
         
-        fetch(`https://cherryapp.sucafina.com:8000/api/updatepaidstatus/${id}/`, requestOptions)
+        fetch(`http://192.168.82.127:8000/api/updatepaidstatus/${id}/`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
             
