@@ -8,7 +8,7 @@ const Logout = ({profile,setProfile}) => {
         localStorage.removeItem('cwsname');
         localStorage.removeItem('role');
     try {
-      const response = await fetch('https://cherryapp.sucafina.com:8000/api/logout/', {
+      const response = await fetch('http://192.168.82.127:8000/api/logout/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

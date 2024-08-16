@@ -86,7 +86,7 @@ const BagOffForm = ({profile}) => {
     };
 
   
-    fetch("https://cherryapp.sucafina.com:8000/api/inventoryoutput/", requestOptions)
+    fetch("http://192.168.82.127:8000/api/inventoryoutput/", requestOptions)
     .then(response => response.json())
     .then(result =>{
          console.log(result)
@@ -245,7 +245,7 @@ const BagOffForm = ({profile}) => {
     console.log(id);
 
     // Make an API call to send the updated data to the endpoint
-    fetch(`https://cherryapp.sucafina.com:8000/api/stockinventoryoutputedit/${id}/`, {
+    fetch(`http://192.168.82.127:8000/api/stockinventoryoutputedit/${id}/`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

@@ -35,7 +35,7 @@ const DailyPurchaseValidation = () => {
     };
 
     try {
-      const response = await fetch('https://cherryapp.sucafina.com:8000/api/daily-purchase-validation/', {
+      const response = await fetch('http://192.168.82.127:8000/api/daily-purchase-validation/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

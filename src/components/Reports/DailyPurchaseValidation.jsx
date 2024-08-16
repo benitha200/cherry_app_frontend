@@ -98,7 +98,7 @@ function get_data(){
         redirect: "follow"
       };
       
-      fetch("https://cherryapp.sucafina.com:8000/api/gettotalpurchasebydateandgrade/", requestOptions)
+      fetch("http://192.168.82.127:8000/api/gettotalpurchasebydateandgrade/", requestOptions)
         .then((response) => response.json())
         .then((result) =>{ 
             console.log(result)

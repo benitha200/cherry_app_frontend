@@ -1,5 +1,6 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
+export { FileInput,Users, NotebookPen, FileSpreadsheet, FileArchive,Files, DollarSign, BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home, CombineIcon, X, PersonStanding, Power,BoxIcon } from 'lucide-react';
 import { Bars3Icon } from '@heroicons/react/24/outline';
 import { FileInput, NotebookPen, FileSpreadsheet, FileArchive, BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home, BoxIcon, CombineIcon, X, Divide, PersonStanding, Power } from 'lucide-react';
 import Cookies from 'js-cookie';
@@ -8,6 +9,7 @@ import "./App.css";
 
 // Import SidebarItem separately
 import { SidebarItem } from './components/Header/Sidebar';
+import { X } from 'lucide-react';
 
 const AddTransaction = lazy(() => import('./components/Transactions/AddTransaction'));
 const UploadFarmers = lazy(() => import('./components/Farmers/UploadFarmers'));
@@ -67,7 +69,7 @@ function AppContent() {
         console.error('Error parsing profile data:', error);
       }
     } else {
-      window.location.href = "https://cherryapp.sucafina.com:8000/login";
+      window.location.href = "http://192.168.82.127:8000/login";
     }
   }, []);
 
@@ -92,7 +94,8 @@ function AppContent() {
             className="absolute top-0 right-0 lg:hidden text-gray-500 mb-4 mt-4 mr-4 w-8 h-8"
             onClick={() => setIsOpen(false)}
           >
-            <X className='mb-4 justify-left bg-teal-500 text-white rounded-md' />
+            {/* <X className='mb-4 justify-left bg-teal-500 text-white rounded-md' /> */}
+            <X className='mb-4 justify-left bg-teal-500 text-white rounded-md' />r 
           </button>
           <Suspense fallback={<div>Loading Sidebar...</div>}>
             <Sidebar profile={profile} role={role}>
@@ -603,7 +606,7 @@ export default App;
 //     else {
 //       // fetchProfileData();
 //       // window.location.href="/login"
-//       window.location.href = "https://cherryapp.sucafina.com:8000/login";
+//       window.location.href = "http://192.168.82.127:8000/login";
 //     }
 
 //   }, []);
@@ -1170,7 +1173,7 @@ export default App;
 //     } else if (profile) {
 //       console.log(profile);
 //     } else {
-//       window.location.href = "https://cherryapp.sucafina.com:8000/login";
+//       window.location.href = "http://192.168.82.127:8000/login";
 //     }
 //   }, [profile]);
 

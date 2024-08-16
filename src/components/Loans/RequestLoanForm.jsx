@@ -129,7 +129,7 @@ const handleInputChange = (e) => {
           try {
             setLoading(true);
           
-            const response = await fetch("https://cherryapp.sucafina.com:8000/api/requetloan/", requestOptions);
+            const response = await fetch("http://192.168.82.127:8000/api/requetloan/", requestOptions);
             const result = await response.json();
             console.log(result);
             console.log(result.farmer_code);

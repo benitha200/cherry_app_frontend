@@ -24,7 +24,7 @@ const UploadFarmers = () => {
         redirect: 'follow'
       };
 
-      fetch("https://cherryapp.sucafina.com:8000/api/uploadfarmers/", requestOptions)
+      fetch("http://192.168.82.127:8000/api/uploadfarmers/", requestOptions)
         .then(response => response.json())
         .then(result => {
           console.log(result);

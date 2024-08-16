@@ -51,7 +51,7 @@ const DPR = () => {
       try {
         setLoading(true);
 
-        const response = await fetch("https://cherryapp.sucafina.com:8000/api/getdpr/", requestOptions);
+        const response = await fetch("http://192.168.82.127:8000/api/getdpr/", requestOptions);
         const data = await response.json();
 
         console.log(data);

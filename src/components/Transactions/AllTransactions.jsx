@@ -45,7 +45,7 @@ export default function AllTransactions({ dailytotal }) {
     headers: myHeaders
     };
 
-    fetch("https://cherryapp.sucafina.com:8000/api/getalltransactions/", requestOptions)
+    fetch("http://192.168.82.127:8000/api/getalltransactions/", requestOptions)
     .then((response) => response.json())
     .then((result) => {
         console.log(result);
@@ -63,7 +63,7 @@ export default function AllTransactions({ dailytotal }) {
     headers: myHeaders
     };
 
-    fetch("https://cherryapp.sucafina.com:8000/api/getpendingtransactions/", requestOptions)
+    fetch("http://192.168.82.127:8000/api/getpendingtransactions/", requestOptions)
     .then((response) => response.json())
     .then((result) => {
         console.log(result);
@@ -81,7 +81,7 @@ export default function AllTransactions({ dailytotal }) {
     headers: myHeaders
     };
 
-    fetch("https://cherryapp.sucafina.com:8000/api/getrejectedtransactions/", requestOptions)
+    fetch("http://192.168.82.127:8000/api/getrejectedtransactions/", requestOptions)
     .then((response) => response.json())
     .then((result) => {
         console.log(result);
@@ -136,7 +136,7 @@ export default function AllTransactions({ dailytotal }) {
           redirect: "follow"
         };
         
-        fetch(`https://cherryapp.sucafina.com:8000/api/updatepaidstatus/${id}/`, requestOptions)
+        fetch(`http://192.168.82.127:8000/api/updatepaidstatus/${id}/`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
             
@@ -228,7 +228,7 @@ export default function AllTransactions({ dailytotal }) {
         redirect: 'follow'
     };
 
-    fetch(`https://cherryapp.sucafina.com:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
+    fetch(`http://192.168.82.127:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
         .then(response => response.json())
         .then(result => {
         //  toast.current.show({ severity: 'info', summary: 'Success', detail: 'You have edited Transaction successfully', life: 3000 });
@@ -313,7 +313,7 @@ export default function AllTransactions({ dailytotal }) {
           const selectedIds = selectedData.map(item => item.id);
           console.log('Selected IDs:', selectedIds);
     try {
-      const response = await fetch('https://cherryapp.sucafina.com:8000/api/approvetransactions/', {
+      const response = await fetch('http://192.168.82.127:8000/api/approvetransactions/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
