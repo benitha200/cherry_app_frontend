@@ -120,7 +120,7 @@ export default function Transactions({ customers, dailytotal }) {
       redirect: 'follow'
     };
 
-    fetch(`http://192.168.81.68:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
+    fetch(`https://cherryapp.sucafina.com:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
         .then(response => response.text())
         .then(result => {
           console.log(result);

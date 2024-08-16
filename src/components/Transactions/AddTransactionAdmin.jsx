@@ -60,7 +60,7 @@ const AddTransactionAdmin = ({ token, setToken, role, cwscode, profile }) => {
       redirect: 'follow',
     };
 
-    fetch("http://192.168.81.68:8000/api/cws/", requestOptions)
+    fetch("https://cherryapp.sucafina.com:8000/api/cws/", requestOptions)
       .then(response => response.json())
       .then(result => {
         setCws(result);
@@ -117,7 +117,7 @@ const AddTransactionAdmin = ({ token, setToken, role, cwscode, profile }) => {
       redirect: 'follow'
     };
 
-    fetch("http://192.168.81.68:8000/api/allfarmers/", requestOptions)
+    fetch("https://cherryapp.sucafina.com:8000/api/allfarmers/", requestOptions)
       .then(response => response.json())
       .then(result => setFarmers(result))
       .catch(error => console.log('error', error));
@@ -327,7 +327,7 @@ const AddTransactionAdmin = ({ token, setToken, role, cwscode, profile }) => {
     try {
       setLoading(true);
 
-      const response = await fetch("http://192.168.81.68:8000/api/processtransaction/", requestOptions);
+      const response = await fetch("https://cherryapp.sucafina.com:8000/api/processtransaction/", requestOptions);
       const result = await response.json();
 
 
@@ -555,7 +555,7 @@ const AddTransactionAdmin = ({ token, setToken, role, cwscode, profile }) => {
       };
 
       try {
-        const response = await fetch("http://192.168.81.68:8000/api/processtransaction/", requestOptions);
+        const response = await fetch("https://cherryapp.sucafina.com:8000/api/processtransaction/", requestOptions);
         const result = await response.json();
 
         // Handle the result as needed
