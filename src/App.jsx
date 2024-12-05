@@ -2,14 +2,14 @@ import React, { useState, useEffect, lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Route, Routes, Link, useLocation } from 'react-router-dom';
 export { FileInput,Users, NotebookPen, FileSpreadsheet, FileArchive,Files, DollarSign, BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home, CombineIcon, X, PersonStanding, Power,BoxIcon } from 'lucide-react';
 import { Bars3Icon } from '@heroicons/react/24/outline';
-import { FileInput, NotebookPen, FileSpreadsheet, FileArchive, BookUser, CircleUserRound, CoinsIcon, Truck, Briefcase, Home, BoxIcon, CombineIcon, X, Divide, PersonStanding, Power } from 'lucide-react';
+import { FileInput, NotebookPen, FileSpreadsheet, FileArchive, CircleUserRound, CoinsIcon, Truck, Briefcase, Home, BoxIcon, CombineIcon, X, Divide, PersonStanding, Power, DollarSign } from 'lucide-react';
 import Cookies from 'js-cookie';
 import logo from "./assets/img/RwacofLogoCoulRVB.png";
 import "./App.css";
 
 // Import SidebarItem separately
 import { SidebarItem } from './components/Header/Sidebar';
-import { X } from 'lucide-react';
+// import { BoxIcon, CombineIcon, DollarSign, FileInput, Files, Home, NotebookPen, Users, X } from 'lucide-react';
 
 const AddTransaction = lazy(() => import('./components/Transactions/AddTransaction'));
 const UploadFarmers = lazy(() => import('./components/Farmers/UploadFarmers'));
@@ -37,6 +37,26 @@ const AllTransactions = lazy(() => import('./components/Transactions/AllTransact
 const AllFarmers = lazy(() => import('./components/Farmers/AllFarmers'));
 const AddTransactionAdmin = lazy(() => import('./components/Transactions/AddTransactionAdmin'));
 
+const manager_profile = {
+  "givenName": "Uzamukunda",
+  "mail": "stephanie.uzamukunda@sucafina.com",
+  "displayName": "Stephanie Uzamukunda",
+  "jobTitle": "CWS Manager - Mashesha",
+  "officeLocation": "RWACOF",
+  "surname": "Stephanie",
+  "userPrincipalName": "stephanie.uzamukunda@sucafina.com"
+}
+
+const others_profile = {
+  "givenName": "Iyuyisenga",
+  "mail": "ibl@sucafina.com",
+  "displayName": "Iyuyisenga Benitha Louange",
+  "jobTitle": "Data Analyst",
+  "officeLocation": "RWACOF",
+  "surname": "Benitha Louange",
+  "userPrincipalName": "ibl@sucafina.com"
+}
+
 function AppContent() {
   const [isOpen, setIsOpen] = useState(false);
   const [token, setToken] = useState(null);
@@ -45,33 +65,35 @@ function AppContent() {
   const [cwsname, setCwsname] = useState(null);
   const [cwscode, setCwscode] = useState(null);
   const [cws, setCws] = useState(null);
-  const [profile, setProfile] = useState();
+  // const [profile, setProfile] = useState();
+  const [profile, setProfile] = useState(others_profile);
+  Cookies.set("profile", others_profile);
 
   const location = useLocation();
   const currentPath = location.pathname;
   const isActive = (path) => currentPath === path;
 
-  useEffect(() => {
-    const urlString = window.location.href;
-    const url = new URL(urlString);
-    const profileParam = url.searchParams.get('profile');
-    console.log(profileParam);
+  // useEffect(() => {
+  //   const urlString = window.location.href;
+  //   const url = new URL(urlString);
+  //   const profileParam = url.searchParams.get('profile');
+  //   console.log(profileParam);
 
-    if (profileParam) {
-      try {
-        const decodedProfileParam = decodeURIComponent(profileParam);
-        const profileData = JSON.parse(profileParam);
-        console.log(profileData);
-        setProfile(profileData);
-        Cookies.set("profile", JSON.stringify(profileData));
-        setToken(profileData.mail);
-      } catch (error) {
-        console.error('Error parsing profile data:', error);
-      }
-    } else {
-      window.location.href = "http://192.168.82.127:8000/login";
-    }
-  }, []);
+  //   if (profileParam) {
+  //     try {
+  //       const decodedProfileParam = decodeURIComponent(profileParam);
+  //       const profileData = JSON.parse(profileParam);
+  //       console.log(profileData);
+  //       setProfile(profileData);
+  //       Cookies.set("profile", JSON.stringify(profileData));
+  //       setToken(profileData.mail);
+  //     } catch (error) {
+  //       console.error('Error parsing profile data:', error);
+  //     }
+  //   } else {
+  //     window.location.href = "http://192.168.82.127:8000/login";
+  //   }
+  // }, []);
 
   if (Cookies.get("profile")) {
     return (
@@ -107,105 +129,73 @@ function AppContent() {
                   if (role === 'cws_manager' || (profile?.jobTitle?.includes('CWS') && profile?.jobTitle?.includes('Manager'))) {
                     return (
                       <>
-
-                                               <SidebarItem
-                                                icon={<Home size={20} />}
-                                                text="Dashboard"
-                                                alert
-                                                component={Link}
-                                                to="/"
-                                                isActive={isActive('/')}
-                                              />
-                                              <SidebarItem
-                                                icon={<NotebookPen size={20} />}
-                                                text="Add Transactions"
-                                                alert
-                                                component={Link}
-                                                to="/add-transaction"
-                                                isActive={isActive('/add-transaction')}
-                                              />
-                                              <SidebarItem
-                                                icon={<FileInput size={20} />}
-                                                text="All Transactions"
-                                                alert
-                                                component={Link}
-                                                to="/alltransactions"
-                                                isActive={isActive('/alltransactions')}
-                                              />
-                      
-                      
-                                              {/* <SidebarItem
-                                              icon={<FileSpreadsheet size={20} />}
-                                              text="Daily Purchase"
-                                              alert
-                                              component={Link}
-                                              to="/daily-purchase"
-                                            />
-                                            <SidebarItem
-                                              icon={<FileSpreadsheet size={20} />}
-                                              text="Daily Purchase Validation"
-                                              alert
-                                              component={Link}
-                                              to="/daily-purchase-validation"
-                                            /> */}
-                                              <SidebarItem
-                                                icon={<BoxIcon size={20} />}
-                                                text="Receive Harvest"
-                                                alert
-                                                component={Link}
-                                                to="/receive-harvest"
-                                                isActive={isActive('/receive-harvest')}
-                                              />
-                                              <SidebarItem
-                                                icon={<Home size={20} />}
-                                                text="Processing"
-                                                alert
-                                                component={Link}
-                                                to="/processing"
-                                                isActive={isActive('/processing')}
-                                              />
-                                              <SidebarItem
-                                                icon={<Briefcase size={20} />}
-                                                text="Bagging Off"
-                                                alert
-                                                component={Link}
-                                                to="/bag-off"
-                                                isActive={isActive('/bag-off')}
-                                              />
-                                              {/* <SidebarItem
-                                              icon={<Truck size={20} />}
-                                              text="ReadyTo Transfer"
-                                              alert
-                                              component={Link}
-                                              to="/transfer"
-                                            /> */}
-                                            <br/>
-                                              <span className='font-semibold py-4'>Reports</span>
-                                              <hr class="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700" />
-                                              <SidebarItem
-                                                icon={<FileSpreadsheet size={20} />}
-                                                text="Daily Report"
-                                                alert
-                                                component={Link}
-                                                to="/daily-report"
-                                                isActive={isActive('/daily-report')}
-                                              />
-                                              <SidebarItem
-                                                icon={<CombineIcon size={20} />}
-                                                text="Batch Report"
-                                                alert
-                                                component={Link}
-                                                to="/batchreport"
-                                                isActive={isActive('/batchreport')}
-                                              />
-                                              {/* <SidebarItem
-                                              icon={<CombineIcon size={20} />}
-                                              text="Loans"
-                                              alert
-                                              component={Link}
-                                              to="/loans"
-                                            /> */}
-                                            </>
+                        <SidebarItem
+                          icon={<Home size={20} />}
+                          text="Dashboard"
+                          alert
+                          component={Link}
+                          to="/"
+                          isActive={isActive('/')}
+                        />
+                        <SidebarItem
+                          icon={<NotebookPen size={20} />}
+                          text="Add Transactions"
+                          alert
+                          component={Link}
+                          to="/add-transaction"
+                          isActive={isActive('/add-transaction')}
+                        />
+                        <SidebarItem
+                          icon={<FileInput size={20} />}
+                          text="All Transactions"
+                          alert
+                          component={Link}
+                          to="/alltransactions"
+                          isActive={isActive('/alltransactions')}
+                        />
+                        <SidebarItem
+                          icon={<BoxIcon size={20} />}
+                          text="Receive Harvest"
+                          alert
+                          component={Link}
+                          to="/receive-harvest"
+                          isActive={isActive('/receive-harvest')}
+                        />
+                        <SidebarItem
+                          icon={<Home size={20} />}
+                          text="Processing"
+                          alert
+                          component={Link}
+                          to="/processing"
+                          isActive={isActive('/processing')}
+                        />
+                        <SidebarItem
+                          icon={<Briefcase size={20} />}
+                          text="Bagging Off"
+                          alert
+                          component={Link}
+                          to="/bag-off"
+                          isActive={isActive('/bag-off')}
+                        />
+                        <span className='font-semibold py-4'>Reports</span>
+                        <hr className="h-px my-2 bg-gray-200 border-0 dark:bg-gray-700" />
+                        <SidebarItem
+                          icon={<File size={20} />}
+                          text="Daily Report"
+                          alert
+                          component={Link}
+                          to="/daily-report"
+                          isActive={isActive('/daily-report')}
+                        />
+                        <SidebarItem
+                          icon={<CombineIcon size={20} />}
+                          text="Batch Report"
+                          alert
+                          component={Link}
+                          to="/batchreport"
+                          isActive={isActive('/batchreport')}
+                        />
+                      </>
                     );
                   } else if (role === 'Data analyst' || (profile?.jobTitle?.includes('Data') && profile?.jobTitle?.includes('Analyst'))) {
                     return (
@@ -259,8 +249,8 @@ function AppContent() {
                           isActive={isActive('/bag-off')}
                         />
                         <SidebarItem
-                          icon={<FileInput size={20} />}
-                          text="Farmers"
+                          icon={<DollarSign size={20} />}
+                          text="Set Price"
                           alert
                           component={Link}
                           to="/all-farmers"
@@ -1152,8 +1142,8 @@ export default App;
 //   const [cwsname, setCwsname] = useState(null);
 //   const [cwscode, setCwscode] = useState(null);
 //   const [cws, setCws] = useState(null);
-//   const [profile, setProfile] = useState(others_profile);
-//   Cookies.set("profile", others_profile);
+  // const [profile, setProfile] = useState(others_profile);
+  // Cookies.set("profile", others_profile);
 
 //   useEffect(() => {
 //     const urlString = window.location.href;

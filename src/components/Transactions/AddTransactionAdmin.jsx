@@ -60,7 +60,7 @@ const AddTransactionAdmin = ({ token, setToken, role, cwscode, profile }) => {
       redirect: 'follow',
     };
 
-    fetch("https://cherryapp.sucafina.com:8000/api/cws/", requestOptions)
+    fetch("http://192.168.81.102:8000/api/cws/", requestOptions)
       .then(response => response.json())
       .then(result => {
         setCws(result);
@@ -117,7 +117,7 @@ const AddTransactionAdmin = ({ token, setToken, role, cwscode, profile }) => {
       redirect: 'follow'
     };
 
-    fetch("https://cherryapp.sucafina.com:8000/api/allfarmers/", requestOptions)
+    fetch("http://192.168.81.102:8000/api/allfarmers/", requestOptions)
       .then(response => response.json())
       .then(result => setFarmers(result))
       .catch(error => console.log('error', error));
@@ -247,7 +247,7 @@ const AddTransactionAdmin = ({ token, setToken, role, cwscode, profile }) => {
     // print()
     e.preventDefault();
 
-    const jobTitleString = profile.jobTitle || "CWS Manager - Mashesha";
+    const jobTitleString = profile?.jobTitle || "CWS Manager - Mashesha";
 
     // Split the jobTitleString by " - "
     const parts = jobTitleString.split(" - ");
@@ -281,7 +281,7 @@ const AddTransactionAdmin = ({ token, setToken, role, cwscode, profile }) => {
           transport: parseFloat(formData.transportPerKg),
           cws_code: cwscode,
           is_paid: parseInt(paid),
-          created_by:profile.email
+          created_by:profile?.email
         },
         timestamp: new Date().getTime(),
       };
@@ -294,7 +294,7 @@ const AddTransactionAdmin = ({ token, setToken, role, cwscode, profile }) => {
     purchaseDate.setDate(purchaseDate.getDate() + 1); // Incrementing by one day
 
     console.log(profile) 
-    console.log(profile.displayName)
+    console.log(profile?.displayName)
     console.log(selectedcws)
 
     var newPurchaseDate = purchaseDate.toISOString().split('T')[0];
@@ -311,7 +311,7 @@ const AddTransactionAdmin = ({ token, setToken, role, cwscode, profile }) => {
       "transport": parseFloat(formData.transportPerKg),
       "cws_code": cwscode,
       "is_paid": parseInt(paid),
-      "created_by":profile.displayName
+      "created_by":profile?.displayName || "Stephanie Uzamukunda"
     };
 
     const requestOptions = {
@@ -327,7 +327,7 @@ const AddTransactionAdmin = ({ token, setToken, role, cwscode, profile }) => {
     try {
       setLoading(true);
 
-      const response = await fetch("https://cherryapp.sucafina.com:8000/api/processtransaction/", requestOptions);
+      const response = await fetch("http://192.168.81.102:8000/api/processtransaction/", requestOptions);
       const result = await response.json();
 
 
@@ -555,7 +555,7 @@ const AddTransactionAdmin = ({ token, setToken, role, cwscode, profile }) => {
       };
 
       try {
-        const response = await fetch("https://cherryapp.sucafina.com:8000/api/processtransaction/", requestOptions);
+        const response = await fetch("http://192.168.81.102:8000/api/processtransaction/", requestOptions);
         const result = await response.json();
 
         // Handle the result as needed

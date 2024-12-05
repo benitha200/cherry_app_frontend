@@ -101,7 +101,7 @@ const BagOffForm = ({profile}) => {
       redirect: "follow"
     };
 
-    fetch(`https://cherryapp.sucafina.com:8000/api/inventoryitems/${batch_no}/`, requestOptions)
+    fetch(`http://192.168.81.102:8000/api/inventoryitems/${batch_no}/`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         const mappedData = mapApiResponseToCustomers(result);
@@ -187,7 +187,7 @@ const BagOffForm = ({profile}) => {
             redirect: "follow"
           };
 
-          const response = await fetch("https://cherryapp.sucafina.com:8000/api/stockinventoryoutput/", requestOptions);
+          const response = await fetch("http://192.168.81.102:8000/api/stockinventoryoutput/", requestOptions);
           const result = await response.json();
           console.log(result);
 
@@ -225,7 +225,7 @@ const BagOffForm = ({profile}) => {
     };
     const comp_date = completeddate.toISOString().split('T')[0]
 
-    fetch(`https://cherryapp.sucafina.com:8000/api/stockinventoryupdate/${batch_no}/${comp_date}/${profile.dsplayName}/`, requestOptions)
+    fetch(`http://192.168.81.102:8000/api/stockinventoryupdate/${batch_no}/${comp_date}/${profile.dsplayName}/`, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result)

@@ -150,7 +150,7 @@ const DprContainer = () => {
             try {
                 setLoading(true);
 
-                const response = await fetch("http://192.168.82.127:8000/api/getdpr/", requestOptions);
+                const response = await fetch("http://192.168.81.102:8000/api/getdpr/", requestOptions);
                 const data = await response.json();
 
                 console.log(data);
@@ -172,15 +172,15 @@ const DprContainer = () => {
 
     return (
         <div>
-            <div className='text-teal-600 text-pretty font-bold text-2xl'>DIRECT PURCHASE REPORT</div>
+            <div className='text-teal-600 text-pretty font-bold text-2xl p-4'>DIRECT PURCHASE REPORT</div>
             <div className='flex flex-row space-x-2 md:space-x-8 justify-between'>
                 <form className='flex flex-row flex-wrap mt-4 mb-4'>
-                    <div className='flex flex-row flex-wrap items-center ml-4'>
-                        <label className='text-dark p-2 text-sm w-25'>Start Date</label>
+                    <div className='flex flex-row justify-between ml-4'>
+                        <label className='text-dark p-2 text-sm'>Start Date</label>
                         <input className="input" name="startDate" type="date" value={startdate} onChange={(e) => setStartdate(e.target.value)} />
                     </div>
-                    <div className='flex flex-row justify-between ml-4'>
-                        <label className='text-dark p-2 text-sm'>End Date</label>
+                    <div className='flex flex-row justify-between ml-4 mt-4'>
+                        <label className='text-dark p-2 text-sm'>End Date </label>
                         <input className="input" name="endDate" type="date" value={enddate} onChange={(e) => setEnddate(e.target.value)} />
                     </div>
                 </form>
@@ -202,7 +202,7 @@ const DprContainer = () => {
                 </div>
             </div>
             <div className="card">
-                <div className="flex justify-content-end m-3">
+                <div className="flex justify-content-end m-2">
                     {customers && (
                         <CSVLink data={customers} headers={csvHeaders} filename="transactions.csv">
                             <Button type="button" icon="pi pi-file-excel" label="Download Excel" className="bg-teal-400 text-gray-100 p-3" onClick={exportCSV} />

@@ -84,7 +84,7 @@ const Price = ({ token }) => {
   ];
 
   return (
-    <form className="form_container3 card w-5" onSubmit={handleRegister}>
+    <form className="form_container3 card w-5 mx-auto" onSubmit={handleRegister}>
       <div className="title_container">
         <p className="text-teal-600 text-pretty font-bold text-2xl">Set Price</p>
       </div>

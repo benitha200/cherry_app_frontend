@@ -80,7 +80,7 @@ const AddTransaction = ({token,setToken,role,cwscode,cws,profile}) => {
 
     function get_farmers() {
 
-      const jobTitleString = profile.jobTitle || "CWS Manager - Mashesha";
+      const jobTitleString = profile?.jobTitle || "CWS Manager - Mashesha";
   
         // Split the jobTitleString by " - "
         const parts = jobTitleString.split(" - ");
@@ -234,7 +234,7 @@ const handleInputChange = (e) => {
         // print()
         e.preventDefault();
 
-        const jobTitleString = profile.jobTitle || "CWS Manager - Mashesha";
+        const jobTitleString = profile?.jobTitle || "CWS Manager - Mashesha";
   
         // Split the jobTitleString by " - "
         const parts = jobTitleString.split(" - ");

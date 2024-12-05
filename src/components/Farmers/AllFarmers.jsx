@@ -108,7 +108,7 @@ const AllFarmers = ({ token, cwsname, cwscode, cws }) => {
 
   const renderHeader = () => {
     return (
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center p-2">
         <Button
           type="button"
           icon="pi pi-filter-slash"
@@ -117,13 +117,13 @@ const AllFarmers = ({ token, cwsname, cwscode, cws }) => {
           onClick={clearFilter}
           className="p-button-sm"
         />
-        <span className="p-input-icon-left">
+        <span className="p-input-icon-left w-72">
           <i className="pi pi-search" />
           <InputText
             value={globalFilterValue}
             onChange={onGlobalFilterChange}
             placeholder="Search"
-            className="p-inputtext-sm"
+            className="p-inputtext-sm w-full p-2"
           />
         </span>
       </div>
@@ -175,7 +175,7 @@ const AllFarmers = ({ token, cwsname, cwscode, cws }) => {
       try {
         setLoading(true);
 
-        const response = await fetch("https://cherryapp.sucafina.com:8000/api/allfarmers/", requestOptions)
+        const response = await fetch("http://192.168.81.102:8000/api/allfarmers/", requestOptions)
         const data = await response.json();
 
         console.log(data);

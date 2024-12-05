@@ -45,7 +45,7 @@ export default function AllTransactions({ dailytotal }) {
     headers: myHeaders
     };
 
-    fetch("http://192.168.82.127:8000/api/getalltransactions/", requestOptions)
+    fetch("http://192.168.81.102:8000/api/getalltransactions/", requestOptions)
     .then((response) => response.json())
     .then((result) => {
         console.log(result);
@@ -63,7 +63,7 @@ export default function AllTransactions({ dailytotal }) {
     headers: myHeaders
     };
 
-    fetch("http://192.168.82.127:8000/api/getpendingtransactions/", requestOptions)
+    fetch("http://192.168.81.102:8000/api/getpendingtransactions/", requestOptions)
     .then((response) => response.json())
     .then((result) => {
         console.log(result);
@@ -81,7 +81,7 @@ export default function AllTransactions({ dailytotal }) {
     headers: myHeaders
     };
 
-    fetch("http://192.168.82.127:8000/api/getrejectedtransactions/", requestOptions)
+    fetch("http://192.168.81.102:8000/api/getrejectedtransactions/", requestOptions)
     .then((response) => response.json())
     .then((result) => {
         console.log(result);
@@ -136,7 +136,7 @@ export default function AllTransactions({ dailytotal }) {
           redirect: "follow"
         };
         
-        fetch(`http://192.168.82.127:8000/api/updatepaidstatus/${id}/`, requestOptions)
+        fetch(`http://192.168.81.102:8000/api/updatepaidstatus/${id}/`, requestOptions)
           .then((response) => response.json())
           .then((result) => {
             
@@ -228,7 +228,7 @@ export default function AllTransactions({ dailytotal }) {
         redirect: 'follow'
     };
 
-    fetch(`http://192.168.82.127:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
+    fetch(`http://192.168.81.102:8000/api/edittransaction/${editedRow.id}/`, requestOptions)
         .then(response => response.json())
         .then(result => {
         //  toast.current.show({ severity: 'info', summary: 'Success', detail: 'You have edited Transaction successfully', life: 3000 });
@@ -313,7 +313,7 @@ export default function AllTransactions({ dailytotal }) {
           const selectedIds = selectedData.map(item => item.id);
           console.log('Selected IDs:', selectedIds);
     try {
-      const response = await fetch('http://192.168.82.127:8000/api/approvetransactions/', {
+      const response = await fetch('http://192.168.81.102:8000/api/approvetransactions/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -339,16 +339,37 @@ export default function AllTransactions({ dailytotal }) {
 
   const renderHeader = () => {
     // {role === 'cws_manager' ||profile.jobTitle.includes('CWS') && profile.jobTitle.includes('Manager')? ( 
-        const profileCookie = Cookies.get('profile');
 
-        const profile = JSON.parse(profileCookie);
+    const manager_profile = {
+      "givenName": "Uzamukunda",
+      "mail": "stephanie.uzamukunda@sucafina.com",
+      "displayName": "Stephanie Uzamukunda",
+      "jobTitle": "CWS Manager - Mashesha",
+      "officeLocation": "RWACOF",
+      "surname": "Stephanie",
+      "userPrincipalName": "stephanie.uzamukunda@sucafina.com"
+    }
+    
+    const others_profile = {
+      "givenName": "Iyuyisenga",
+      "mail": "ibl@sucafina.com",
+      "displayName": "Iyuyisenga Benitha Louange",
+      "jobTitle": "Data Analyst",
+      "officeLocation": "RWACOF",
+      "surname": "Benitha Louange",
+      "userPrincipalName": "ibl@sucafina.com"
+    }
+        const profileCookie = others_profile;
+        console.log(profileCookie);
+
+        const profile = profileCookie;
         console.log("profile")
         console.log(profile)
         
         if (profile && 
         profile.jobTitle && 
-        profile.jobTitle.includes('CWS') && 
-        profile.jobTitle.includes('Manager'))
+        profile.jobTitle.includes('CWS1') && 
+        profile.jobTitle.includes('Manager1'))
          {
             
         return (
@@ -468,6 +489,7 @@ export default function AllTransactions({ dailytotal }) {
         resizableColumns
         scrollable
         scrollHeight="400px"
+        style={{ width: '1600px' }} 
         className="small-row"
         footer={selectedData.length > 0 ? 
           <div className="flex flex-wrap justify-between items-center p-3 bg-gray-100 text-sm">
